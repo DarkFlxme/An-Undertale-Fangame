@@ -1,0 +1,50 @@
+[gd_scene load_steps=10 format=3 uid="uid://cwwuu6eax0c8e"]
+
+[ext_resource type="Texture2D" uid="uid://bhsg6v540lljd" path="res://assets/red_heart.png" id="1_b2csg"]
+[ext_resource type="Script" uid="uid://m5w64ho4mghb" path="res://scripts/Player.cs" id="1_qhqgy"]
+[ext_resource type="Texture2D" uid="uid://cxsa4wtkb48ga" path="res://assets/blue_heart.png" id="2_hfbni"]
+[ext_resource type="Texture2D" uid="uid://bb6e4o1njg1wt" path="res://assets/green_heart.png" id="4_dqkch"]
+[ext_resource type="Texture2D" uid="uid://dn2p5cr37mkhi" path="res://assets/purple_heart.png" id="5_qlg0r"]
+[ext_resource type="Texture2D" uid="uid://brswgxgccc12b" path="res://assets/yellow_heart.png" id="6_tuyoq"]
+[ext_resource type="Texture2D" uid="uid://coe62k2jio8xv" path="res://assets/orange_heart.png" id="7_fjrip"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_g5wb0"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_b2csg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_hfbni")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_dqkch")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_qlg0r")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_tuyoq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_fjrip")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_p68ef"]
+size = Vector2(24, 24)
+
+[node name="player" type="CharacterBody2D"]
+script = ExtResource("1_qhqgy")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(-1.19209e-06, -9.53674e-07)
+scale = Vector2(0.015, 0.015)
+sprite_frames = SubResource("SpriteFrames_g5wb0")
+frame_progress = 0.80767
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_p68ef")

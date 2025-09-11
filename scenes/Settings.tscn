@@ -1,0 +1,168 @@
+[gd_scene load_steps=4 format=3 uid="uid://iyfhxob23cr4"]
+
+[ext_resource type="FontFile" uid="uid://cmt2mq1j731rh" path="res://assets/serif_pixel-7.ttf" id="1_rbmmp"]
+[ext_resource type="Script" uid="uid://cqi4qtnb1k2dj" path="res://scripts/VolumeControl.cs" id="2_i47rn"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_i47rn"]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="."]
+modulate = Color(0.252028, 0.252028, 0.252028, 1)
+position = Vector2(560, 315)
+scale = Vector2(385.25, 430.25)
+mesh = SubResource("QuadMesh_i47rn")
+
+[node name="CheckButtonVSync" type="CheckButton" parent="."]
+offset_left = 694.0
+offset_top = 186.0
+offset_right = 738.0
+offset_bottom = 210.0
+button_pressed = true
+
+[node name="Label" type="Label" parent="."]
+offset_left = 388.0
+offset_top = 186.0
+offset_right = 531.0
+offset_bottom = 219.0
+theme_override_fonts/font = ExtResource("1_rbmmp")
+theme_override_font_sizes/font_size = 21
+text = "V-Sync"
+
+[node name="Label2" type="Label" parent="."]
+offset_left = 388.0
+offset_top = 223.0
+offset_right = 531.0
+offset_bottom = 257.0
+theme_override_fonts/font = ExtResource("1_rbmmp")
+theme_override_font_sizes/font_size = 21
+text = "FPS Display"
+
+[node name="Label5" type="Label" parent="."]
+offset_left = 388.0
+offset_top = 288.0
+offset_right = 531.0
+offset_bottom = 322.0
+theme_override_fonts/font = ExtResource("1_rbmmp")
+theme_override_font_sizes/font_size = 21
+text = "Master"
+
+[node name="Label6" type="Label" parent="."]
+offset_left = 388.0
+offset_top = 321.0
+offset_right = 531.0
+offset_bottom = 355.0
+theme_override_fonts/font = ExtResource("1_rbmmp")
+theme_override_font_sizes/font_size = 21
+text = "SFX"
+
+[node name="Label7" type="Label" parent="."]
+offset_left = 388.0
+offset_top = 356.0
+offset_right = 531.0
+offset_bottom = 390.0
+theme_override_fonts/font = ExtResource("1_rbmmp")
+theme_override_font_sizes/font_size = 21
+text = "Music"
+
+[node name="Label4" type="Label" parent="."]
+offset_left = 497.0
+offset_top = 257.0
+offset_right = 600.0
+offset_bottom = 291.0
+theme_override_fonts/font = ExtResource("1_rbmmp")
+theme_override_font_sizes/font_size = 21
+text = "Volume"
+
+[node name="Label3" type="Label" parent="."]
+offset_left = 492.0
+offset_top = 108.0
+offset_right = 635.0
+offset_bottom = 142.0
+theme_override_fonts/font = ExtResource("1_rbmmp")
+theme_override_font_sizes/font_size = 21
+text = "SETTINGS"
+
+[node name="Label8" type="Label" parent="."]
+offset_left = 497.0
+offset_top = 147.0
+offset_right = 640.0
+offset_bottom = 181.0
+theme_override_fonts/font = ExtResource("1_rbmmp")
+theme_override_font_sizes/font_size = 21
+text = "General"
+
+[node name="CheckButtonfpslabel" type="CheckButton" parent="."]
+offset_left = 694.0
+offset_top = 223.0
+offset_right = 738.0
+offset_bottom = 247.0
+
+[node name="VolumeControl" type="Control" parent="." node_paths=PackedStringArray("masterSlider", "sfxSlider", "musicSlider", "masterLabel", "sfxLabel", "musicLabel")]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 587.0
+offset_top = 276.0
+offset_right = 627.0
+offset_bottom = 316.0
+script = ExtResource("2_i47rn")
+masterSlider = NodePath("MasterSlider")
+sfxSlider = NodePath("SFXSlider")
+musicSlider = NodePath("MusicSlider")
+masterLabel = NodePath("MasterLabel")
+sfxLabel = NodePath("SFXLabel")
+musicLabel = NodePath("MusicLabel")
+
+[node name="MasterLabel" type="Label" parent="VolumeControl"]
+layout_mode = 0
+offset_left = 116.0
+offset_top = 13.0
+offset_right = 166.0
+offset_bottom = 36.0
+theme_override_fonts/font = ExtResource("1_rbmmp")
+theme_override_font_sizes/font_size = 20
+text = "100%"
+
+[node name="SFXLabel" type="Label" parent="VolumeControl"]
+layout_mode = 0
+offset_left = 116.0
+offset_top = 47.0
+offset_right = 154.0
+offset_bottom = 69.0
+theme_override_fonts/font = ExtResource("1_rbmmp")
+theme_override_font_sizes/font_size = 20
+text = "100%"
+
+[node name="MusicLabel" type="Label" parent="VolumeControl"]
+layout_mode = 0
+offset_left = 116.0
+offset_top = 82.0
+offset_right = 154.0
+offset_bottom = 104.0
+theme_override_fonts/font = ExtResource("1_rbmmp")
+theme_override_font_sizes/font_size = 20
+text = "100%"
+
+[node name="MasterSlider" type="HSlider" parent="VolumeControl"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 14.0
+offset_right = 108.0
+offset_bottom = 30.0
+value = 100.0
+
+[node name="SFXSlider" type="HSlider" parent="VolumeControl"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 48.0
+offset_right = 108.0
+offset_bottom = 64.0
+value = 100.0
+
+[node name="MusicSlider" type="HSlider" parent="VolumeControl"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 82.0
+offset_right = 108.0
+offset_bottom = 98.0
+value = 100.0
