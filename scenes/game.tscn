@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://dh2qf03bl37mj"]
+[gd_scene load_steps=17 format=3 uid="uid://dh2qf03bl37mj"]
 
 [ext_resource type="Script" uid="uid://vkxnay6upq3q" path="res://scripts/Nodes.cs" id="1_yqjtg"]
 [ext_resource type="PackedScene" uid="uid://cwwuu6eax0c8e" path="res://scenes/player.tscn" id="2_3ejts"]
@@ -11,6 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://be0ngbfdtrev2" path="res://assets/shield.png" id="9_0tnpc"]
 [ext_resource type="Script" uid="uid://um818e82y6hn" path="res://scripts/Shield.cs" id="9_vtaks"]
 [ext_resource type="Texture2D" uid="uid://cxvdef1twarhs" path="res://assets/purple_heart_line.png" id="11_kvpfn"]
+[ext_resource type="Texture2D" uid="uid://qe03d3g1l7k7" path="res://assets/actions_bar.png" id="12_dinhu"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kx6qh"]
 size = Vector2(2, 265)
@@ -203,3 +204,9 @@ position = Vector2(585, 493)
 position = Vector2(7.00002, 0)
 scale = Vector2(1.32151, 1)
 texture = ExtResource("11_kvpfn")
+
+[node name="ActionsBar" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(584, 594)
+scale = Vector2(0.56087, 0.56087)
+texture = ExtResource("12_dinhu")

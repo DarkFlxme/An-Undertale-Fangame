@@ -13,5 +13,6 @@ public partial class PlayButton : Button
         EnableNode(map1);
         GetNode<SettingsButton>("../SettingsButton").QueueFree();
         QueueFree();
+        GetNode<Sprite2D>("../ActionsBar").Show();
     }
 }
