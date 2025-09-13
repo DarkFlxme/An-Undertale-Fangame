@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://dh2qf03bl37mj"]
+[gd_scene load_steps=15 format=3 uid="uid://dh2qf03bl37mj"]
 
 [ext_resource type="Script" uid="uid://vkxnay6upq3q" path="res://scripts/Nodes.cs" id="1_yqjtg"]
 [ext_resource type="PackedScene" uid="uid://cwwuu6eax0c8e" path="res://scenes/player.tscn" id="2_3ejts"]
@@ -8,6 +8,8 @@
 [ext_resource type="Script" uid="uid://bdaknp3bpriqu" path="res://scripts/PlayButton.cs" id="6_u5sy4"]
 [ext_resource type="Script" uid="uid://vat5hwxf7h2u" path="res://scripts/SettingsButton.cs" id="7_u5sy4"]
 [ext_resource type="Script" uid="uid://dmvpcfqjnkfqy" path="res://scripts/SettingsButtonBack.cs" id="8_gee14"]
+[ext_resource type="Texture2D" uid="uid://be0ngbfdtrev2" path="res://assets/shield.png" id="9_0tnpc"]
+[ext_resource type="Script" uid="uid://um818e82y6hn" path="res://scripts/Shield.cs" id="9_vtaks"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kx6qh"]
 size = Vector2(2, 265)
@@ -18,12 +20,18 @@ size = Vector2(100, 200)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_e7hfj"]
 size = Vector2(618, 0.125)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vtaks"]
+size = Vector2(115, 11)
+
 [node name="Nodes" type="Node2D"]
 script = ExtResource("1_yqjtg")
 
-[node name="Player" parent="." instance=ExtResource("2_3ejts")]
+[node name="Player" parent="." node_paths=PackedStringArray("lines") instance=ExtResource("2_3ejts")]
 position = Vector2(583, 426)
 slide_on_ceiling = false
+Speed = 250
+lines = [NodePath("../purpleHeart/Up"), NodePath("../purpleHeart/Mid"), NodePath("../purpleHeart/Down")]
+speedPurple = 600.0
 
 [node name="map1" type="StaticBody2D" parent="."]
 
@@ -148,3 +156,32 @@ script = ExtResource("8_gee14")
 [node name="Menu Music Player" type="AudioStreamPlayer" parent="."]
 autoplay = true
 bus = &"Music"
+
+[node name="Shield" type="Node2D" parent="."]
+visible = false
+position = Vector2(583, 426)
+script = ExtResource("9_vtaks")
+speed = 30.0
+
+[node name="Area2D" type="Area2D" parent="Shield"]
+position = Vector2(22, 21)
+scale = Vector2(0.755, 0.755)
+
+[node name="Sprite2D" type="Sprite2D" parent="Shield/Area2D"]
+scale = Vector2(3.69, 3.69)
+texture = ExtResource("9_0tnpc")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Shield/Area2D"]
+position = Vector2(-31.5, 27.5)
+shape = SubResource("RectangleShape2D_vtaks")
+
+[node name="purpleHeart" type="Node2D" parent="."]
+
+[node name="Up" type="Node2D" parent="purpleHeart"]
+position = Vector2(581, 357)
+
+[node name="Mid" type="Node2D" parent="purpleHeart"]
+position = Vector2(583, 426)
+
+[node name="Down" type="Node2D" parent="purpleHeart"]
+position = Vector2(585, 493)

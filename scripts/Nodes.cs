@@ -11,11 +11,13 @@ namespace game
         public static Label fpslabel;
         public static Timer BulletTimer;
         public static SettingsNode settingsnode;
+        public static Node2D shield_green;
         public override void _Ready()
         {
             PlayerNode = GetNode<Player>("Player");
             map1 = GetNode<StaticBody2D>("map1");
             map2 = GetNode<StaticBody2D>("map2");
+            shield_green = GetNode<Node2D>("Shield");
             fpslabel = GetNode<Label>("Label");
             BulletTimer = GetNode<Timer>("BulletTimer");
             settingsnode = GetNode<SettingsNode>("Settings");
@@ -27,6 +29,7 @@ namespace game
             DisableNode(map1);
             DisableNode(map2);
             DisableNode(settingsnode);
+            DisableNode(shield_green);
         }
         public override void _Process(double delta)
         {
