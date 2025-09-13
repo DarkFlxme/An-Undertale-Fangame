@@ -22,7 +22,14 @@ public partial class Shield : Node2D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		GlobalRotation = Mathf.RotateToward(GlobalRotation, targetRot, speed * (float)delta);
+		if (Mathf.Abs(b - a) == 2)
+		{
+			GlobalRotation = Mathf.RotateToward(GlobalRotation, targetRot, 2 * speed * (float)delta);
+		}
+		else
+		{
+			GlobalRotation = Mathf.RotateToward(GlobalRotation, targetRot, speed * (float)delta);
+		}
 		if (Input.IsActionJustPressed("move_up"))
 		{
 			b = 1;

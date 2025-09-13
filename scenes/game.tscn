@@ -161,7 +161,7 @@ bus = &"Music"
 visible = false
 position = Vector2(583, 426)
 script = ExtResource("9_vtaks")
-speed = 30.0
+speed = 45.0
 
 [node name="Area2D" type="Area2D" parent="Shield"]
 position = Vector2(22, 21)
