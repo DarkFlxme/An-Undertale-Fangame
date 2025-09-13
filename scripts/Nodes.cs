@@ -12,6 +12,7 @@ namespace game
         public static Timer BulletTimer;
         public static SettingsNode settingsnode;
         public static Node2D shield_green;
+        public static Node2D purplelines;
         public override void _Ready()
         {
             PlayerNode = GetNode<Player>("Player");
@@ -21,6 +22,8 @@ namespace game
             fpslabel = GetNode<Label>("Label");
             BulletTimer = GetNode<Timer>("BulletTimer");
             settingsnode = GetNode<SettingsNode>("Settings");
+            purplelines = GetNode<Node2D>("purpleHeart");
+            purplelines.Hide();
             settingsnode.Connect(SettingsNode.SignalName.VSyncChanged, Callable.From<bool>(Settings.SetVsync));
             settingsnode.Connect(SettingsNode.SignalName.FPSDisplayChanged, Callable.From<bool>(Settings.SetFPSDisplay));
             Settings.SetVsync(SettingsManager.Settings["vsync"].AsBool());

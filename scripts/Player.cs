@@ -37,8 +37,8 @@ public partial class Player : CharacterBody2D
 				horizontalDirection = Input.GetAxis("move_left", "move_right");
 				verticalDirection = Input.GetAxis("move_up", "move_down");
 				Velocity = new Vector2(horizontalDirection, verticalDirection).Normalized() * Speed;
+				Nodes.purplelines.Hide();
 				break;
-
 			case 1: // Blue heart
 				if (RotationDegrees == 0)
 				{
@@ -76,6 +76,7 @@ public partial class Player : CharacterBody2D
 						_isJumping = false;
 					}
 				}
+				Nodes.purplelines.Hide();
 				break;
 
 			case 2: // Green heart
@@ -84,9 +85,11 @@ public partial class Player : CharacterBody2D
 				Nodes.EnableNode(Nodes.shield_green);
 				Position = new Vector2(583, 426);
 				Velocity = Vector2.Zero;
+				Nodes.purplelines.Hide();
 				break;
-			case 3: // Purple heart		
-				GlobalPosition = new Vector2(GlobalPosition.X,  Mathf.MoveToward(GlobalPosition.Y, lines[i].GlobalPosition.Y, speedPurple * deltaF));	
+			case 3: // Purple heart
+				Nodes.purplelines.Show();
+				GlobalPosition = new Vector2(GlobalPosition.X, Mathf.MoveToward(GlobalPosition.Y, lines[i].GlobalPosition.Y, speedPurple * deltaF));
 				horizontalDirection = Input.GetAxis("move_left", "move_right");
 				Velocity = new Vector2(horizontalDirection * Speed, Velocity.Y);
 				if (Input.IsActionJustPressed("move_up"))
@@ -120,6 +123,7 @@ public partial class Player : CharacterBody2D
 						Nodes.BulletTimer.Start(0.3);
 					}
 				}
+				Nodes.purplelines.Hide();
 				break;
 
 			case 5: // orange heart
@@ -127,6 +131,7 @@ public partial class Player : CharacterBody2D
 				verticalDirection = Input.GetAxis("move_up", "move_down");
 				if (horizontalDirection != 0 || verticalDirection != 0)
 					Velocity = new Vector2(horizontalDirection, verticalDirection).Normalized() * Speed;
+				Nodes.purplelines.Hide();
 				break;
 		}
 
@@ -137,7 +142,7 @@ public partial class Player : CharacterBody2D
 		{
 			_heartSprite.Frame = 3;
 			Velocity = Vector2.Zero;
-			GlobalPosition = new Vector2(583, lines[1].GlobalPosition.Y);	 
+			GlobalPosition = new Vector2(583, lines[1].GlobalPosition.Y);
 		}
 		else if (Input.IsActionJustPressed("4")) _heartSprite.Frame = 4;
 		else if (Input.IsActionJustPressed("5")) _heartSprite.Frame = 5;
