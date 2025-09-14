@@ -206,6 +206,7 @@ scale = Vector2(1.32151, 1)
 texture = ExtResource("11_kvpfn")
 
 [node name="ActionsBar" type="Sprite2D" parent="."]
+visible = false
 position = Vector2(584, 594)
 scale = Vector2(0.56087, 0.56087)
 texture = ExtResource("12_dinhu")

@@ -7,6 +7,15 @@
 
 [node name="Node2D" type="Node2D"]
 
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -57.0
+offset_top = -35.0
+offset_right = 1204.0
+offset_bottom = 689.0
+focus_mode = 1
+
 [node name="MeshInstance2D" type="MeshInstance2D" parent="."]
 modulate = Color(0.252028, 0.252028, 0.252028, 1)
 position = Vector2(560, 315)
@@ -29,6 +38,15 @@ theme_override_fonts/font = ExtResource("1_rbmmp")
 theme_override_font_sizes/font_size = 21
 text = "V-Sync"
 
+[node name="Label9" type="Label" parent="."]
+offset_left = 388.0
+offset_top = 263.0
+offset_right = 535.0
+offset_bottom = 297.0
+theme_override_fonts/font = ExtResource("1_rbmmp")
+theme_override_font_sizes/font_size = 21
+text = "FPS Limiter"
+
 [node name="Label2" type="Label" parent="."]
 offset_left = 388.0
 offset_top = 223.0
@@ -40,36 +58,36 @@ text = "FPS Display"
 
 [node name="Label5" type="Label" parent="."]
 offset_left = 388.0
-offset_top = 288.0
+offset_top = 338.0
 offset_right = 531.0
-offset_bottom = 322.0
+offset_bottom = 372.0
 theme_override_fonts/font = ExtResource("1_rbmmp")
 theme_override_font_sizes/font_size = 21
 text = "Master"
 
 [node name="Label6" type="Label" parent="."]
 offset_left = 388.0
-offset_top = 321.0
+offset_top = 371.0
 offset_right = 531.0
-offset_bottom = 355.0
+offset_bottom = 405.0
 theme_override_fonts/font = ExtResource("1_rbmmp")
 theme_override_font_sizes/font_size = 21
 text = "SFX"
 
 [node name="Label7" type="Label" parent="."]
 offset_left = 388.0
-offset_top = 356.0
+offset_top = 406.0
 offset_right = 531.0
-offset_bottom = 390.0
+offset_bottom = 440.0
 theme_override_fonts/font = ExtResource("1_rbmmp")
 theme_override_font_sizes/font_size = 21
 text = "Music"
 
 [node name="Label4" type="Label" parent="."]
 offset_left = 497.0
-offset_top = 257.0
+offset_top = 307.0
 offset_right = 600.0
-offset_bottom = 291.0
+offset_bottom = 341.0
 theme_override_fonts/font = ExtResource("1_rbmmp")
 theme_override_font_sizes/font_size = 21
 text = "Volume"
@@ -116,9 +134,9 @@ musicLabel = NodePath("MusicLabel")
 [node name="MasterLabel" type="Label" parent="VolumeControl"]
 layout_mode = 0
 offset_left = 116.0
-offset_top = 13.0
+offset_top = 63.0
 offset_right = 166.0
-offset_bottom = 36.0
+offset_bottom = 86.0
 theme_override_fonts/font = ExtResource("1_rbmmp")
 theme_override_font_sizes/font_size = 20
 text = "100%"
@@ -126,9 +144,9 @@ text = "100%"
 [node name="SFXLabel" type="Label" parent="VolumeControl"]
 layout_mode = 0
 offset_left = 116.0
-offset_top = 47.0
-offset_right = 154.0
-offset_bottom = 69.0
+offset_top = 97.0
+offset_right = 166.0
+offset_bottom = 119.0
 theme_override_fonts/font = ExtResource("1_rbmmp")
 theme_override_font_sizes/font_size = 20
 text = "100%"
@@ -136,9 +154,9 @@ text = "100%"
 [node name="MusicLabel" type="Label" parent="VolumeControl"]
 layout_mode = 0
 offset_left = 116.0
-offset_top = 82.0
-offset_right = 154.0
-offset_bottom = 104.0
+offset_top = 132.0
+offset_right = 166.0
+offset_bottom = 154.0
 theme_override_fonts/font = ExtResource("1_rbmmp")
 theme_override_font_sizes/font_size = 20
 text = "100%"
@@ -146,23 +164,37 @@ text = "100%"
 [node name="MasterSlider" type="HSlider" parent="VolumeControl"]
 layout_mode = 0
 offset_left = 8.0
-offset_top = 14.0
+offset_top = 64.0
 offset_right = 108.0
-offset_bottom = 30.0
+offset_bottom = 80.0
 value = 100.0
 
 [node name="SFXSlider" type="HSlider" parent="VolumeControl"]
 layout_mode = 0
 offset_left = 8.0
-offset_top = 48.0
+offset_top = 98.0
 offset_right = 108.0
-offset_bottom = 64.0
+offset_bottom = 114.0
 value = 100.0
 
 [node name="MusicSlider" type="HSlider" parent="VolumeControl"]
 layout_mode = 0
 offset_left = 8.0
-offset_top = 82.0
+offset_top = 132.0
 offset_right = 108.0
-offset_bottom = 98.0
+offset_bottom = 148.0
 value = 100.0
+
+[node name="fpslimit" type="LineEdit" parent="."]
+offset_left = 677.0
+offset_top = 252.0
+offset_right = 746.0
+offset_bottom = 283.0
+text = "0"
+alignment = 1
+max_length = 3
+context_menu_enabled = false
+emoji_menu_enabled = false
+virtual_keyboard_enabled = false
+shortcut_keys_enabled = false
+select_all_on_focus = true

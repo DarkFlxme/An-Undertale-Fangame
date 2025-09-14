@@ -11,6 +11,7 @@ public partial class SettingsManager : Node
         {"mastervolume",Variant.From<float>(100)},
         {"sfxvolume",Variant.From<float>(100)},
         {"musicvolume",Variant.From<float>(100)},
+        {"fpslimit",Variant.From<int>(0)},
     };
 
     private const string SettingsFilePath = "user://settings.json";
