@@ -15,6 +15,7 @@ public partial class Player : CharacterBody2D
 	[Export] public Node2D[] lines;
 	[Export] public float speedPurple;
 	int i = 1;
+	int z = 0;
 	public override void _Ready()
 	{
 
@@ -29,6 +30,10 @@ public partial class Player : CharacterBody2D
 			Nodes.EnableNode(Nodes.map1);
 			Nodes.DisableNode(Nodes.shield_green);
 		}
+		if (_heartSprite.Frame != 1)
+		{
+			GlobalRotationDegrees = 0;
+		}
 
 		switch (_heartSprite.Frame)
 		{
@@ -39,8 +44,7 @@ public partial class Player : CharacterBody2D
 				Nodes.purplelines.Hide();
 				break;
 			case 1: // Blue heart
-				GlobalRotationDegrees = 180;
-				GD.Print(GlobalRotationDegrees);
+				GlobalRotationDegrees = 90 * z;
 				if (GlobalRotationDegrees == 0)
 				{
 					horizontalDirection = Input.GetAxis("move_left", "move_right");
@@ -135,7 +139,7 @@ public partial class Player : CharacterBody2D
 						isJumping = false;
 					}
 				}
-				
+
 				Nodes.purplelines.Hide();
 				break;
 
@@ -196,7 +200,26 @@ public partial class Player : CharacterBody2D
 		}
 
 		if (Input.IsActionJustPressed("0")) _heartSprite.Frame = 0;
-		else if (Input.IsActionJustPressed("1")) _heartSprite.Frame = 1;
+		else if (Input.IsActionJustPressed("1") && _heartSprite.Frame != 1)
+		{
+			_heartSprite.Frame = 1;
+			z = 0;
+		}
+		else if (Input.IsActionJustPressed("1") && _heartSprite.Frame == 1)
+		{
+			if (z == 2)
+			{
+				z = -1;
+			}
+			else if (z == -1)
+			{
+				z = 0;
+			}
+			else
+			{
+				z++;
+			}
+		}
 		else if (Input.IsActionJustPressed("2")) _heartSprite.Frame = 2;
 		else if (Input.IsActionJustPressed("3"))
 		{

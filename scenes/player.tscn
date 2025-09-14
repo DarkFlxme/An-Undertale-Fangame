@@ -38,7 +38,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fjrip"]
-size = Vector2(22, 20)
+size = Vector2(22, 15)
 
 [node name="player" type="CharacterBody2D" node_paths=PackedStringArray("_heartSprite", "lines")]
 script = ExtResource("1_qhqgy")
@@ -58,6 +58,7 @@ frame_progress = 0.80767
 position = Vector2(0, 12)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionShape2D/Area2D"]
+position = Vector2(0, -0.49999)
 scale = Vector2(1, -0.199998)
 shape = SubResource("RectangleShape2D_fjrip")
 
