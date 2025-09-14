@@ -7,10 +7,9 @@ public partial class Player : CharacterBody2D
 	[Export] public int Speed = 200;
 	[Export] public int Gravity = 800;
 	[Export] public int JumpForce = 450;
-	public const int MaxJumpDistance = 150;
-	private AnimatedSprite2D _heartSprite;
-	private bool _isJumping = false;
-	private float _jumpStartY = 0.0f;
+	[Export] public AnimatedSprite2D _heartSprite;
+	bool canJump;
+	bool isJumping;
 	float horizontalDirection = 0;
 	float verticalDirection = 0;
 	[Export] public Node2D[] lines;
@@ -18,7 +17,7 @@ public partial class Player : CharacterBody2D
 	int i = 1;
 	public override void _Ready()
 	{
-		_heartSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+
 	}
 	public override void _PhysicsProcess(double delta)
 	{
@@ -40,42 +39,103 @@ public partial class Player : CharacterBody2D
 				Nodes.purplelines.Hide();
 				break;
 			case 1: // Blue heart
-				if (RotationDegrees == 0)
+				GlobalRotationDegrees = 180;
+				GD.Print(GlobalRotationDegrees);
+				if (GlobalRotationDegrees == 0)
 				{
 					horizontalDirection = Input.GetAxis("move_left", "move_right");
 					Velocity = new Vector2(horizontalDirection * Speed, Velocity.Y + Gravity * deltaF);
-
-					if (Input.IsActionJustPressed("move_up") && !_isJumping && IsOnFloor())
+					if (canJump && Input.IsActionJustPressed("move_up"))
 					{
-						_isJumping = true;
-						_jumpStartY = GlobalPosition.Y;
 						Velocity = new Vector2(Velocity.X, -JumpForce);
+						isJumping = true;
 					}
-
-					if (_isJumping)
-					{
-						if (GlobalPosition.Y <= _jumpStartY - MaxJumpDistance)
-						{
-							_isJumping = false;
-						}
-					}
-
-					if (Input.IsActionJustReleased("move_up") && Velocity.Y < 0)
+					if (isJumping && Input.IsActionJustReleased("move_up"))
 					{
 						Velocity = new Vector2(Velocity.X, 0);
-						_isJumping = false;
 					}
-
-					if (IsOnFloor())
+					if (isJumping && Velocity.Y > 0)
 					{
-						_isJumping = false;
-					}
-
-					if (IsOnCeiling())
-					{
-						_isJumping = false;
+						isJumping = false;
 					}
 				}
+				else if (GlobalRotationDegrees == -90)
+				{
+					Velocity = new Vector2(Velocity.X + Gravity * deltaF, Velocity.Y);
+					if (Input.IsActionPressed("move_up"))
+					{
+						Velocity = new Vector2(Velocity.X, -Speed);
+					}
+					else if (Input.IsActionPressed("move_down"))
+					{
+						Velocity = new Vector2(Velocity.X, Speed);
+					}
+					else
+					{
+						Velocity = new Vector2(Velocity.X, 0);
+					}
+					if (canJump && Input.IsActionJustPressed("move_left"))
+					{
+						Velocity = new Vector2(-JumpForce, Velocity.Y);
+						isJumping = true;
+					}
+					if (isJumping && Input.IsActionJustReleased("move_left"))
+					{
+						Velocity = new Vector2(0, Velocity.Y);
+					}
+					if (isJumping && Velocity.X > 0)
+					{
+						isJumping = false;
+					}
+				}
+				else if (GlobalRotationDegrees == 90)
+				{
+					Velocity = new Vector2(Velocity.X + -Gravity * deltaF, Velocity.Y);
+					if (Input.IsActionPressed("move_up"))
+					{
+						Velocity = new Vector2(Velocity.X, -Speed);
+					}
+					else if (Input.IsActionPressed("move_down"))
+					{
+						Velocity = new Vector2(Velocity.X, Speed);
+					}
+					else
+					{
+						Velocity = new Vector2(Velocity.X, 0);
+					}
+					if (canJump && Input.IsActionJustPressed("move_right"))
+					{
+						Velocity = new Vector2(JumpForce, Velocity.Y);
+						isJumping = true;
+					}
+					if (isJumping && Input.IsActionJustReleased("move_right"))
+					{
+						Velocity = new Vector2(0, Velocity.Y);
+					}
+					if (isJumping && Velocity.X < 0)
+					{
+						isJumping = false;
+					}
+				}
+				else if (GlobalRotationDegrees == -180)
+				{
+					horizontalDirection = Input.GetAxis("move_left", "move_right");
+					Velocity = new Vector2(horizontalDirection * Speed, Velocity.Y + -Gravity * deltaF);
+					if (canJump && Input.IsActionJustPressed("move_down"))
+					{
+						Velocity = new Vector2(Velocity.X, JumpForce);
+						isJumping = true;
+					}
+					if (isJumping && Input.IsActionJustReleased("move_down"))
+					{
+						Velocity = new Vector2(Velocity.X, 0);
+					}
+					if (isJumping && Velocity.Y < 0)
+					{
+						isJumping = false;
+					}
+				}
+				
 				Nodes.purplelines.Hide();
 				break;
 
@@ -147,5 +207,20 @@ public partial class Player : CharacterBody2D
 		else if (Input.IsActionJustPressed("4")) _heartSprite.Frame = 4;
 		else if (Input.IsActionJustPressed("5")) _heartSprite.Frame = 5;
 		MoveAndSlide();
+	}
+
+	void JumpingBodyEntered(Node2D body)
+	{
+		if (body.IsInGroup("Walls"))
+		{
+			canJump = true;
+		}
+	}
+	void JumpingBodyExited(Node2D body)
+	{
+		if (body.IsInGroup("Walls"))
+		{
+			canJump = false;
+		}
 	}
 }

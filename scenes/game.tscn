@@ -35,7 +35,7 @@ Speed = 250
 lines = [NodePath("../purpleHeart/Up"), NodePath("../purpleHeart/Mid"), NodePath("../purpleHeart/Down")]
 speedPurple = 600.0
 
-[node name="map1" type="StaticBody2D" parent="."]
+[node name="map1" type="StaticBody2D" parent="." groups=["Walls"]]
 
 [node name="left hitbox" type="CollisionShape2D" parent="map1"]
 position = Vector2(283, 426)
@@ -206,7 +206,6 @@ scale = Vector2(1.32151, 1)
 texture = ExtResource("11_kvpfn")
 
 [node name="ActionsBar" type="Sprite2D" parent="."]
-visible = false
 position = Vector2(584, 594)
 scale = Vector2(0.56087, 0.56087)
 texture = ExtResource("12_dinhu")

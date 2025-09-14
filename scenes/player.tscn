@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://cwwuu6eax0c8e"]
+[gd_scene load_steps=11 format=3 uid="uid://cwwuu6eax0c8e"]
 
 [ext_resource type="Texture2D" uid="uid://bhsg6v540lljd" path="res://assets/red_heart.png" id="1_b2csg"]
 [ext_resource type="Script" uid="uid://m5w64ho4mghb" path="res://scripts/Player.cs" id="1_qhqgy"]
@@ -7,6 +7,9 @@
 [ext_resource type="Texture2D" uid="uid://dn2p5cr37mkhi" path="res://assets/purple_heart.png" id="5_qlg0r"]
 [ext_resource type="Texture2D" uid="uid://brswgxgccc12b" path="res://assets/yellow_heart.png" id="6_tuyoq"]
 [ext_resource type="Texture2D" uid="uid://coe62k2jio8xv" path="res://assets/orange_heart.png" id="7_fjrip"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_p68ef"]
+size = Vector2(24, 24)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_g5wb0"]
 animations = [{
@@ -34,17 +37,29 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_p68ef"]
-size = Vector2(24, 24)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fjrip"]
+size = Vector2(22, 20)
 
-[node name="player" type="CharacterBody2D"]
+[node name="player" type="CharacterBody2D" node_paths=PackedStringArray("_heartSprite", "lines")]
 script = ExtResource("1_qhqgy")
+_heartSprite = NodePath("CollisionShape2D/AnimatedSprite2D")
+lines = []
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_p68ef")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CollisionShape2D"]
 position = Vector2(-1.19209e-06, -9.53674e-07)
 scale = Vector2(0.015, 0.015)
 sprite_frames = SubResource("SpriteFrames_g5wb0")
 frame_progress = 0.80767
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("RectangleShape2D_p68ef")
+[node name="Area2D" type="Area2D" parent="CollisionShape2D"]
+position = Vector2(0, 12)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionShape2D/Area2D"]
+scale = Vector2(1, -0.199998)
+shape = SubResource("RectangleShape2D_fjrip")
+
+[connection signal="body_entered" from="CollisionShape2D/Area2D" to="." method="JumpingBodyEntered"]
+[connection signal="body_exited" from="CollisionShape2D/Area2D" to="." method="JumpingBodyExited"]
