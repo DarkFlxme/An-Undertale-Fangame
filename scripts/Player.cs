@@ -121,7 +121,7 @@ public partial class Player : CharacterBody2D
 						isJumping = false;
 					}
 				}
-				else if (GlobalRotationDegrees == -180)
+				else if (Mathf.Abs(GlobalRotationDegrees + 180) <= 1)
 				{
 					horizontalDirection = Input.GetAxis("move_left", "move_right");
 					Velocity = new Vector2(horizontalDirection * Speed, Velocity.Y + -Gravity * deltaF);
