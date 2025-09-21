@@ -13,15 +13,17 @@ namespace game
         public static SettingsNode settingsnode;
         public static Node2D shield_green;
         public static Node2D purplelines;
+        public static int i = 0;
         public override void _Ready()
         {
+            i = 0;
             PlayerNode = GetNode<Player>("Player");
             map1 = GetNode<StaticBody2D>("map1");
             map2 = GetNode<StaticBody2D>("map2");
             shield_green = GetNode<Node2D>("Shield");
             fpslabel = GetNode<Label>("Label");
             BulletTimer = GetNode<Timer>("BulletTimer");
-            settingsnode = GetNode<SettingsNode>("Settings");
+            settingsnode = GetNode<SettingsNode>("/root/Nodes/Buttons/SettingsButton/Settings");
             purplelines = GetNode<Node2D>("purpleHeart");
             purplelines.Hide();
             settingsnode.Connect(SettingsNode.SignalName.VSyncChanged, Callable.From<bool>(Settings.SetVsync));
@@ -31,7 +33,6 @@ namespace game
             DisableNode(PlayerNode);
             DisableNode(map1);
             DisableNode(map2);
-            DisableNode(settingsnode);
             DisableNode(shield_green);
         }
         public override void _Process(double delta)
@@ -43,7 +44,9 @@ namespace game
             if (Input.IsActionJustPressed("toggle_fullscreen"))
                 Settings.SetWindow(!Settings.windowMode);
             if (Input.IsActionJustPressed("quit"))
+            {
                 GetTree().Quit();
+            }
         }
         public static void DisableNode(CanvasItem node)
         {

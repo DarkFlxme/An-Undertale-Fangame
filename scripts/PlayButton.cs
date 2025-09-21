@@ -5,14 +5,13 @@ public partial class PlayButton : Button
 {
     public override void _Ready()
     {
-        Pressed += Play;
+        
     }
     private void Play()
     {
         EnableNode(PlayerNode);
         EnableNode(map1);
-        GetNode<SettingsButton>("../SettingsButton").QueueFree();
-        QueueFree();
+        DisableNode(GetNode<SettingsButton>("../SettingsButton"));
         GetNode<Sprite2D>("../ActionsBar").Show();
     }
 }

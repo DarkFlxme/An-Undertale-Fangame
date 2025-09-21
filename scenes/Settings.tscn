@@ -1,9 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://iyfhxob23cr4"]
+[gd_scene load_steps=3 format=3 uid="uid://iyfhxob23cr4"]
 
 [ext_resource type="FontFile" uid="uid://cmt2mq1j731rh" path="res://assets/serif_pixel-7.ttf" id="1_rbmmp"]
 [ext_resource type="Script" uid="uid://cqi4qtnb1k2dj" path="res://scripts/VolumeControl.cs" id="2_i47rn"]
-
-[sub_resource type="QuadMesh" id="QuadMesh_i47rn"]
 
 [node name="Node2D" type="Node2D"]
 
@@ -15,12 +13,6 @@ offset_top = -35.0
 offset_right = 1204.0
 offset_bottom = 689.0
 focus_mode = 1
-
-[node name="MeshInstance2D" type="MeshInstance2D" parent="."]
-modulate = Color(0.252028, 0.252028, 0.252028, 1)
-position = Vector2(560, 315)
-scale = Vector2(385.25, 430.25)
-mesh = SubResource("QuadMesh_i47rn")
 
 [node name="CheckButtonVSync" type="CheckButton" parent="."]
 offset_left = 694.0
@@ -91,15 +83,6 @@ offset_bottom = 341.0
 theme_override_fonts/font = ExtResource("1_rbmmp")
 theme_override_font_sizes/font_size = 21
 text = "Volume"
-
-[node name="Label3" type="Label" parent="."]
-offset_left = 492.0
-offset_top = 108.0
-offset_right = 635.0
-offset_bottom = 142.0
-theme_override_fonts/font = ExtResource("1_rbmmp")
-theme_override_font_sizes/font_size = 21
-text = "SETTINGS"
 
 [node name="Label8" type="Label" parent="."]
 offset_left = 497.0

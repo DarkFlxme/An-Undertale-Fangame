@@ -1,13 +1,10 @@
-[gd_scene load_steps=17 format=3 uid="uid://dh2qf03bl37mj"]
+[gd_scene load_steps=15 format=3 uid="uid://dh2qf03bl37mj"]
 
 [ext_resource type="Script" uid="uid://vkxnay6upq3q" path="res://scripts/Nodes.cs" id="1_yqjtg"]
 [ext_resource type="PackedScene" uid="uid://cwwuu6eax0c8e" path="res://scenes/player.tscn" id="2_3ejts"]
 [ext_resource type="PackedScene" uid="uid://iyfhxob23cr4" path="res://scenes/Settings.tscn" id="3_lnu2h"]
 [ext_resource type="Script" uid="uid://dqme04an5ffpb" path="res://scripts/SettingsNode.cs" id="4_lbhrr"]
-[ext_resource type="FontFile" uid="uid://cmt2mq1j731rh" path="res://assets/serif_pixel-7.ttf" id="5_p57ef"]
-[ext_resource type="Script" uid="uid://bdaknp3bpriqu" path="res://scripts/PlayButton.cs" id="6_u5sy4"]
-[ext_resource type="Script" uid="uid://vat5hwxf7h2u" path="res://scripts/SettingsButton.cs" id="7_u5sy4"]
-[ext_resource type="Script" uid="uid://dmvpcfqjnkfqy" path="res://scripts/SettingsButtonBack.cs" id="8_gee14"]
+[ext_resource type="Script" uid="uid://cq08knnvrpdl6" path="res://scripts/Buttons.cs" id="5_dinhu"]
 [ext_resource type="Texture2D" uid="uid://be0ngbfdtrev2" path="res://assets/shield.png" id="9_0tnpc"]
 [ext_resource type="Script" uid="uid://um818e82y6hn" path="res://scripts/Shield.cs" id="9_vtaks"]
 [ext_resource type="Texture2D" uid="uid://cxvdef1twarhs" path="res://assets/purple_heart_line.png" id="11_kvpfn"]
@@ -22,6 +19,8 @@ size = Vector2(100, 200)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_e7hfj"]
 size = Vector2(618, 0.125)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kvpfn"]
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vtaks"]
 size = Vector2(115, 11)
 
@@ -29,6 +28,7 @@ size = Vector2(115, 11)
 script = ExtResource("1_yqjtg")
 
 [node name="Player" parent="." node_paths=PackedStringArray("lines") instance=ExtResource("2_3ejts")]
+visible = false
 position = Vector2(583, 426)
 slide_on_ceiling = false
 Speed = 250
@@ -36,6 +36,7 @@ lines = [NodePath("../purpleHeart/Up"), NodePath("../purpleHeart/Mid"), NodePath
 speedPurple = 600.0
 
 [node name="map1" type="StaticBody2D" parent="." groups=["Walls"]]
+visible = false
 
 [node name="left hitbox" type="CollisionShape2D" parent="map1"]
 position = Vector2(283, 426)
@@ -74,6 +75,7 @@ position = Vector2(587.5, 305)
 shape = SubResource("RectangleShape2D_e7hfj")
 
 [node name="map2" type="StaticBody2D" parent="."]
+visible = false
 
 [node name="left hitbox" type="CollisionShape2D" parent="map2"]
 position = Vector2(519.875, 423.375)
@@ -122,38 +124,172 @@ scale = Vector2(1.26572, 1.43256)
 one_shot = true
 ignore_time_scale = true
 
-[node name="Settings" parent="." instance=ExtResource("3_lnu2h")]
+[node name="Buttons" type="Node2D" parent="." node_paths=PackedStringArray("buttons", "Title", "buttons2")]
+position = Vector2(571, 300)
+script = ExtResource("5_dinhu")
+buttons = [NodePath("PlayButton"), NodePath("SettingsButton"), NodePath("QuitGameButton")]
+elemanSayisi = 3
+speed = 8.0
+buyuklukKati = 1.5
+Title = NodePath("../TargetTitle")
+indexMenu = 1
+buttons2 = [NodePath("PlayButton/PlayBody"), NodePath("SettingsButton/Settings"), NodePath("QuitGameButton/QuitGameButtons")]
+
+[node name="PlayButton" type="Node2D" parent="Buttons" groups=["Buttons"]]
+scale = Vector2(3, 3)
+
+[node name="Label" type="Label" parent="Buttons/PlayButton"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "PLAY"
+
+[node name="PlayBody" type="Area2D" parent="Buttons/PlayButton"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Buttons/PlayButton/PlayBody"]
+scale = Vector2(2.0399995, 1)
+shape = SubResource("RectangleShape2D_kvpfn")
+
+[node name="SettingsButton" type="Node2D" parent="Buttons" groups=["Buttons"]]
+position = Vector2(0, 87)
+scale = Vector2(3, 3)
+
+[node name="Label" type="Label" parent="Buttons/SettingsButton"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "SETTINGS"
+
+[node name="SettingsBody" type="Area2D" parent="Buttons/SettingsButton"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Buttons/SettingsButton/SettingsBody"]
+scale = Vector2(3.7866662, 1)
+shape = SubResource("RectangleShape2D_kvpfn")
+
+[node name="Settings" parent="Buttons/SettingsButton" instance=ExtResource("3_lnu2h")]
 visible = false
+position = Vector2(-183.00002, -33.000015)
+scale = Vector2(0.33333334, 0.33333334)
 script = ExtResource("4_lbhrr")
 
-[node name="PlayButton" type="Button" parent="."]
-offset_left = 491.0
-offset_top = 297.0
-offset_right = 667.0
-offset_bottom = 346.0
-theme_override_fonts/font = ExtResource("5_p57ef")
-text = "PLAY"
-script = ExtResource("6_u5sy4")
+[node name="QuitGameButton" type="Node2D" parent="Buttons" groups=["Buttons"]]
+position = Vector2(0, 176)
+scale = Vector2(3, 3)
 
-[node name="SettingsButton" type="Button" parent="."]
-offset_left = 491.0
-offset_top = 365.0
-offset_right = 667.0
-offset_bottom = 414.0
-theme_override_fonts/font = ExtResource("5_p57ef")
-text = "SETTINGS"
-script = ExtResource("7_u5sy4")
+[node name="Label" type="Label" parent="Buttons/QuitGameButton"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "QUIT GAME"
 
-[node name="SettingsButtonBack" type="Button" parent="."]
-process_mode = 4
-visible = false
-offset_left = 367.0
-offset_top = 99.0
-offset_right = 469.0
-offset_bottom = 138.0
-theme_override_fonts/font = ExtResource("5_p57ef")
-text = "<- Back"
-script = ExtResource("8_gee14")
+[node name="QuitBody" type="Area2D" parent="Buttons/QuitGameButton"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Buttons/QuitGameButton/QuitBody"]
+scale = Vector2(4.599998, 1)
+shape = SubResource("RectangleShape2D_kvpfn")
+
+[node name="QuitGameButtons" type="Node2D" parent="Buttons/QuitGameButton" node_paths=PackedStringArray("buttons", "Title", "buttons2")]
+modulate = Color(1, 1, 1, 0)
+position = Vector2(-1.666659, -25.333336)
+script = ExtResource("5_dinhu")
+buttons = [NodePath("QuitYes"), NodePath("QuitNo")]
+elemanSayisi = 2
+speed = 8.0
+buyuklukKati = 1.5
+Title = NodePath("../../../TargetTitle")
+indexMenu = 2
+buttons2 = [NodePath("QuitYes/SettingsBody"), NodePath("QuitNo/QuitBody")]
+
+[node name="AreYOUsure" type="Node2D" parent="Buttons/QuitGameButton/QuitGameButtons"]
+position = Vector2(2.0345053e-05, 60.666668)
+scale = Vector2(0.81, 0.81)
+
+[node name="Label" type="Label" parent="Buttons/QuitGameButton/QuitGameButtons/AreYOUsure"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "ARE YOU SURE"
+
+[node name="QuitYes" type="Node2D" parent="Buttons/QuitGameButton/QuitGameButtons"]
+position = Vector2(0, 94.817)
+scale = Vector2(0.665, 0.665)
+
+[node name="Label" type="Label" parent="Buttons/QuitGameButton/QuitGameButtons/QuitYes"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -16.000021
+offset_top = -11.333333
+offset_right = 23.999979
+offset_bottom = 11.666667
+grow_horizontal = 2
+grow_vertical = 2
+text = "YES"
+metadata/_edit_use_anchors_ = true
+
+[node name="SettingsBody" type="Area2D" parent="Buttons/QuitGameButton/QuitGameButtons/QuitYes"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Buttons/QuitGameButton/QuitGameButtons/QuitYes/SettingsBody"]
+scale = Vector2(3.7866662, 1)
+shape = SubResource("RectangleShape2D_kvpfn")
+
+[node name="QuitNo" type="Node2D" parent="Buttons/QuitGameButton/QuitGameButtons"]
+position = Vector2(0, 113.53)
+scale = Vector2(0.665, 0.665)
+
+[node name="Label" type="Label" parent="Buttons/QuitGameButton/QuitGameButtons/QuitNo"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -13.666687
+offset_top = -11.333333
+offset_right = 26.333313
+offset_bottom = 11.666667
+grow_horizontal = 2
+grow_vertical = 2
+text = "NO"
+
+[node name="QuitBody" type="Area2D" parent="Buttons/QuitGameButton/QuitGameButtons/QuitNo"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Buttons/QuitGameButton/QuitGameButtons/QuitNo/QuitBody"]
+scale = Vector2(4.599998, 1)
+shape = SubResource("RectangleShape2D_kvpfn")
 
 [node name="Menu Music Player" type="AudioStreamPlayer" parent="."]
 autoplay = true
@@ -210,3 +346,6 @@ visible = false
 position = Vector2(584, 594)
 scale = Vector2(0.56087, 0.56087)
 texture = ExtResource("12_dinhu")
+
+[node name="TargetTitle" type="Node2D" parent="."]
+position = Vector2(571, 69)
