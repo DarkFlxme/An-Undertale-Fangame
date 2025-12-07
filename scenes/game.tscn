@@ -1,12 +1,16 @@
-[gd_scene load_steps=15 format=3 uid="uid://dh2qf03bl37mj"]
+[gd_scene load_steps=19 format=3 uid="uid://dh2qf03bl37mj"]
 
 [ext_resource type="Script" uid="uid://vkxnay6upq3q" path="res://scripts/Nodes.cs" id="1_yqjtg"]
 [ext_resource type="PackedScene" uid="uid://cwwuu6eax0c8e" path="res://scenes/player.tscn" id="2_3ejts"]
+[ext_resource type="Texture2D" uid="uid://d163mggpwgq54" path="res://assets/samiboss2.png" id="2_dinhu"]
 [ext_resource type="PackedScene" uid="uid://iyfhxob23cr4" path="res://scenes/Settings.tscn" id="3_lnu2h"]
+[ext_resource type="FontFile" uid="uid://cmt2mq1j731rh" path="res://assets/serif_pixel-7.ttf" id="4_kvuet"]
 [ext_resource type="Script" uid="uid://dqme04an5ffpb" path="res://scripts/SettingsNode.cs" id="4_lbhrr"]
 [ext_resource type="Script" uid="uid://cq08knnvrpdl6" path="res://scripts/Buttons.cs" id="5_dinhu"]
+[ext_resource type="Script" uid="uid://dahlb1moctrjt" path="res://scripts/GameTimer.cs" id="5_kvuet"]
 [ext_resource type="Texture2D" uid="uid://be0ngbfdtrev2" path="res://assets/shield.png" id="9_0tnpc"]
 [ext_resource type="Script" uid="uid://um818e82y6hn" path="res://scripts/Shield.cs" id="9_vtaks"]
+[ext_resource type="Script" uid="uid://vedq52wg5s5w" path="res://scripts/FadeControl.cs" id="10_vtaks"]
 [ext_resource type="Texture2D" uid="uid://cxvdef1twarhs" path="res://assets/purple_heart_line.png" id="11_kvpfn"]
 [ext_resource type="Texture2D" uid="uid://qe03d3g1l7k7" path="res://assets/actions_bar.png" id="12_dinhu"]
 
@@ -27,6 +31,28 @@ size = Vector2(115, 11)
 [node name="Nodes" type="Node2D"]
 script = ExtResource("1_yqjtg")
 
+[node name="Samoysta" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(573, 135)
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("2_dinhu")
+
+[node name="ActionsBar" type="Sprite2D" parent="Samoysta"]
+position = Vector2(27.5, 1147.4999)
+scale = Vector2(1.4021748, 1.4021748)
+texture = ExtResource("12_dinhu")
+
+[node name="Label2" type="Label" parent="Samoysta"]
+offset_left = -870.0
+offset_top = 970.0
+offset_right = -525.0
+offset_bottom = 1037.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("4_kvuet")
+theme_override_font_sizes/font_size = 75
+text = "ZİNA    00:00"
+script = ExtResource("5_kvuet")
+
 [node name="Player" parent="." node_paths=PackedStringArray("lines") instance=ExtResource("2_3ejts")]
 visible = false
 position = Vector2(583, 426)
@@ -36,42 +62,41 @@ lines = [NodePath("../purpleHeart/Up"), NodePath("../purpleHeart/Mid"), NodePath
 speedPurple = 600.0
 
 [node name="map1" type="StaticBody2D" parent="." groups=["Walls"]]
-visible = false
 
 [node name="left hitbox" type="CollisionShape2D" parent="map1"]
-position = Vector2(283, 426)
+position = Vector2(283, 383)
 shape = SubResource("RectangleShape2D_kx6qh")
 
 [node name="left line" type="MeshInstance2D" parent="map1"]
-position = Vector2(282.75, 429)
+position = Vector2(282.75, 386)
 scale = Vector2(0.0449999, 1.24)
 mesh = SubResource("QuadMesh_5e18l")
 
 [node name="right hitbox" type="CollisionShape2D" parent="map1"]
-position = Vector2(894, 424.5)
+position = Vector2(894, 381.5)
 shape = SubResource("RectangleShape2D_kx6qh")
 
 [node name="right line" type="MeshInstance2D" parent="map1"]
-position = Vector2(894.5, 426)
+position = Vector2(894.5, 383)
 scale = Vector2(0.0500001, 1.25)
 mesh = SubResource("QuadMesh_5e18l")
 
 [node name="bottom hitbox" type="CollisionShape2D" parent="map1"]
-position = Vector2(588, 546.938)
+position = Vector2(588, 503.938)
 shape = SubResource("RectangleShape2D_e7hfj")
 
 [node name="bottom line" type="MeshInstance2D" parent="map1"]
-position = Vector2(589, 549.875)
+position = Vector2(589, 506.87503)
 scale = Vector2(6.16, 0.0287501)
 mesh = SubResource("QuadMesh_5e18l")
 
 [node name="top line" type="MeshInstance2D" parent="map1"]
-position = Vector2(588, 305)
+position = Vector2(588, 262)
 scale = Vector2(6.15, 0.0275)
 mesh = SubResource("QuadMesh_5e18l")
 
 [node name="top hitbox" type="CollisionShape2D" parent="map1"]
-position = Vector2(587.5, 305)
+position = Vector2(587.5, 262)
 shape = SubResource("RectangleShape2D_e7hfj")
 
 [node name="map2" type="StaticBody2D" parent="."]
@@ -124,9 +149,10 @@ scale = Vector2(1.26572, 1.43256)
 one_shot = true
 ignore_time_scale = true
 
-[node name="Buttons" type="Node2D" parent="." node_paths=PackedStringArray("buttons", "Title", "buttons2")]
+[node name="Buttons" type="Node2D" parent="." node_paths=PackedStringArray("fadeControl", "buttons", "Title", "buttons2")]
 position = Vector2(571, 300)
 script = ExtResource("5_dinhu")
+fadeControl = NodePath("../CanvasLayer/ColorRect")
 buttons = [NodePath("PlayButton"), NodePath("SettingsButton"), NodePath("QuitGameButton")]
 elemanSayisi = 3
 speed = 8.0
@@ -341,11 +367,17 @@ position = Vector2(7.00002, 0)
 scale = Vector2(1.32151, 1)
 texture = ExtResource("11_kvpfn")
 
-[node name="ActionsBar" type="Sprite2D" parent="."]
-visible = false
-position = Vector2(584, 594)
-scale = Vector2(0.56087, 0.56087)
-texture = ExtResource("12_dinhu")
-
 [node name="TargetTitle" type="Node2D" parent="."]
 position = Vector2(571, 69)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+z_index = 5
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0)
+script = ExtResource("10_vtaks")

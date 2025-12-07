@@ -5,6 +5,7 @@ using static game.Nodes;
 
 public partial class Buttons : Node2D
 {
+	[Export] FadeControl fadeControl;
 	[Export] public Node2D[] buttons;
 	[Export] public int elemanSayisi;
 	[Export] public float speed;
@@ -33,7 +34,24 @@ public partial class Buttons : Node2D
 			buttons2[a].SetProcess(false);
 		}
 	}
-
+	private async void FadeIn(float duration = 0.5f)
+    {
+        await fadeControl.FadeIn(duration);
+    }
+	private async void FadeOut(float duration = 0.5f)
+	{
+		await fadeControl.FadeOut(duration);
+	}
+	private async void OnPlayButtonPressed()
+	{
+		await fadeControl.FadeIn(1.0f);
+		EnableNode(PlayerNode);
+		EnableNode(map1);
+		DisableNode(this);
+		GetNode<Sprite2D>("../Samoysta").Show();
+		await ToSignal(GetTree().CreateTimer(0.5f), SceneTreeTimer.SignalName.Timeout);
+		await fadeControl.FadeOut(1.0f);
+	}
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
@@ -68,9 +86,7 @@ public partial class Buttons : Node2D
 			}
 			if (buttons[i].Name == "PlayButton")
 			{
-				EnableNode(PlayerNode);
-				EnableNode(map1);
-				DisableNode(this);
+				OnPlayButtonPressed();
 			}
 		}
 		if (Input.IsActionJustPressed("move_right") && buttons[i] is Listecik liste && liste.i != 0)

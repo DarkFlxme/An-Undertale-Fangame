@@ -22,8 +22,8 @@ SettingsManager="*res://scripts/SettingsManager.cs"
 
 [display]
 
-window/size/mode=3
 window/size/resizable=false
+window/size/maximize_disabled=true
 window/stretch/mode="viewport"
 
 [dotnet]
