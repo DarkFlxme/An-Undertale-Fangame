@@ -4,8 +4,10 @@
 [ext_resource type="Script" uid="uid://cqi4qtnb1k2dj" path="res://scripts/VolumeControl.cs" id="2_i47rn"]
 
 [node name="Node2D" type="Node2D"]
+z_index = 1
 
 [node name="Control" type="Control" parent="."]
+z_index = -1
 layout_mode = 3
 anchors_preset = 0
 offset_left = -57.0
@@ -20,6 +22,7 @@ offset_top = 186.0
 offset_right = 738.0
 offset_bottom = 210.0
 button_pressed = true
+action_mode = 0
 
 [node name="Label" type="Label" parent="."]
 offset_left = 388.0
@@ -98,6 +101,7 @@ offset_left = 694.0
 offset_top = 223.0
 offset_right = 738.0
 offset_bottom = 247.0
+action_mode = 0
 
 [node name="VolumeControl" type="Control" parent="." node_paths=PackedStringArray("masterSlider", "sfxSlider", "musicSlider", "masterLabel", "sfxLabel", "musicLabel")]
 layout_mode = 3

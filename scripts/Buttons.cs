@@ -80,7 +80,7 @@ public partial class Buttons : Node2D
 				{
 					if (child is SettingsNode settingsMenu)
 					{
-						settingsMenu.Show();
+						EnableNode(settingsMenu);
 					}
 				}
 			}

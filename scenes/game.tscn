@@ -144,6 +144,7 @@ offset_top = 3.0
 offset_right = 125.0
 offset_bottom = 26.0
 scale = Vector2(1.26572, 1.43256)
+metadata/_edit_use_anchors_ = true
 
 [node name="BulletTimer" type="Timer" parent="."]
 one_shot = true
@@ -177,6 +178,7 @@ offset_bottom = 11.5
 grow_horizontal = 2
 grow_vertical = 2
 text = "PLAY"
+metadata/_edit_use_anchors_ = true
 
 [node name="PlayBody" type="Area2D" parent="Buttons/PlayButton"]
 
@@ -201,6 +203,7 @@ offset_bottom = 11.5
 grow_horizontal = 2
 grow_vertical = 2
 text = "SETTINGS"
+metadata/_edit_use_anchors_ = true
 
 [node name="SettingsBody" type="Area2D" parent="Buttons/SettingsButton"]
 
@@ -231,6 +234,7 @@ offset_bottom = 11.5
 grow_horizontal = 2
 grow_vertical = 2
 text = "QUIT GAME"
+metadata/_edit_use_anchors_ = true
 
 [node name="QuitBody" type="Area2D" parent="Buttons/QuitGameButton"]
 
@@ -267,6 +271,7 @@ offset_bottom = 11.5
 grow_horizontal = 2
 grow_vertical = 2
 text = "ARE YOU SURE"
+metadata/_edit_use_anchors_ = true
 
 [node name="QuitYes" type="Node2D" parent="Buttons/QuitGameButton/QuitGameButtons"]
 position = Vector2(0, 94.817)
@@ -379,5 +384,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 color = Color(0, 0, 0, 0)
 script = ExtResource("10_vtaks")
+metadata/_edit_use_anchors_ = true
