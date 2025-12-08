@@ -33,6 +33,7 @@ project/assembly_name="Undertale Fangame"
 [global_group]
 
 Buttons=""
+Attacks="Enemy Attacks"
 
 [input]
 

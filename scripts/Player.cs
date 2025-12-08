@@ -8,20 +8,25 @@ public partial class Player : CharacterBody2D
 	[Export] public int Gravity = 800;
 	[Export] public int JumpForce = 450;
 	[Export] public AnimatedSprite2D _heartSprite;
+	[Export] public Area2D damageHitbox;
+	[Export] public AnimationPlayer damageBlink;
 	bool canJump;
 	bool isJumping;
 	float horizontalDirection = 0;
 	float verticalDirection = 0;
+	public int health = 100;
+	[Export] public ProgressBar healthBar;
 	[Export] public Node2D[] lines;
 	[Export] public float speedPurple;
 	int i = 1;
 	int z = 0;
 	public override void _Ready()
 	{
-
+		damageHitbox.AreaEntered += DamageHitboxEntered;
 	}
 	public override void _PhysicsProcess(double delta)
 	{
+		healthBar.Value = health;
 		float deltaF = (float)delta;
 
 		if (_heartSprite.Frame != 2)
@@ -244,6 +249,23 @@ public partial class Player : CharacterBody2D
 		if (body.IsInGroup("Walls"))
 		{
 			canJump = false;
+		}
+	}
+	void DamageHitboxEntered(Node2D body)
+	{
+		if (body.IsInGroup("Attacks"))
+		{
+			GetNode<AudioStreamPlayer>("DamageTakenAudioPlayer").Play();
+			damageBlink.Play("i frame blink");
+			health -= 20;
+			damageHitbox.SetDeferred("monitorable", false);
+			damageHitbox.SetDeferred("monitoring", false);
+			GetTree().CreateTimer(1.5).Timeout += () =>
+			{
+				damageBlink.Stop();
+				damageHitbox.SetDeferred("monitorable", true);
+				damageHitbox.SetDeferred("monitoring", true);
+			};
 		}
 	}
 }

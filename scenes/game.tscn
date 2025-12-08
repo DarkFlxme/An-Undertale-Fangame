@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://dh2qf03bl37mj"]
+[gd_scene load_steps=22 format=3 uid="uid://dh2qf03bl37mj"]
 
 [ext_resource type="Script" uid="uid://vkxnay6upq3q" path="res://scripts/Nodes.cs" id="1_yqjtg"]
 [ext_resource type="PackedScene" uid="uid://cwwuu6eax0c8e" path="res://scenes/player.tscn" id="2_3ejts"]
@@ -14,6 +14,12 @@
 [ext_resource type="Texture2D" uid="uid://cxvdef1twarhs" path="res://assets/purple_heart_line.png" id="11_kvpfn"]
 [ext_resource type="Texture2D" uid="uid://qe03d3g1l7k7" path="res://assets/actions_bar.png" id="12_dinhu"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kvuet"]
+bg_color = Color(0.74509805, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_trtic"]
+bg_color = Color(0.99607843, 1, 0.003921569, 1)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kx6qh"]
 size = Vector2(2, 265)
 
@@ -27,6 +33,9 @@ size = Vector2(618, 0.125)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vtaks"]
 size = Vector2(115, 11)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kvuet"]
+size = Vector2(175, 125)
 
 [node name="Nodes" type="Node2D"]
 script = ExtResource("1_yqjtg")
@@ -45,19 +54,30 @@ texture = ExtResource("12_dinhu")
 [node name="Label2" type="Label" parent="Samoysta"]
 offset_left = -870.0
 offset_top = 970.0
-offset_right = -525.0
-offset_bottom = 1037.0
+offset_right = 487.49976
+offset_bottom = 1070.0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("4_kvuet")
 theme_override_font_sizes/font_size = 75
-text = "ZİNA    00:00"
+text = "ZİNA  00:00  HP          100/100 "
 script = ExtResource("5_kvuet")
 
-[node name="Player" parent="." node_paths=PackedStringArray("lines") instance=ExtResource("2_3ejts")]
+[node name="ProgressBar" type="ProgressBar" parent="Samoysta"]
+offset_left = -150.0
+offset_top = 987.5
+offset_right = 197.5
+offset_bottom = 1055.0
+theme_override_styles/background = SubResource("StyleBoxFlat_kvuet")
+theme_override_styles/fill = SubResource("StyleBoxFlat_trtic")
+value = 20.0
+show_percentage = false
+
+[node name="Player" parent="." node_paths=PackedStringArray("healthBar", "lines") instance=ExtResource("2_3ejts")]
 visible = false
 position = Vector2(583, 426)
 slide_on_ceiling = false
 Speed = 250
+healthBar = NodePath("../Samoysta/ProgressBar")
 lines = [NodePath("../purpleHeart/Up"), NodePath("../purpleHeart/Mid"), NodePath("../purpleHeart/Down")]
 speedPurple = 600.0
 
@@ -388,3 +408,10 @@ mouse_filter = 2
 color = Color(0, 0, 0, 0)
 script = ExtResource("10_vtaks")
 metadata/_edit_use_anchors_ = true
+
+[node name="damage test" type="Area2D" parent="." groups=["Attacks"]]
+position = Vector2(824, 447)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="damage test"]
+position = Vector2(-15, 1)
+shape = SubResource("RectangleShape2D_kvuet")
