@@ -48,7 +48,7 @@ public partial class Buttons : Node2D
 		EnableNode(PlayerNode);
 		EnableNode(map1);
 		DisableNode(this);
-		GetNode<Sprite2D>("../Samoysta").Show();
+		EnableNode(GetNode<Control>("../GameUI"));
 		await ToSignal(GetTree().CreateTimer(0.5f), SceneTreeTimer.SignalName.Timeout);
 		await fadeControl.FadeOut(1.0f);
 	}

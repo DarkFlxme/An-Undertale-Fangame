@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d163mggpwgq54"
-path="res://.godot/imported/samiboss2.png-0dc7ac531a2c1efcc68d9b4ea741e91e.ctex"
+uid="uid://uip2oanlvdwc"
+path="res://.godot/imported/samiboss0.png-27f0cf221972e6112c1ae7c42f906116.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/samiboss2.png"
-dest_files=["res://.godot/imported/samiboss2.png-0dc7ac531a2c1efcc68d9b4ea741e91e.ctex"]
+source_file="res://assets/samiboss0.png"
+dest_files=["res://.godot/imported/samiboss0.png-27f0cf221972e6112c1ae7c42f906116.ctex"]
 
 [params]
 
