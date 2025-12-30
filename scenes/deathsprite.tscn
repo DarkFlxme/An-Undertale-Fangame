@@ -1,0 +1,41 @@
+[gd_scene load_steps=6 format=3 uid="uid://2pnrntqe85w8"]
+
+[ext_resource type="Script" uid="uid://dko0vfrfxjogd" path="res://scripts/DeathSprite.cs" id="1_0mdnd"]
+[ext_resource type="Texture2D" uid="uid://b371ejfreetar" path="res://assets/heart_break.png" id="1_sk5rj"]
+[ext_resource type="Texture2D" uid="uid://dsom3c4i05jjn" path="res://assets/heart_particle.png" id="2_ya77p"]
+[ext_resource type="AudioStream" uid="uid://b3soqaf11kiht" path="res://assets/undertale-soul-shatter.mp3" id="4_2ee6x"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_sk5rj"]
+particle_flag_disable_z = true
+spread = 180.0
+initial_velocity_min = 300.0
+initial_velocity_max = 400.0
+angular_velocity_min = -720.0
+angular_velocity_max = 719.99994
+gravity = Vector3(0, 500, 0)
+scale_min = 0.01
+scale_max = 0.01
+
+[node name="deathsprite" type="Node2D" node_paths=PackedStringArray("deathSprite", "deathParticles", "deathSound")]
+z_index = 10
+script = ExtResource("1_0mdnd")
+deathSprite = NodePath("Sprite2D")
+deathParticles = NodePath("GPUParticles2D")
+deathSound = NodePath("deathsoundplayer")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.015, 0.015)
+texture = ExtResource("1_sk5rj")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 6
+texture = ExtResource("2_ya77p")
+lifetime = 3.0
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_sk5rj")
+
+[node name="deathsoundplayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_2ee6x")
+bus = &"SFX"

@@ -13,6 +13,7 @@ namespace game
         public static SettingsNode settingsnode;
         public static Node2D shield_green;
         public static Node2D purplelines;
+        public static FadeControl FadeRect;
         public static int i = 0;
         public override void _Ready()
         {
@@ -25,6 +26,7 @@ namespace game
             BulletTimer = GetNode<Timer>("BulletTimer");
             settingsnode = GetNode<SettingsNode>("/root/Nodes/Buttons/SettingsButton/Settings");
             purplelines = GetNode<Node2D>("purpleHeart");
+            FadeRect = GetNode<FadeControl>("CanvasLayer/ColorRect");
             purplelines.Hide();
             settingsnode.Connect(SettingsNode.SignalName.VSyncChanged, Callable.From<bool>(Settings.SetVsync));
             settingsnode.Connect(SettingsNode.SignalName.FPSDisplayChanged, Callable.From<bool>(Settings.SetFPSDisplay));

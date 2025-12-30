@@ -5,7 +5,6 @@ using static game.Nodes;
 
 public partial class Buttons : Node2D
 {
-	[Export] FadeControl fadeControl;
 	[Export] public Node2D[] buttons;
 	[Export] public int elemanSayisi;
 	[Export] public float speed;
@@ -18,6 +17,8 @@ public partial class Buttons : Node2D
 	[Export] Node2D Title;
 	[Export] int indexMenu;
 	[Export] Node2D[] buttons2;
+	[Export]AudioStreamPlayer switchsound;
+	[Export]AudioStreamPlayer selectsound;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -36,21 +37,21 @@ public partial class Buttons : Node2D
 	}
 	private async void FadeIn(float duration = 0.5f)
     {
-        await fadeControl.FadeIn(duration);
+        await FadeRect.FadeIn(duration);
     }
 	private async void FadeOut(float duration = 0.5f)
 	{
-		await fadeControl.FadeOut(duration);
+		await FadeRect.FadeOut(duration);
 	}
 	private async void OnPlayButtonPressed()
 	{
-		await fadeControl.FadeIn(1.0f);
+		await FadeRect.FadeIn(1.0f);
 		EnableNode(PlayerNode);
 		EnableNode(map1);
 		DisableNode(this);
 		EnableNode(GetNode<Control>("../GameUI"));
 		await ToSignal(GetTree().CreateTimer(0.5f), SceneTreeTimer.SignalName.Timeout);
-		await fadeControl.FadeOut(1.0f);
+		await FadeRect.FadeOut(1.0f);
 	}
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
@@ -88,6 +89,7 @@ public partial class Buttons : Node2D
 			{
 				OnPlayButtonPressed();
 			}
+			selectsound.Play();
 		}
 		if (Input.IsActionJustPressed("move_right") && buttons[i] is Listecik liste && liste.i != 0)
 		{
@@ -107,6 +109,7 @@ public partial class Buttons : Node2D
 			{
 				i--;
 			}
+			switchsound.Play();
 		}
 		else if (Input.IsActionJustPressed("move_down") && !selected)
 		{
@@ -118,6 +121,7 @@ public partial class Buttons : Node2D
 			{
 				i++;
 			}
+			switchsound.Play();
 		}
 		foreach (var childButton in buttons2)
 		{

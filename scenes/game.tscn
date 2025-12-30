@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://dh2qf03bl37mj"]
+[gd_scene load_steps=24 format=3 uid="uid://dh2qf03bl37mj"]
 
 [ext_resource type="Script" uid="uid://vkxnay6upq3q" path="res://scripts/Nodes.cs" id="1_yqjtg"]
 [ext_resource type="PackedScene" uid="uid://cwwuu6eax0c8e" path="res://scenes/player.tscn" id="2_3ejts"]
@@ -35,6 +35,9 @@ size = Vector2(618, 0.125)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vtaks"]
 size = Vector2(115, 11)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ir15t"]
+size = Vector2(202.25, 266.5)
 
 [node name="Nodes" type="Node2D"]
 script = ExtResource("1_yqjtg")
@@ -179,10 +182,9 @@ metadata/_edit_use_anchors_ = true
 one_shot = true
 ignore_time_scale = true
 
-[node name="Buttons" type="Node2D" parent="." node_paths=PackedStringArray("fadeControl", "buttons", "Title", "buttons2", "selectSound", "swapSound")]
+[node name="Buttons" type="Node2D" parent="." node_paths=PackedStringArray("buttons", "Title", "buttons2", "switchsound", "selectsound")]
 position = Vector2(571, 300)
 script = ExtResource("5_dinhu")
-fadeControl = NodePath("../CanvasLayer/ColorRect")
 buttons = [NodePath("PlayButton"), NodePath("SettingsButton"), NodePath("QuitGameButton")]
 elemanSayisi = 3
 speed = 8.0
@@ -190,8 +192,8 @@ buyuklukKati = 1.5
 Title = NodePath("../TargetTitle")
 indexMenu = 1
 buttons2 = [NodePath("PlayButton/PlayBody"), NodePath("SettingsButton/Settings"), NodePath("QuitGameButton/QuitGameButtons")]
-selectSound = NodePath("../SelectSFXPlayer")
-swapSound = NodePath("../SwapSFXPlayer")
+switchsound = NodePath("../SwapSFXPlayer")
+selectsound = NodePath("../SelectSFXPlayer")
 
 [node name="PlayButton" type="Node2D" parent="Buttons" groups=["Buttons"]]
 scale = Vector2(3, 3)
@@ -273,7 +275,7 @@ metadata/_edit_use_anchors_ = true
 scale = Vector2(4.599998, 1)
 shape = SubResource("RectangleShape2D_kvpfn")
 
-[node name="QuitGameButtons" type="Node2D" parent="Buttons/QuitGameButton" node_paths=PackedStringArray("buttons", "Title", "buttons2")]
+[node name="QuitGameButtons" type="Node2D" parent="Buttons/QuitGameButton" node_paths=PackedStringArray("buttons", "Title", "buttons2", "switchsound", "selectsound")]
 modulate = Color(1, 1, 1, 0)
 position = Vector2(-1.666659, -25.333336)
 script = ExtResource("5_dinhu")
@@ -284,6 +286,8 @@ buyuklukKati = 1.5
 Title = NodePath("../../../TargetTitle")
 indexMenu = 2
 buttons2 = [NodePath("QuitYes/SettingsBody"), NodePath("QuitNo/QuitBody")]
+switchsound = NodePath("../../../SwapSFXPlayer")
+selectsound = NodePath("../../../SelectSFXPlayer")
 
 [node name="AreYOUsure" type="Node2D" parent="Buttons/QuitGameButton/QuitGameButtons"]
 position = Vector2(2.0345053e-05, 60.666668)
@@ -359,9 +363,11 @@ bus = &"Music"
 
 [node name="SelectSFXPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("10_ir15t")
+bus = &"SFX"
 
 [node name="SwapSFXPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("11_ca42v")
+bus = &"SFX"
 
 [node name="Shield" type="Node2D" parent="."]
 visible = false
@@ -415,7 +421,7 @@ position = Vector2(571, 69)
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
-z_index = 5
+z_index = 2
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -425,3 +431,9 @@ mouse_filter = 2
 color = Color(0, 0, 0, 0)
 script = ExtResource("10_vtaks")
 metadata/_edit_use_anchors_ = true
+
+[node name="dmg test" type="Area2D" parent="." groups=["Attacks"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="dmg test"]
+position = Vector2(808.125, 384)
+shape = SubResource("RectangleShape2D_ir15t")

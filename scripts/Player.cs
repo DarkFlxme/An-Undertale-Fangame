@@ -255,17 +255,26 @@ public partial class Player : CharacterBody2D
 	{
 		if (body.IsInGroup("Attacks"))
 		{
-			GetNode<AudioStreamPlayer>("DamageTakenAudioPlayer").Play();
-			damageBlink.Play("i frame blink");
 			health -= 20;
-			damageHitbox.SetDeferred("monitorable", false);
-			damageHitbox.SetDeferred("monitoring", false);
-			GetTree().CreateTimer(1.5).Timeout += () =>
+			if (health > 0)
 			{
-				damageBlink.Stop();
-				damageHitbox.SetDeferred("monitorable", true);
-				damageHitbox.SetDeferred("monitoring", true);
-			};
+				GetNode<AudioStreamPlayer>("DamageTakenAudioPlayer").Play();
+				damageBlink.Play("i frame blink");
+				damageHitbox.SetDeferred("monitorable", false);
+				damageHitbox.SetDeferred("monitoring", false);
+				GetTree().CreateTimer(1.5).Timeout += () =>
+				{
+					damageBlink.Stop();
+					damageHitbox.SetDeferred("monitorable", true);
+					damageHitbox.SetDeferred("monitoring", true);
+				};
+			}
+			else
+			{
+				Nodes.FadeRect.Color = new Color(0, 0, 0, 1);
+				var deathSprite = GD.Load<PackedScene>("res://scenes/deathsprite.tscn").Instantiate<DeathSprite>();
+				GetNode<CanvasLayer>("../CanvasLayer").AddChild(deathSprite);
+			}
 		}
 	}
 }
