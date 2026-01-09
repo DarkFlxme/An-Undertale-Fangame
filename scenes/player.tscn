@@ -1,90 +1,47 @@
-[gd_scene load_steps=15 format=3 uid="uid://cwwuu6eax0c8e"]
+[gd_scene load_steps=8 format=3 uid="uid://cwwuu6eax0c8e"]
 
-[ext_resource type="Texture2D" uid="uid://bhsg6v540lljd" path="res://assets/red_heart.png" id="1_b2csg"]
+[ext_resource type="Texture2D" uid="uid://bhsg6v540lljd" path="res://assets/heart.png" id="1_b2csg"]
 [ext_resource type="Script" uid="uid://m5w64ho4mghb" path="res://scripts/Player.cs" id="1_qhqgy"]
-[ext_resource type="Texture2D" uid="uid://cxsa4wtkb48ga" path="res://assets/blue_heart.png" id="2_hfbni"]
-[ext_resource type="Texture2D" uid="uid://bb6e4o1njg1wt" path="res://assets/green_heart.png" id="4_dqkch"]
-[ext_resource type="Texture2D" uid="uid://dn2p5cr37mkhi" path="res://assets/purple_heart.png" id="5_qlg0r"]
-[ext_resource type="Texture2D" uid="uid://brswgxgccc12b" path="res://assets/yellow_heart.png" id="6_tuyoq"]
-[ext_resource type="Texture2D" uid="uid://coe62k2jio8xv" path="res://assets/orange_heart.png" id="7_fjrip"]
 [ext_resource type="AudioStream" uid="uid://c46b5a8w0w6dv" path="res://assets/damagetaken.mp3" id="8_smehm"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p68ef"]
 size = Vector2(24, 24)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_g5wb0"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("1_b2csg")
-}, {
-"duration": 1.0,
-"texture": ExtResource("2_hfbni")
-}, {
-"duration": 1.0,
-"texture": ExtResource("4_dqkch")
-}, {
-"duration": 1.0,
-"texture": ExtResource("5_qlg0r")
-}, {
-"duration": 1.0,
-"texture": ExtResource("6_tuyoq")
-}, {
-"duration": 1.0,
-"texture": ExtResource("7_fjrip")
-}],
-"loop": true,
-"name": &"default",
-"speed": 5.0
-}]
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fjrip"]
 size = Vector2(22, 15)
 
-[sub_resource type="Animation" id="Animation_fjrip"]
-resource_name = "i frame blink"
+[sub_resource type="Animation" id="Animation_smehm"]
 length = 0.35
 loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("CollisionShape2D/AnimatedSprite2D:modulate")
+tracks/0/path = NodePath("Sprite2D:modulate:a")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.125, 0.25),
+"times": PackedFloat32Array(0, 0.175, 0.35),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
-"values": [Color(1, 1, 1, 1), Color(0.3741394, 0.37413922, 0.37413916, 1), Color(1, 1, 1, 1)]
-}
-
-[sub_resource type="Animation" id="Animation_smehm"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("CollisionShape2D/AnimatedSprite2D:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 1)]
+"values": [1.0, 0.5, 1.0]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ur7pv"]
 _data = {
-&"RESET": SubResource("Animation_smehm"),
-&"i frame blink": SubResource("Animation_fjrip")
+&"i frame blink": SubResource("Animation_smehm")
 }
 
 [node name="player" type="CharacterBody2D" node_paths=PackedStringArray("_heartSprite", "damageHitbox", "damageBlink", "lines")]
 script = ExtResource("1_qhqgy")
-_heartSprite = NodePath("CollisionShape2D/AnimatedSprite2D")
+_heartSprite = NodePath("")
 damageHitbox = NodePath("Hitbox")
 damageBlink = NodePath("AnimationPlayer")
 lines = []
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(2.3841858e-07, 0)
+scale = Vector2(0.015, 0.015)
+texture = ExtResource("1_b2csg")
 
 [node name="Hitbox" type="Area2D" parent="."]
 
@@ -93,12 +50,6 @@ polygon = PackedVector2Array(-8, -11, -10, -8, -10, 1, 0, 10, 10, 1, 10, -8, 8, 
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_p68ef")
-
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CollisionShape2D"]
-position = Vector2(-6.7762636e-21, -3.3881318e-21)
-scale = Vector2(0.015, 0.015)
-sprite_frames = SubResource("SpriteFrames_g5wb0")
-frame_progress = 0.80767
 
 [node name="Area2D" type="Area2D" parent="CollisionShape2D"]
 position = Vector2(0, 12)

@@ -7,7 +7,7 @@ public partial class Player : CharacterBody2D
 	[Export] public int Speed = 200;
 	[Export] public int Gravity = 800;
 	[Export] public int JumpForce = 450;
-	[Export] public AnimatedSprite2D _heartSprite;
+	[Export] public Sprite2D _heartSprite;
 	[Export] public Area2D damageHitbox;
 	[Export] public AnimationPlayer damageBlink;
 	bool canJump;
@@ -20,6 +20,16 @@ public partial class Player : CharacterBody2D
 	[Export] public float speedPurple;
 	int i = 1;
 	int z = 0;
+	public enum HeartColorEnum
+	{
+		Red,
+		Blue,
+		Green,
+		Purple,
+		Yellow,
+		Orange
+	}
+	public HeartColorEnum HeartColor = HeartColorEnum.Red;
 	public override void _Ready()
 	{
 		damageHitbox.AreaEntered += DamageHitboxEntered;
@@ -29,27 +39,29 @@ public partial class Player : CharacterBody2D
 		healthBar.Value = health;
 		float deltaF = (float)delta;
 
-		if (_heartSprite.Frame != 2)
+		if (HeartColor != HeartColorEnum.Green)
 		{
 			Nodes.DisableNode(Nodes.map2);
 			Nodes.EnableNode(Nodes.map1);
 			Nodes.DisableNode(Nodes.shield_green);
 		}
-		if (_heartSprite.Frame != 1)
+		if (HeartColor != HeartColorEnum.Blue || HeartColor != HeartColorEnum.Yellow)
 		{
 			GlobalRotationDegrees = 0;
 		}
 
-		switch (_heartSprite.Frame)
+		switch (HeartColor)
 		{
-			case 0: // Red heart
+			case HeartColorEnum.Red:
 				horizontalDirection = Input.GetAxis("move_left", "move_right");
 				verticalDirection = Input.GetAxis("move_up", "move_down");
 				Velocity = new Vector2(horizontalDirection, verticalDirection).Normalized() * Speed;
 				Nodes.purplelines.Hide();
+				Modulate= new Color(254f/255f,0,0);
 				break;
-			case 1: // Blue heart
+			case HeartColorEnum.Blue:
 				GlobalRotationDegrees = 90 * z;
+				Modulate= new Color(0,60f/255f,254f/255f);
 				if (GlobalRotationDegrees == 0)
 				{
 					horizontalDirection = Input.GetAxis("move_left", "move_right");
@@ -148,7 +160,8 @@ public partial class Player : CharacterBody2D
 				Nodes.purplelines.Hide();
 				break;
 
-			case 2: // Green heart
+			case HeartColorEnum.Green:
+				Modulate= new Color(1f/255f,192f/255f,0);
 				Nodes.DisableNode(Nodes.map1);
 				Nodes.EnableNode(Nodes.map2);
 				Nodes.EnableNode(Nodes.shield_green);
@@ -156,7 +169,8 @@ public partial class Player : CharacterBody2D
 				Velocity = Vector2.Zero;
 				Nodes.purplelines.Hide();
 				break;
-			case 3: // Purple heart
+			case HeartColorEnum.Purple:
+				Modulate= new Color(229f/255f,110f/255f,167f/255f);
 				Nodes.purplelines.Show();
 				GlobalPosition = new Vector2(GlobalPosition.X, Mathf.MoveToward(GlobalPosition.Y, lines[i].GlobalPosition.Y, speedPurple * deltaF));
 				horizontalDirection = Input.GetAxis("move_left", "move_right");
@@ -177,7 +191,9 @@ public partial class Player : CharacterBody2D
 				}
 				break;
 
-			case 4: // Yellow heart
+			case HeartColorEnum.Yellow:
+				Modulate= new Color(1,1,0);
+				GlobalRotationDegrees = 180;
 				horizontalDirection = Input.GetAxis("move_left", "move_right");
 				verticalDirection = Input.GetAxis("move_up", "move_down");
 				Velocity = new Vector2(horizontalDirection * Speed, verticalDirection * Speed);
@@ -195,7 +211,8 @@ public partial class Player : CharacterBody2D
 				Nodes.purplelines.Hide();
 				break;
 
-			case 5: // orange heart
+			case HeartColorEnum.Orange:
+				Modulate= new Color(1,127f/255f,39f/255f);
 				horizontalDirection = Input.GetAxis("move_left", "move_right");
 				verticalDirection = Input.GetAxis("move_up", "move_down");
 				if (horizontalDirection != 0 || verticalDirection != 0)
@@ -204,13 +221,13 @@ public partial class Player : CharacterBody2D
 				break;
 		}
 
-		if (Input.IsActionJustPressed("0")) _heartSprite.Frame = 0;
-		else if (Input.IsActionJustPressed("1") && _heartSprite.Frame != 1)
+		if (Input.IsActionJustPressed("0")) HeartColor = HeartColorEnum.Red;
+		else if (Input.IsActionJustPressed("1") && HeartColor != HeartColorEnum.Blue)
 		{
-			_heartSprite.Frame = 1;
+			HeartColor = HeartColorEnum.Blue;
 			z = 0;
 		}
-		else if (Input.IsActionJustPressed("1") && _heartSprite.Frame == 1)
+		else if (Input.IsActionJustPressed("1") && HeartColor == HeartColorEnum.Blue)
 		{
 			if (z == 2)
 			{
@@ -225,15 +242,15 @@ public partial class Player : CharacterBody2D
 				z++;
 			}
 		}
-		else if (Input.IsActionJustPressed("2")) _heartSprite.Frame = 2;
+		else if (Input.IsActionJustPressed("2")) HeartColor = HeartColorEnum.Green;
 		else if (Input.IsActionJustPressed("3"))
 		{
-			_heartSprite.Frame = 3;
+			HeartColor = HeartColorEnum.Purple;
 			Velocity = Vector2.Zero;
 			GlobalPosition = new Vector2(583, lines[1].GlobalPosition.Y);
 		}
-		else if (Input.IsActionJustPressed("4")) _heartSprite.Frame = 4;
-		else if (Input.IsActionJustPressed("5")) _heartSprite.Frame = 5;
+		else if (Input.IsActionJustPressed("4")) HeartColor = HeartColorEnum.Yellow;
+		else if (Input.IsActionJustPressed("5")) HeartColor = HeartColorEnum.Orange;
 		MoveAndSlide();
 	}
 
