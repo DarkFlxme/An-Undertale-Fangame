@@ -12,25 +12,25 @@ public partial class VolumeControl : Control
     [Export] private Label musicLabel;
     public override void _Ready()
     {
-        masterSlider.ValueChanged += (value) =>
+        masterSlider.DragEnded += (a) =>
         {
-            AudioServer.SetBusVolumeLinear(0, (float)value / 100);
-            masterLabel.Text = $"{value}%";
-            SettingsManager.Settings["mastervolume"] = value;
+            AudioServer.SetBusVolumeLinear(0, (float)masterSlider.Value / 100);
+            masterLabel.Text = $"{masterSlider.Value}%";
+            SettingsManager.Settings["mastervolume"] = masterSlider.Value;
             SettingsManager.SaveSettings();
         };
-        sfxSlider.ValueChanged += (value) =>
+        sfxSlider.DragEnded += (a) =>
         {
-            AudioServer.SetBusVolumeLinear(1, (float)value / 100);
-            sfxLabel.Text = $"{value}%";
-            SettingsManager.Settings["sfxvolume"] = value;
+            AudioServer.SetBusVolumeLinear(1, (float)sfxSlider.Value / 100);
+            sfxLabel.Text = $"{sfxSlider.Value}%";
+            SettingsManager.Settings["sfxvolume"] = sfxSlider.Value;
             SettingsManager.SaveSettings();
         };
-        musicSlider.ValueChanged += (value) =>
+        musicSlider.DragEnded += (a) =>
         {
-            AudioServer.SetBusVolumeLinear(2, (float)value / 100);
-            musicLabel.Text = $"{value}%";
-            SettingsManager.Settings["musicvolume"] = value;
+            AudioServer.SetBusVolumeLinear(2, (float)musicSlider.Value / 100);
+            musicLabel.Text = $"{musicSlider.Value}%";
+            SettingsManager.Settings["musicvolume"] = musicSlider.Value;
             SettingsManager.SaveSettings();
         };
     }

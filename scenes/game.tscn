@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://dh2qf03bl37mj"]
+[gd_scene load_steps=25 format=3 uid="uid://dh2qf03bl37mj"]
 
 [ext_resource type="Script" uid="uid://vkxnay6upq3q" path="res://scripts/Nodes.cs" id="1_yqjtg"]
 [ext_resource type="PackedScene" uid="uid://cwwuu6eax0c8e" path="res://scenes/player.tscn" id="2_3ejts"]
@@ -10,6 +10,7 @@
 [ext_resource type="Script" uid="uid://cq08knnvrpdl6" path="res://scripts/Buttons.cs" id="5_dinhu"]
 [ext_resource type="Texture2D" uid="uid://be0ngbfdtrev2" path="res://assets/shield.png" id="9_0tnpc"]
 [ext_resource type="Script" uid="uid://um818e82y6hn" path="res://scripts/Shield.cs" id="9_vtaks"]
+[ext_resource type="AudioStream" uid="uid://427yp6t6c5tu" path="res://assets/menuost.ogg" id="10_ca42v"]
 [ext_resource type="AudioStream" uid="uid://cuuc61uoxm8l6" path="res://assets/selectsfx.wav" id="10_ir15t"]
 [ext_resource type="Script" uid="uid://vedq52wg5s5w" path="res://scripts/FadeControl.cs" id="10_vtaks"]
 [ext_resource type="AudioStream" uid="uid://ooij0pimdlbv" path="res://assets/swapsfx.wav" id="11_ca42v"]
@@ -358,6 +359,7 @@ scale = Vector2(4.599998, 1)
 shape = SubResource("RectangleShape2D_kvpfn")
 
 [node name="Menu Music Player" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("10_ca42v")
 autoplay = true
 bus = &"Music"
 

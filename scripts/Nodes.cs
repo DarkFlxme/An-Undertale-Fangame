@@ -15,6 +15,7 @@ namespace game
         public static Node2D purplelines;
         public static FadeControl FadeRect;
         public static int i = 0;
+        float quittimer = 0f;
         public override void _Ready()
         {
             i = 0;
@@ -45,9 +46,16 @@ namespace game
                 fpslabel.Text = "";
             if (Input.IsActionJustPressed("toggle_fullscreen"))
                 Settings.SetWindow(!Settings.windowMode);
-            if (Input.IsActionJustPressed("quit"))
+            if (Input.IsActionPressed("quit"))
             {
-                GetTree().Quit();
+                quittimer += (float)delta;
+                if (quittimer >= 2f)
+                    GetTree().Quit();
+            }
+            else if (Input.IsActionJustReleased("quit"))
+            {
+                Settings.SetWindow(true);
+                quittimer = 0f;
             }
         }
         public static void DisableNode(CanvasItem node)
@@ -63,6 +71,7 @@ namespace game
     }
     public static class Settings
     {
+        public static double BossFightTime = 0.0;
         public static bool vsync = true;
         public static bool fpsshow = false;
         public static bool windowMode = true;

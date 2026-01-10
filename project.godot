@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 SettingsManager="*res://scripts/SettingsManager.cs"
+SaveSystem="*res://scripts/SaveSystem.cs"
 
 [display]
 

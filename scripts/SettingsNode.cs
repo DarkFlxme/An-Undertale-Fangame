@@ -4,8 +4,8 @@ using System.Diagnostics.Contracts;
 
 public partial class SettingsNode : Node2D
 {
-    [Signal] public delegate void VSyncChangedEventHandler();
-    [Signal] public delegate void FPSDisplayChangedEventHandler();
+    [Signal] public delegate void VSyncChangedEventHandler(bool toggled);
+    [Signal] public delegate void FPSDisplayChangedEventHandler(bool toggled);
     public CheckButton vsync;
     public CheckButton fpsdisplay;
     public LineEdit fpslimiter;
@@ -33,7 +33,6 @@ public partial class SettingsNode : Node2D
         fpslimiter.ReleaseFocus();
         if (int.TryParse(limit, out int fpslimit))
         {
-            Engine.MaxFps = fpslimit;
             if (fpslimit < 0)
             {
                 fpslimiter.Text = Engine.MaxFps.ToString();
@@ -41,6 +40,7 @@ public partial class SettingsNode : Node2D
         }
         else
         {
+            Engine.MaxFps = fpslimit;
             fpslimiter.Text = Engine.MaxFps.ToString();
         }
         SettingsManager.Settings["fpslimit"] = Engine.MaxFps;

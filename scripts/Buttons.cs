@@ -45,6 +45,7 @@ public partial class Buttons : Node2D
 	}
 	private async void OnPlayButtonPressed()
 	{
+		GetNode<AudioStreamPlayer>("../Menu Music Player").QueueFree();
 		await FadeRect.FadeIn(1.0f);
 		EnableNode(PlayerNode);
 		EnableNode(map1);
