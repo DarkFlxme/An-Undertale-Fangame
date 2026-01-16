@@ -14,24 +14,33 @@ public partial class VolumeControl : Control
     {
         masterSlider.DragEnded += (a) =>
         {
-            AudioServer.SetBusVolumeLinear(0, (float)masterSlider.Value / 100);
-            masterLabel.Text = $"{masterSlider.Value}%";
-            SettingsManager.Settings["mastervolume"] = masterSlider.Value;
+            SettingsManager.Settings["mastervolume"] = (float)masterSlider.Value;
             SettingsManager.SaveSettings();
         };
         sfxSlider.DragEnded += (a) =>
         {
-            AudioServer.SetBusVolumeLinear(1, (float)sfxSlider.Value / 100);
-            sfxLabel.Text = $"{sfxSlider.Value}%";
-            SettingsManager.Settings["sfxvolume"] = sfxSlider.Value;
+            SettingsManager.Settings["sfxvolume"] = (float)sfxSlider.Value;
             SettingsManager.SaveSettings();
         };
         musicSlider.DragEnded += (a) =>
         {
-            AudioServer.SetBusVolumeLinear(2, (float)musicSlider.Value / 100);
-            musicLabel.Text = $"{musicSlider.Value}%";
-            SettingsManager.Settings["musicvolume"] = musicSlider.Value;
+            SettingsManager.Settings["musicvolume"] = (float)musicSlider.Value;
             SettingsManager.SaveSettings();
+        };
+        masterSlider.ValueChanged += (a) =>
+        {
+            SetVolume(0, (float)masterSlider.Value);
+            masterLabel.Text = $"{masterSlider.Value}%";
+        };
+        sfxSlider.ValueChanged += (a) =>
+        {
+            SetVolume(1, (float)sfxSlider.Value);
+            sfxLabel.Text = $"{sfxSlider.Value}%";
+        };
+        musicSlider.ValueChanged += (a) =>
+        {
+            SetVolume(2, (float)musicSlider.Value);
+            musicLabel.Text = $"{musicSlider.Value}%";
         };
     }
     public void SetVolume(int bus, float value)
@@ -40,15 +49,15 @@ public partial class VolumeControl : Control
         {
             case 0:
                 masterSlider.Value = value;
-                SettingsManager.Settings["mastervolume"] = value;
+                AudioServer.SetBusVolumeLinear(0, value / 100);
                 break;
             case 1:
                 sfxSlider.Value = value;
-                SettingsManager.Settings["sfxvolume"] = value;
+                AudioServer.SetBusVolumeLinear(1, value / 100);
                 break;
             case 2:
                 musicSlider.Value = value;
-                SettingsManager.Settings["musicvolume"] = value;
+                AudioServer.SetBusVolumeLinear(2, value / 100);
                 break;
         }
     }

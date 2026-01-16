@@ -14,7 +14,7 @@ public partial class GameUI : Control
     {
         game.Settings.BossFightTime += delta;
         TimeSpan timeSpan = TimeSpan.FromSeconds(game.Settings.BossFightTime);
-        Label.Text = string.Format("ZINA  {0:D2}:{1:D2}  HP         {2}/100", timeSpan.Minutes, timeSpan.Seconds, game.Nodes.PlayerNode.health);
+        Label.Text = string.Format("ZINA  {0:D2}:{1:D2}  HP         {2}/{3}", timeSpan.Minutes, timeSpan.Seconds, game.Nodes.PlayerNode.health, game.Nodes.PlayerNode.maxHealth);
     }
     private void SamoystaChangeTexture(bool texture) // 1 = normal, 0 = dehşet
     {

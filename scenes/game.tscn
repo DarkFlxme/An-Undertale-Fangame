@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://dh2qf03bl37mj"]
+[gd_scene load_steps=24 format=3 uid="uid://dh2qf03bl37mj"]
 
 [ext_resource type="Script" uid="uid://vkxnay6upq3q" path="res://scripts/Nodes.cs" id="1_yqjtg"]
 [ext_resource type="PackedScene" uid="uid://cwwuu6eax0c8e" path="res://scenes/player.tscn" id="2_3ejts"]
@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://iyfhxob23cr4" path="res://scenes/Settings.tscn" id="3_lnu2h"]
 [ext_resource type="FontFile" uid="uid://cmt2mq1j731rh" path="res://assets/serif_pixel-7.ttf" id="4_kvuet"]
 [ext_resource type="Script" uid="uid://dqme04an5ffpb" path="res://scripts/SettingsNode.cs" id="4_lbhrr"]
-[ext_resource type="Script" uid="uid://cq08knnvrpdl6" path="res://scripts/Buttons.cs" id="5_dinhu"]
+[ext_resource type="Script" uid="uid://bflc0cclsnhyd" path="res://scripts/Buttons.cs" id="5_dinhu"]
 [ext_resource type="Texture2D" uid="uid://be0ngbfdtrev2" path="res://assets/shield.png" id="9_0tnpc"]
 [ext_resource type="Script" uid="uid://um818e82y6hn" path="res://scripts/Shield.cs" id="9_vtaks"]
 [ext_resource type="AudioStream" uid="uid://427yp6t6c5tu" path="res://assets/menuost.ogg" id="10_ca42v"]
@@ -31,8 +31,6 @@ size = Vector2(100, 200)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_e7hfj"]
 size = Vector2(618, 0.125)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_kvpfn"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vtaks"]
 size = Vector2(115, 11)
@@ -183,180 +181,270 @@ metadata/_edit_use_anchors_ = true
 one_shot = true
 ignore_time_scale = true
 
-[node name="Buttons" type="Node2D" parent="." node_paths=PackedStringArray("buttons", "Title", "buttons2", "switchsound", "selectsound")]
-position = Vector2(571, 300)
+[node name="MainMenuButtons" type="Node2D" parent="." node_paths=PackedStringArray("switchsound", "selectsound") groups=["Buttons"]]
+position = Vector2(568, 300)
 script = ExtResource("5_dinhu")
-buttons = [NodePath("PlayButton"), NodePath("SettingsButton"), NodePath("QuitGameButton")]
-elemanSayisi = 3
-speed = 8.0
-buyuklukKati = 1.5
-Title = NodePath("../TargetTitle")
-indexMenu = 1
-buttons2 = [NodePath("PlayButton/PlayBody"), NodePath("SettingsButton/Settings"), NodePath("QuitGameButton/QuitGameButtons")]
 switchsound = NodePath("../SwapSFXPlayer")
 selectsound = NodePath("../SelectSFXPlayer")
 
-[node name="PlayButton" type="Node2D" parent="Buttons" groups=["Buttons"]]
-scale = Vector2(3, 3)
+[node name="PlayButton" type="Node2D" parent="MainMenuButtons" node_paths=PackedStringArray("switchsound", "selectsound") groups=["Buttons"]]
+process_mode = 3
+script = ExtResource("5_dinhu")
+switchsound = NodePath("../../SwapSFXPlayer")
+selectsound = NodePath("../../SelectSFXPlayer")
 
-[node name="Label" type="Label" parent="Buttons/PlayButton"]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -11.5
-offset_right = 20.0
-offset_bottom = 11.5
+[node name="Control" type="Control" parent="MainMenuButtons/PlayButton"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Label" type="Label" parent="MainMenuButtons/PlayButton/Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.4625
+anchor_top = -0.0375
+anchor_right = 1.9125
+anchor_bottom = 0.5375
+offset_left = -40.0
+offset_top = -31.5
+offset_bottom = -8.5
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_fonts/font = ExtResource("4_kvuet")
+theme_override_font_sizes/font_size = 45
 text = "PLAY"
 metadata/_edit_use_anchors_ = true
 
-[node name="PlayBody" type="Area2D" parent="Buttons/PlayButton"]
+[node name="Casual" type="Node2D" parent="MainMenuButtons/PlayButton" groups=["Buttons"]]
+process_mode = 3
+visible = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Buttons/PlayButton/PlayBody"]
-scale = Vector2(2.0399995, 1)
-shape = SubResource("RectangleShape2D_kvpfn")
+[node name="Control" type="Control" parent="MainMenuButtons/PlayButton/Casual"]
+layout_mode = 3
+anchors_preset = 0
+offset_top = -25.0
+offset_right = 40.0
+offset_bottom = 15.0
 
-[node name="SettingsButton" type="Node2D" parent="Buttons" groups=["Buttons"]]
-position = Vector2(0, 87)
-scale = Vector2(3, 3)
-
-[node name="Label" type="Label" parent="Buttons/SettingsButton"]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -11.5
-offset_right = 20.0
-offset_bottom = 11.5
+[node name="Label" type="Label" parent="MainMenuButtons/PlayButton/Casual/Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.4625
+anchor_top = -0.0375
+anchor_right = 1.9125
+anchor_bottom = 0.5375
+offset_left = -53.5
+offset_top = 6.5
+offset_right = 13.5
+offset_bottom = 29.5
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_fonts/font = ExtResource("4_kvuet")
+theme_override_font_sizes/font_size = 45
+text = "Casual"
+metadata/_edit_use_anchors_ = true
+
+[node name="Normal" type="Node2D" parent="MainMenuButtons/PlayButton" groups=["Buttons"]]
+process_mode = 3
+visible = false
+position = Vector2(0, 90)
+
+[node name="Control" type="Control" parent="MainMenuButtons/PlayButton/Normal"]
+layout_mode = 3
+anchors_preset = 0
+offset_top = -40.0
+offset_right = 40.0
+
+[node name="Label" type="Label" parent="MainMenuButtons/PlayButton/Normal/Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.4625
+anchor_top = -0.0375
+anchor_right = 1.9125
+anchor_bottom = 0.5375
+offset_left = -65.0
+offset_top = 14.5
+offset_right = 25.0
+offset_bottom = 37.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("4_kvuet")
+theme_override_font_sizes/font_size = 45
+text = "Normal"
+metadata/_edit_use_anchors_ = true
+
+[node name="Extreme" type="Node2D" parent="MainMenuButtons/PlayButton" groups=["Buttons"]]
+process_mode = 3
+visible = false
+position = Vector2(0, 165)
+
+[node name="Control" type="Control" parent="MainMenuButtons/PlayButton/Extreme"]
+layout_mode = 3
+anchors_preset = 0
+offset_top = 15.0
+offset_right = 40.0
+offset_bottom = 55.0
+
+[node name="Label" type="Label" parent="MainMenuButtons/PlayButton/Extreme/Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.4625
+anchor_top = -0.0375
+anchor_right = 1.9125
+anchor_bottom = 0.5375
+offset_left = -40.0
+offset_top = -31.5
+offset_bottom = -8.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("4_kvuet")
+theme_override_font_sizes/font_size = 45
+text = "Extreme"
+metadata/_edit_use_anchors_ = true
+
+[node name="SettingsButton" type="Node2D" parent="MainMenuButtons" groups=["Buttons"]]
+process_mode = 3
+position = Vector2(0, 87)
+
+[node name="Control" type="Control" parent="MainMenuButtons/SettingsButton"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Label" type="Label" parent="MainMenuButtons/SettingsButton/Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.85
+anchor_top = 0.675
+anchor_right = 3.35
+anchor_bottom = 1.0
+offset_left = -77.0
+offset_top = -51.5
+offset_right = 3.0
+offset_bottom = -1.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("4_kvuet")
+theme_override_font_sizes/font_size = 45
 text = "SETTINGS"
 metadata/_edit_use_anchors_ = true
 
-[node name="SettingsBody" type="Area2D" parent="Buttons/SettingsButton"]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Buttons/SettingsButton/SettingsBody"]
-scale = Vector2(3.7866662, 1)
-shape = SubResource("RectangleShape2D_kvpfn")
-
-[node name="Settings" parent="Buttons/SettingsButton" instance=ExtResource("3_lnu2h")]
+[node name="Settings" parent="MainMenuButtons/SettingsButton" instance=ExtResource("3_lnu2h")]
 visible = false
-position = Vector2(-183.00002, -33.000015)
-scale = Vector2(0.33333334, 0.33333334)
+position = Vector2(12, -61)
+scale = Vector2(1.5, 1.5)
 script = ExtResource("4_lbhrr")
 
-[node name="QuitGameButton" type="Node2D" parent="Buttons" groups=["Buttons"]]
+[node name="QuitGameButton" type="Node2D" parent="MainMenuButtons" node_paths=PackedStringArray("switchsound", "selectsound") groups=["Buttons"]]
+process_mode = 3
 position = Vector2(0, 176)
-scale = Vector2(3, 3)
+script = ExtResource("5_dinhu")
+switchsound = NodePath("../../SwapSFXPlayer")
+selectsound = NodePath("../../SelectSFXPlayer")
 
-[node name="Label" type="Label" parent="Buttons/QuitGameButton"]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -11.5
-offset_right = 20.0
-offset_bottom = 11.5
+[node name="Control" type="Control" parent="MainMenuButtons/QuitGameButton"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Label" type="Label" parent="MainMenuButtons/QuitGameButton/Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -1.6125
+anchor_top = 0.6125
+anchor_right = 3.2625
+anchor_bottom = 1.1875
+offset_left = -64.5
+offset_top = -44.5
+offset_right = 24.5
+offset_bottom = -21.5
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_fonts/font = ExtResource("4_kvuet")
+theme_override_font_sizes/font_size = 45
 text = "QUIT GAME"
 metadata/_edit_use_anchors_ = true
 
-[node name="QuitBody" type="Area2D" parent="Buttons/QuitGameButton"]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Buttons/QuitGameButton/QuitBody"]
-scale = Vector2(4.599998, 1)
-shape = SubResource("RectangleShape2D_kvpfn")
-
-[node name="QuitGameButtons" type="Node2D" parent="Buttons/QuitGameButton" node_paths=PackedStringArray("buttons", "Title", "buttons2", "switchsound", "selectsound")]
-modulate = Color(1, 1, 1, 0)
-position = Vector2(-1.666659, -25.333336)
+[node name="QuitYes" type="Node2D" parent="MainMenuButtons/QuitGameButton" node_paths=PackedStringArray("switchsound", "selectsound") groups=["Buttons"]]
+process_mode = 3
+visible = false
+position = Vector2(0, -145)
 script = ExtResource("5_dinhu")
-buttons = [NodePath("QuitYes"), NodePath("QuitNo")]
-elemanSayisi = 2
-speed = 8.0
-buyuklukKati = 1.5
-Title = NodePath("../../../TargetTitle")
-indexMenu = 2
-buttons2 = [NodePath("QuitYes/SettingsBody"), NodePath("QuitNo/QuitBody")]
 switchsound = NodePath("../../../SwapSFXPlayer")
 selectsound = NodePath("../../../SelectSFXPlayer")
 
-[node name="AreYOUsure" type="Node2D" parent="Buttons/QuitGameButton/QuitGameButtons"]
-position = Vector2(2.0345053e-05, 60.666668)
-scale = Vector2(0.81, 0.81)
+[node name="Control" type="Control" parent="MainMenuButtons/QuitGameButton/QuitYes"]
+layout_mode = 3
+anchors_preset = 0
+offset_top = -22.0
+offset_right = 40.0
+offset_bottom = 18.0
 
-[node name="Label" type="Label" parent="Buttons/QuitGameButton/QuitGameButtons/AreYOUsure"]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -11.5
-offset_right = 20.0
-offset_bottom = 11.5
+[node name="Label" type="Label" parent="MainMenuButtons/QuitGameButton/QuitYes/Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -4.4500003
+anchor_top = 0.075
+anchor_right = 4.9000006
+anchor_bottom = 1.225
+offset_left = 1.5258789e-05
+offset_right = -3.0517578e-05
 grow_horizontal = 2
 grow_vertical = 2
-text = "ARE YOU SURE"
+theme_override_fonts/font = ExtResource("4_kvuet")
+theme_override_font_sizes/font_size = 45
+text = "CONFIRM QUIT"
 metadata/_edit_use_anchors_ = true
 
-[node name="QuitYes" type="Node2D" parent="Buttons/QuitGameButton/QuitGameButtons"]
-position = Vector2(0, 94.817)
-scale = Vector2(0.665, 0.665)
+[node name="QuitNo" type="Node2D" parent="MainMenuButtons/QuitGameButton" node_paths=PackedStringArray("switchsound", "selectsound") groups=["Buttons"]]
+process_mode = 3
+visible = false
+position = Vector2(0, -50)
+script = ExtResource("5_dinhu")
+switchsound = NodePath("../../../SwapSFXPlayer")
+selectsound = NodePath("../../../SelectSFXPlayer")
 
-[node name="Label" type="Label" parent="Buttons/QuitGameButton/QuitGameButtons/QuitYes"]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -16.000021
-offset_top = -11.333333
-offset_right = 23.999979
-offset_bottom = 11.666667
+[node name="Control" type="Control" parent="MainMenuButtons/QuitGameButton/QuitNo"]
+layout_mode = 3
+anchors_preset = 0
+offset_top = -20.0
+offset_right = 40.0
+offset_bottom = 20.0
+
+[node name="Label" type="Label" parent="MainMenuButtons/QuitGameButton/QuitNo/Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -3.0625
+anchor_top = -0.5625
+anchor_right = -0.4625
+anchor_bottom = 0.0125
+offset_left = -64.5
+offset_top = 25.5
+offset_right = 219.5
+offset_bottom = 71.5
 grow_horizontal = 2
 grow_vertical = 2
-text = "YES"
+theme_override_fonts/font = ExtResource("4_kvuet")
+theme_override_font_sizes/font_size = 45
+text = "BACK TO MENU"
 metadata/_edit_use_anchors_ = true
 
-[node name="SettingsBody" type="Area2D" parent="Buttons/QuitGameButton/QuitGameButtons/QuitYes"]
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Buttons/QuitGameButton/QuitGameButtons/QuitYes/SettingsBody"]
-scale = Vector2(3.7866662, 1)
-shape = SubResource("RectangleShape2D_kvpfn")
-
-[node name="QuitNo" type="Node2D" parent="Buttons/QuitGameButton/QuitGameButtons"]
-position = Vector2(0, 113.53)
-scale = Vector2(0.665, 0.665)
-
-[node name="Label" type="Label" parent="Buttons/QuitGameButton/QuitGameButtons/QuitNo"]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -13.666687
-offset_top = -11.333333
-offset_right = 26.333313
-offset_bottom = 11.666667
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+z_index = 2
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-text = "NO"
-
-[node name="QuitBody" type="Area2D" parent="Buttons/QuitGameButton/QuitGameButtons/QuitNo"]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Buttons/QuitGameButton/QuitGameButtons/QuitNo/QuitBody"]
-scale = Vector2(4.599998, 1)
-shape = SubResource("RectangleShape2D_kvpfn")
+mouse_filter = 2
+color = Color(0, 0, 0, 0)
+script = ExtResource("10_vtaks")
+metadata/_edit_use_anchors_ = true
 
 [node name="Menu Music Player" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("10_ca42v")
@@ -420,22 +508,9 @@ texture = ExtResource("11_kvpfn")
 [node name="TargetTitle" type="Node2D" parent="."]
 position = Vector2(571, 69)
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
-z_index = 2
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-color = Color(0, 0, 0, 0)
-script = ExtResource("10_vtaks")
-metadata/_edit_use_anchors_ = true
-
 [node name="dmg test" type="Area2D" parent="." groups=["Attacks"]]
+position = Vector2(779, 397)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="dmg test"]
-position = Vector2(808.125, 384)
+position = Vector2(22, -8)
 shape = SubResource("RectangleShape2D_ir15t")

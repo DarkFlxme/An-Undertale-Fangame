@@ -10,106 +10,121 @@ z_index = 1
 z_index = -1
 layout_mode = 3
 anchors_preset = 0
-offset_left = -57.0
-offset_top = -35.0
-offset_right = 1204.0
-offset_bottom = 689.0
+offset_left = -1127.0
+offset_top = -820.0
+offset_right = 1270.0
+offset_bottom = 905.0
 focus_mode = 1
 
 [node name="CheckButtonVSync" type="CheckButton" parent="."]
-offset_left = 694.0
-offset_top = 186.0
-offset_right = 738.0
-offset_bottom = 210.0
+offset_left = 135.0
+offset_top = -114.0
+offset_right = 179.0
+offset_bottom = -90.0
 button_pressed = true
 action_mode = 0
 
 [node name="Label" type="Label" parent="."]
-offset_left = 388.0
-offset_top = 186.0
-offset_right = 531.0
-offset_bottom = 219.0
+offset_left = -171.0
+offset_top = -114.0
+offset_right = -28.0
+offset_bottom = -81.0
 theme_override_fonts/font = ExtResource("1_rbmmp")
 theme_override_font_sizes/font_size = 21
 text = "V-Sync"
 
 [node name="Label9" type="Label" parent="."]
-offset_left = 388.0
-offset_top = 263.0
-offset_right = 535.0
-offset_bottom = 297.0
+offset_left = -171.0
+offset_top = -37.0
+offset_right = -24.0
+offset_bottom = -3.0
 theme_override_fonts/font = ExtResource("1_rbmmp")
 theme_override_font_sizes/font_size = 21
 text = "FPS Limiter"
 
+[node name="Label10" type="Label" parent="."]
+offset_left = -171.0
+offset_right = 43.0
+offset_bottom = 34.0
+theme_override_fonts/font = ExtResource("1_rbmmp")
+theme_override_font_sizes/font_size = 21
+text = "Menu Animations"
+
 [node name="Label2" type="Label" parent="."]
-offset_left = 388.0
-offset_top = 223.0
-offset_right = 531.0
-offset_bottom = 257.0
+offset_left = -171.0
+offset_top = -77.0
+offset_right = -28.0
+offset_bottom = -43.0
 theme_override_fonts/font = ExtResource("1_rbmmp")
 theme_override_font_sizes/font_size = 21
 text = "FPS Display"
 
 [node name="Label5" type="Label" parent="."]
-offset_left = 388.0
-offset_top = 338.0
-offset_right = 531.0
-offset_bottom = 372.0
+offset_left = -171.0
+offset_top = 73.0
+offset_right = -28.0
+offset_bottom = 107.0
 theme_override_fonts/font = ExtResource("1_rbmmp")
 theme_override_font_sizes/font_size = 21
 text = "Master"
 
 [node name="Label6" type="Label" parent="."]
-offset_left = 388.0
-offset_top = 371.0
-offset_right = 531.0
-offset_bottom = 405.0
+offset_left = -171.0
+offset_top = 106.0
+offset_right = -28.0
+offset_bottom = 140.0
 theme_override_fonts/font = ExtResource("1_rbmmp")
 theme_override_font_sizes/font_size = 21
 text = "SFX"
 
 [node name="Label7" type="Label" parent="."]
-offset_left = 388.0
-offset_top = 406.0
-offset_right = 531.0
-offset_bottom = 440.0
+offset_left = -171.0
+offset_top = 141.0
+offset_right = -28.0
+offset_bottom = 175.0
 theme_override_fonts/font = ExtResource("1_rbmmp")
 theme_override_font_sizes/font_size = 21
 text = "Music"
 
 [node name="Label4" type="Label" parent="."]
-offset_left = 497.0
-offset_top = 307.0
-offset_right = 600.0
-offset_bottom = 341.0
+offset_left = -62.0
+offset_top = 42.0
+offset_right = 41.0
+offset_bottom = 76.0
 theme_override_fonts/font = ExtResource("1_rbmmp")
 theme_override_font_sizes/font_size = 21
 text = "Volume"
 
 [node name="Label8" type="Label" parent="."]
-offset_left = 497.0
-offset_top = 147.0
-offset_right = 640.0
-offset_bottom = 181.0
+offset_left = -62.0
+offset_top = -153.0
+offset_right = 81.0
+offset_bottom = -119.0
 theme_override_fonts/font = ExtResource("1_rbmmp")
 theme_override_font_sizes/font_size = 21
 text = "General"
 
 [node name="CheckButtonfpslabel" type="CheckButton" parent="."]
-offset_left = 694.0
-offset_top = 223.0
-offset_right = 738.0
-offset_bottom = 247.0
+offset_left = 135.0
+offset_top = -77.0
+offset_right = 179.0
+offset_bottom = -53.0
+action_mode = 0
+
+[node name="CheckButtonAnim" type="CheckButton" parent="."]
+offset_left = 135.0
+offset_right = 179.0
+offset_bottom = 24.0
+button_pressed = true
 action_mode = 0
 
 [node name="VolumeControl" type="Control" parent="." node_paths=PackedStringArray("masterSlider", "sfxSlider", "musicSlider", "masterLabel", "sfxLabel", "musicLabel")]
 layout_mode = 3
 anchors_preset = 0
-offset_left = 587.0
-offset_top = 276.0
-offset_right = 627.0
-offset_bottom = 316.0
+offset_left = 28.0
+offset_top = -1.0
+offset_right = 68.0
+offset_bottom = 39.0
 script = ExtResource("2_i47rn")
 masterSlider = NodePath("MasterSlider")
 sfxSlider = NodePath("SFXSlider")
@@ -121,9 +136,9 @@ musicLabel = NodePath("MusicLabel")
 [node name="MasterLabel" type="Label" parent="VolumeControl"]
 layout_mode = 0
 offset_left = 116.0
-offset_top = 63.0
+offset_top = 75.0
 offset_right = 166.0
-offset_bottom = 86.0
+offset_bottom = 98.0
 theme_override_fonts/font = ExtResource("1_rbmmp")
 theme_override_font_sizes/font_size = 20
 text = "100%"
@@ -131,9 +146,9 @@ text = "100%"
 [node name="SFXLabel" type="Label" parent="VolumeControl"]
 layout_mode = 0
 offset_left = 116.0
-offset_top = 97.0
+offset_top = 109.0
 offset_right = 166.0
-offset_bottom = 119.0
+offset_bottom = 131.0
 theme_override_fonts/font = ExtResource("1_rbmmp")
 theme_override_font_sizes/font_size = 20
 text = "100%"
@@ -141,9 +156,9 @@ text = "100%"
 [node name="MusicLabel" type="Label" parent="VolumeControl"]
 layout_mode = 0
 offset_left = 116.0
-offset_top = 132.0
+offset_top = 144.0
 offset_right = 166.0
-offset_bottom = 154.0
+offset_bottom = 166.0
 theme_override_fonts/font = ExtResource("1_rbmmp")
 theme_override_font_sizes/font_size = 20
 text = "100%"
@@ -151,32 +166,32 @@ text = "100%"
 [node name="MasterSlider" type="HSlider" parent="VolumeControl"]
 layout_mode = 0
 offset_left = 8.0
-offset_top = 64.0
+offset_top = 76.0
 offset_right = 108.0
-offset_bottom = 80.0
+offset_bottom = 92.0
 value = 100.0
 
 [node name="SFXSlider" type="HSlider" parent="VolumeControl"]
 layout_mode = 0
 offset_left = 8.0
-offset_top = 98.0
+offset_top = 110.0
 offset_right = 108.0
-offset_bottom = 114.0
+offset_bottom = 126.0
 value = 100.0
 
 [node name="MusicSlider" type="HSlider" parent="VolumeControl"]
 layout_mode = 0
 offset_left = 8.0
-offset_top = 132.0
+offset_top = 144.0
 offset_right = 108.0
-offset_bottom = 148.0
+offset_bottom = 160.0
 value = 100.0
 
 [node name="fpslimit" type="LineEdit" parent="."]
-offset_left = 677.0
-offset_top = 252.0
-offset_right = 746.0
-offset_bottom = 283.0
+offset_left = 118.0
+offset_top = -48.0
+offset_right = 187.0
+offset_bottom = -17.0
 text = "0"
 alignment = 1
 max_length = 3

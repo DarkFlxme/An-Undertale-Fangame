@@ -14,20 +14,22 @@ namespace game
         public static Node2D shield_green;
         public static Node2D purplelines;
         public static FadeControl FadeRect;
-        public static int i = 0;
+        public static Buttons MenuButtons;
+        public static GameUI gameUI;
         float quittimer = 0f;
         public override void _Ready()
         {
-            i = 0;
+            gameUI = GetNode<GameUI>("GameUI");
             PlayerNode = GetNode<Player>("Player");
             map1 = GetNode<StaticBody2D>("map1");
             map2 = GetNode<StaticBody2D>("map2");
             shield_green = GetNode<Node2D>("Shield");
             fpslabel = GetNode<Label>("Label");
             BulletTimer = GetNode<Timer>("BulletTimer");
-            settingsnode = GetNode<SettingsNode>("/root/Nodes/Buttons/SettingsButton/Settings");
+            settingsnode = GetNode<SettingsNode>("/root/Nodes/MainMenuButtons/SettingsButton/Settings");
             purplelines = GetNode<Node2D>("purpleHeart");
             FadeRect = GetNode<FadeControl>("CanvasLayer/ColorRect");
+            MenuButtons = GetNode<Buttons>("MainMenuButtons");
             purplelines.Hide();
             settingsnode.Connect(SettingsNode.SignalName.VSyncChanged, Callable.From<bool>(Settings.SetVsync));
             settingsnode.Connect(SettingsNode.SignalName.FPSDisplayChanged, Callable.From<bool>(Settings.SetFPSDisplay));
@@ -49,7 +51,7 @@ namespace game
             if (Input.IsActionPressed("quit"))
             {
                 quittimer += (float)delta;
-                if (quittimer >= 2f)
+                if (quittimer >= 1.5f)
                     GetTree().Quit();
             }
             else if (Input.IsActionJustReleased("quit"))
@@ -71,10 +73,18 @@ namespace game
     }
     public static class Settings
     {
+        public enum Difficulty
+        {
+            Casual,
+            Normal,
+            Extreme
+        }
+        public static Difficulty GameDifficulty;
         public static double BossFightTime = 0.0;
         public static bool vsync = true;
         public static bool fpsshow = false;
         public static bool windowMode = true;
+        public static bool menuAnimationEnabled = true;
         public static void SetWindow(bool mode)
         {
             if (mode == false)

@@ -1,215 +1,214 @@
 using game;
 using Godot;
 using System;
+using System.Linq;
 using static game.Nodes;
-
+using static game.Settings;
 public partial class Buttons : Node2D
 {
-	[Export] public Node2D[] buttons;
-	[Export] public int elemanSayisi;
-	[Export] public float speed;
-	public int i = 0;
-	Vector2 targetScale;
-	Vector2 firstScale;
-	Vector2[] firstPosition;
-	[Export] float buyuklukKati;
-	public bool selected = false;
-	[Export] Node2D Title;
-	[Export] int indexMenu;
-	[Export] Node2D[] buttons2;
-	[Export]AudioStreamPlayer switchsound;
-	[Export]AudioStreamPlayer selectsound;
-	// Called when the node enters the scene tree for the first time.
+	public Node2D[] buttons = [];
+	public int currentIndex = 0;
+	[Export] AudioStreamPlayer switchsound;
+	[Export] AudioStreamPlayer selectsound;
 	public override void _Ready()
 	{
-		i = 0;
-		firstPosition = new Vector2[buttons.Length];
-		firstScale = buttons[0].GlobalScale;
-		targetScale = new Vector2(firstScale.X * buyuklukKati, firstScale.Y * buyuklukKati);
-		for (int a = 0; a < buttons.Length; a++)
+		buttons = [.. GetChildren().OfType<Node2D>()];
+		for (int i = 0; i < buttons.Length; i++)
 		{
-			firstPosition[a] = buttons[a].Position;
+			if (Name == "MainMenuButtons")
+			{
+
+				if (i == currentIndex)
+				{
+					SetHighlighted(buttons[i], true);
+
+				}
+				else
+				{
+					SetHighlighted(buttons[i], false);
+				}
+			}
+			buttons[i].SetProcess(false);
 		}
-		for (int a = 0; a < buttons2.Length; a++)
+	}
+
+	private async void OnButtonPressed()
+	{
+		selectsound.Play();
+		switch (buttons[currentIndex].Name)
 		{
-			buttons2[a].SetProcess(false);
+			case "QuitYes":
+				GetTree().Quit();
+				break;
+			case "QuitNo":
+				var parentButtons = GetParent<Buttons>();
+				foreach (var node in buttons)
+				{
+					node.Hide();
+				}
+				GetNode<Control>("Control").Show();
+				foreach (Node node in parentButtons.GetChildren())
+				{
+					(node as Node2D).Show();
+				}
+				parentButtons.SetProcess(true);
+				SetProcess(false);
+				SetHighlighted(this, true);
+				break;
+			case "Casual":
+				GameDifficulty = Difficulty.Casual;
+				PlayerNode.maxHealth = PlayerNode.health = 150;
+				PlayerNode.damage = 15;
+				gameUI.GetNode<ProgressBar>("ProgressBar").MaxValue = 150;
+				await FadeRect.FadeIn(1f);
+				await ToSignal(GetTree().CreateTimer(0.5f), SceneTreeTimer.SignalName.Timeout);
+				DisableNode(MenuButtons);
+				EnableNode(PlayerNode);
+				EnableNode(gameUI);
+				EnableNode(map1);
+				DisableNode(this);
+				GetParent().GetNode<AudioStreamPlayer>("../Menu Music Player").QueueFree();
+				await FadeRect.FadeOut(1f);
+				MenuButtons.QueueFree();
+				break;
+			case "Normal":
+				GameDifficulty = Difficulty.Normal;
+				PlayerNode.health= PlayerNode.maxHealth = 100;
+				PlayerNode.damage = 20;
+				gameUI.GetNode<ProgressBar>("ProgressBar").MaxValue = 100;
+				await FadeRect.FadeIn(1f);
+				await ToSignal(GetTree().CreateTimer(0.5f), SceneTreeTimer.SignalName.Timeout);
+				DisableNode(MenuButtons);
+				EnableNode(PlayerNode);
+				EnableNode(gameUI);
+				EnableNode(map1);
+				GetParent().GetNode<AudioStreamPlayer>("../Menu Music Player").QueueFree();
+				DisableNode(this);
+				await FadeRect.FadeOut(1f);
+				MenuButtons.QueueFree();
+				break;
+			case "Extreme":
+				PlayerNode.health= PlayerNode.maxHealth = 1;
+				PlayerNode.damage = 31;
+				gameUI.GetNode<ProgressBar>("ProgressBar").Hide();
+				await FadeRect.FadeIn(1f);
+				await ToSignal(GetTree().CreateTimer(0.5f), SceneTreeTimer.SignalName.Timeout);
+				DisableNode(MenuButtons);
+				EnableNode(PlayerNode);
+				EnableNode(gameUI);
+				DisableNode(this);
+				EnableNode(map1);
+				GetParent().GetNode<AudioStreamPlayer>("../Menu Music Player").QueueFree();
+				await FadeRect.FadeOut(1f);
+				MenuButtons.QueueFree();
+				GameDifficulty = Difficulty.Extreme;
+				break;
+			default:
+				if (menuAnimationEnabled) await FadeRect.FadeIn();
+				buttons[currentIndex].SetProcess(true);
+				SetProcess(false);
+				foreach (Node2D node in buttons[currentIndex].GetChildren().OfType<Node2D>())
+				{
+					node.Show();
+				}
+				foreach (var node in buttons[currentIndex].GetChildren())
+				{
+					if (node is Control && node.Name == "Control")
+					{
+						(node as Control).Hide();
+					}
+				}
+				foreach (var node in buttons)
+				{
+					if (node != buttons[currentIndex])
+					{
+						node.Hide();
+					}
+				}
+				buttons[currentIndex].Modulate = new Color(1f, 1f, 1f);
+				buttons[currentIndex].Scale = new Vector2(1f, 1f);
+				if (buttons[currentIndex].HasMethod("SetHighlighted"))
+					(buttons[currentIndex] as Buttons).SetHighlighted((buttons[currentIndex] as Buttons).buttons[(buttons[currentIndex] as Buttons).currentIndex], true);
+				if (menuAnimationEnabled)
+				{
+					await ToSignal(GetTree().CreateTimer(0.2f), SceneTreeTimer.SignalName.Timeout);
+					await FadeRect.FadeOut();
+				}
+				break;
 		}
 	}
-	private async void FadeIn(float duration = 0.5f)
-    {
-        await FadeRect.FadeIn(duration);
-    }
-	private async void FadeOut(float duration = 0.5f)
+	public void SetHighlighted(Node2D node, bool highlighted)
 	{
-		await FadeRect.FadeOut(duration);
+		Tween _tween;
+		_tween = node.CreateTween();
+		_tween.SetParallel(true);
+		if (highlighted)
+		{
+			if (menuAnimationEnabled)
+				_tween.TweenProperty(node, "scale", new Vector2(1.5f, 1.5f), 0.2f);
+			_tween.TweenProperty(node, "modulate", new Color(1f, 1f, 0f), 0.2f);
+		}
+		else
+		{
+			_tween.TweenProperty(node, "scale", new Vector2(1f, 1f), 0.2f);
+			_tween.TweenProperty(node, "modulate", new Color(1f, 1f, 1f), 0.2f);
+		}
 	}
-	private async void OnPlayButtonPressed()
-	{
-		GetNode<AudioStreamPlayer>("../Menu Music Player").QueueFree();
-		await FadeRect.FadeIn(1.0f);
-		EnableNode(PlayerNode);
-		EnableNode(map1);
-		DisableNode(this);
-		EnableNode(GetNode<Control>("../GameUI"));
-		await ToSignal(GetTree().CreateTimer(0.5f), SceneTreeTimer.SignalName.Timeout);
-		await FadeRect.FadeOut(1.0f);
-	}
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		if (Input.IsActionJustPressed("yellow_heart_shot") && !selected)
+		if (Input.IsActionJustPressed("move_down"))
 		{
-			if (buttons[i].IsInGroup("Buttons"))
-			{
-				Nodes.i++;
-				selected = true;
-			}
-			if (buttons[i].Name == "QuitYes")
-			{
-				GetTree().Quit();
-			}
-			if (buttons[i].Name == "QuitNo")
-			{
-				Nodes.i--;
-				if (GetParent().GetParent() is Buttons quitNo)
-				{
-					quitNo.selected = false;
-				}
-			}
-			if (buttons[i].Name == "SettingsButton")
-			{
-				foreach (var child in buttons[i].GetChildren())
-				{
-					if (child is SettingsNode settingsMenu)
-					{
-						EnableNode(settingsMenu);
-					}
-				}
-			}
-			if (buttons[i].Name == "PlayButton")
-			{
-				OnPlayButtonPressed();
-			}
-			selectsound.Play();
-		}
-		if (Input.IsActionJustPressed("move_right") && buttons[i] is Listecik liste && liste.i != 0)
-		{
-			liste.i++;
-		}
-		if (Input.IsActionJustPressed("move_left") && buttons[i] is Listecik liste2 && liste2.i != liste2.secenekler.Length)
-		{
-			liste2.i++;
-		}
-		if (Input.IsActionJustPressed("move_up") && !selected)
-		{
-			if (i == 0)
-			{
-				i = elemanSayisi - 1;
-			}
-			else
-			{
-				i--;
-			}
+			currentIndex = (currentIndex + 1) % buttons.Length;
 			switchsound.Play();
+			for (int i = 0; i < buttons.Length; i++)
+			{
+				if (i == currentIndex)
+				{
+					SetHighlighted(buttons[i], true);
+
+				}
+				else
+				{
+					SetHighlighted(buttons[i], false);
+				}
+			}
 		}
-		else if (Input.IsActionJustPressed("move_down") && !selected)
+		if (Input.IsActionJustPressed("move_up"))
 		{
-			if (i == elemanSayisi - 1)
-			{
-				i = 0;
-			}
-			else
-			{
-				i++;
-			}
+			currentIndex = (currentIndex - 1 + buttons.Length) % buttons.Length;
 			switchsound.Play();
+			for (int i = 0; i < buttons.Length; i++)
+			{
+				if (i == currentIndex)
+				{
+					SetHighlighted(buttons[i], true);
+
+				}
+				else
+				{
+					SetHighlighted(buttons[i], false);
+				}
+			}
 		}
-		foreach (var childButton in buttons2)
+		if (Input.IsActionJustPressed("yellow_heart_shot"))
 		{
-			if (childButton is Buttons but)
-			{
-				if (Nodes.i < indexMenu)
-				{
-					but.i = 0;
-				}
-			}			
+			OnButtonPressed();
 		}
-		foreach (Node2D button in buttons)
+		if (Input.IsActionJustPressed("X") && Name != "MainMenuButtons")
 		{
-			int index = Array.IndexOf(buttons, button);
-			int currentIndex = Array.IndexOf(buttons, buttons[i]);
-			if (button == buttons[i] && !selected)
+			var parentButtons = GetParent<Buttons>();
+			foreach (var node in buttons)
 			{
-				Label label = button.GetNode<Label>("Label");
-				button.GlobalScale = button.GlobalScale.Lerp(targetScale, speed * (float)delta);
-				label.SelfModulate = label.SelfModulate.Lerp(Colors.Yellow, speed * (float)delta);
+				node.Hide();
 			}
-			else if (button != buttons[i] && !selected)
+			GetNode<Control>("Control").Show();
+			foreach (Node node in parentButtons.GetChildren())
 			{
-				Label label = button.GetNode<Label>("Label");
-				button.GlobalScale = button.GlobalScale.Lerp(firstScale, speed * (float)delta);
-				label.SelfModulate = label.SelfModulate.Lerp(Colors.White, speed * (float)delta);
+				(node as Node2D).Show();
 			}
-
-			if (selected)
-			{
-				Color a = buttons2[currentIndex].Modulate;
-				a.A = 1;
-				buttons2[currentIndex].Modulate = buttons2[currentIndex].Modulate.Lerp(a, speed * (float)delta);
-				if (button == buttons[i] && Nodes.i <= indexMenu)
-				{
-					buttons2[index].SetProcess(true);
-					Label label = button.GetNode<Label>("Label");
-					button.GlobalPosition = button.GlobalPosition.Lerp(Title.GlobalPosition, speed * (float)delta);
-					if (button.Name != "QuitGameButton")
-					{
-						label.SelfModulate = label.SelfModulate.Lerp(Colors.White, speed * (float)delta);
-					}
-					else
-					{
-						label.SelfModulate = label.SelfModulate.Lerp(new Color(1, 1, 1, -1), speed * (float)delta);
-					}
-				}
-				else if (button != buttons[i] && Nodes.i <= indexMenu)
-				{
-					Label label = button.GetNode<Label>("Label");
-					Color b = label.SelfModulate;
-					b.A = -1;
-					label.SelfModulate = label.SelfModulate.Lerp(b, speed * (float)delta);
-				}
-
-				if (Input.IsActionJustPressed("X") && Nodes.i == indexMenu)
-				{
-					Nodes.i--;
-					selected = false;
-					if (buttons[i].Name == "SettingsButton")
-					{
-						foreach (var child in buttons[i].GetChildren())
-						{
-							if (child is SettingsNode settingsMenu)
-							{
-								settingsMenu.Hide();
-							}
-						}
-					}
-				}
-
-				if (Nodes.i > indexMenu && button == buttons[i])
-				{
-					Label label = button.GetNode<Label>("Label");
-					Color b = button.Modulate;
-					b.A = -1;
-					label.SelfModulate = label.SelfModulate.Lerp(b, speed * (float)delta);
-				}
-			}
-			else
-			{
-				button.Position = button.Position.Lerp(firstPosition[index], speed * (float)delta);
-				Color a = button.Modulate;
-				a.A = -1;
-				buttons2[index].Modulate = buttons2[index].Modulate.Lerp(a, speed * (float)delta);
-				buttons2[index].SetProcess(false);
-			}
+			parentButtons.SetProcess(true);
+			SetProcess(false);
+			SetHighlighted(this, true);
 		}
 	}
 }

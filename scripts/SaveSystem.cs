@@ -6,7 +6,9 @@ public partial class SaveSystem : Node
 {
     public static Dictionary<string, Variant> SaveFile = new()
     {
-        {"highscore", Variant.From<int>(0)},
+        {"highscore1", Variant.From<int>(0)},
+        {"highscore2", Variant.From<int>(0)},
+        {"highscore3", Variant.From<int>(0)},
     };
     const string SavePath = "user://save.dat";
     public override void _Ready()

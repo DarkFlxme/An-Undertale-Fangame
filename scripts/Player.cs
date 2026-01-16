@@ -14,7 +14,9 @@ public partial class Player : CharacterBody2D
 	bool isJumping;
 	float horizontalDirection = 0;
 	float verticalDirection = 0;
-	public int health = 100;
+	public int health;
+	public int maxHealth;
+	public int damage;
 	[Export] public ProgressBar healthBar;
 	[Export] public Node2D[] lines;
 	[Export] public float speedPurple;
@@ -33,7 +35,6 @@ public partial class Player : CharacterBody2D
 	public override void _Ready()
 	{
 		damageHitbox.AreaEntered += DamageHitboxEntered;
-		GD.Print(SaveSystem.SaveFile["highscore"].AsInt32());
 	}
 	public override void _PhysicsProcess(double delta)
 	{
@@ -273,7 +274,7 @@ public partial class Player : CharacterBody2D
 	{
 		if (body.IsInGroup("Attacks"))
 		{
-			health -= 20;
+			health -= damage;
 			if (health > 0)
 			{
 				GetNode<AudioStreamPlayer>("DamageTakenAudioPlayer").Play();
@@ -292,10 +293,6 @@ public partial class Player : CharacterBody2D
 				Nodes.FadeRect.Color = new Color(0, 0, 0, 1);
 				var deathSprite = GD.Load<PackedScene>("res://scenes/deathsprite.tscn").Instantiate<DeathSprite>();
 				GetNode<CanvasLayer>("../CanvasLayer").AddChild(deathSprite);
-				if(Settings.BossFightTime > SaveSystem.SaveFile["highscore"].AsInt32()){
-					SaveSystem.SaveFile["highscore"] = Variant.From<int>((int)Settings.BossFightTime);
-					SaveSystem.SaveGame();
-				}
 			}
 		}
 	}
