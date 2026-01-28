@@ -26,6 +26,7 @@ public partial class SettingsNode : Node2D
     }
     public override void _Process(double delta)
     {
+        if (Visible) (GetParent() as Node2D).Modulate = new Color(1f, 1f, 1f);
         if (Input.IsActionJustPressed("X") && Visible)
         {
             var parent = GetParent();
@@ -33,12 +34,12 @@ public partial class SettingsNode : Node2D
             parent.GetNode<Control>("Control").Show();
             parent.GetParent<Node2D>().SetProcess(true);
             var parentButtons = parent.GetParent<Buttons>();
-			foreach (Node2D node in parentButtons.GetChildren())
-			{
-				node.Show();
-			}
-			parentButtons.SetProcess(true);
-			parentButtons.SetHighlighted(parentButtons.buttons[parentButtons.currentIndex], true);
+            foreach (Node2D node in parentButtons.GetChildren())
+            {
+                node.Show();
+            }
+            parentButtons.SetProcess(true);
+            parentButtons.SetHighlighted(parentButtons.buttons[parentButtons.currentIndex], true);
         }
     }
 
@@ -71,21 +72,23 @@ public partial class SettingsNode : Node2D
             fpslimiter.Text = Engine.MaxFps.ToString();
         }
         SettingsManager.Settings["fpslimit"] = Engine.MaxFps;
-        SettingsManager.SaveSettings();
     }
     private void OnAnimationToggled(bool toggled)
     {
         Settings.menuAnimationEnabled = toggled;
         SettingsManager.Settings["menuanimation"] = toggled;
-        SettingsManager.SaveSettings();
     }
     public void ApplySettings()
     {
         if (SettingsManager.Settings.TryGetValue("vsync", out Variant vsyncEnabled))
+        {
             vsync.ButtonPressed = vsyncEnabled.AsBool();
+        }
 
         if (SettingsManager.Settings.TryGetValue("fpsdisplay", out Variant fpsEnabled))
+        {
             fpsdisplay.ButtonPressed = fpsEnabled.AsBool();
+        }
         if (SettingsManager.Settings.TryGetValue("mastervolume", out Variant mastervolume))
         {
             GetNode<VolumeControl>("VolumeControl").SetVolume(0, (float)mastervolume.AsDouble());

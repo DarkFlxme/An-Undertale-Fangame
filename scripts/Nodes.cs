@@ -40,6 +40,13 @@ namespace game
             DisableNode(map2);
             DisableNode(shield_green);
         }
+        public override void _Notification(int what)
+        {
+            if(what == NotificationWMCloseRequest)
+            {
+                SettingsManager.SaveSettings();
+            }
+        }
         public override void _Process(double delta)
         {
             if (Settings.fpsshow)
@@ -111,13 +118,11 @@ namespace game
                 vsync = true;
             }
             SettingsManager.Settings["vsync"] = vsync;
-            SettingsManager.SaveSettings();
         }
         public static void SetFPSDisplay(bool mode)
         {
             fpsshow = mode;
             SettingsManager.Settings["fpsdisplay"] = fpsshow;
-            SettingsManager.SaveSettings();
         }
     }
 }

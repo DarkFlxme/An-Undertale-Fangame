@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 public partial class SettingsManager : Node
 {
+    public static bool AutoStartFight = false;
+    public static game.Settings.Difficulty RestartingDifficulty;
     public static Dictionary<string, Variant> Settings = new()
     {
         {"vsync", Variant.From(true)},
@@ -24,8 +26,10 @@ public partial class SettingsManager : Node
 
     public static void LoadSettings()
     {
+        GD.Print("Loading settings...");
         if (FileAccess.FileExists(SettingsFilePath))
         {
+            GD.Print("Settings file found. Attempting to load...");
             using var file = FileAccess.Open(SettingsFilePath, FileAccess.ModeFlags.Read);
             string jsonText = file.GetAsText();
             file.Close();
@@ -40,15 +44,18 @@ public partial class SettingsManager : Node
                     Settings[key.AsStringName()] = loadedSettings[key];
                 }
             }
+            GD.Print("Settings loaded successfully.");
         }
         else
         {
+            GD.Print("Unable to find settings file. Creating file with default settings...");
             SaveSettings();
         }
     }
 
     public static void SaveSettings()
     {
+        GD.Print("Saving settings...");
         var godotDict = new Godot.Collections.Dictionary();
         foreach (var kvp in Settings)
         {
@@ -59,5 +66,6 @@ public partial class SettingsManager : Node
         using var file = FileAccess.Open(SettingsFilePath, FileAccess.ModeFlags.Write);
         file.StoreString(jsonText);
         file.Close();
+        GD.Print("Settings saved successfully.");
     }
 }

@@ -15,17 +15,14 @@ public partial class VolumeControl : Control
         masterSlider.DragEnded += (a) =>
         {
             SettingsManager.Settings["mastervolume"] = (float)masterSlider.Value;
-            SettingsManager.SaveSettings();
         };
         sfxSlider.DragEnded += (a) =>
         {
             SettingsManager.Settings["sfxvolume"] = (float)sfxSlider.Value;
-            SettingsManager.SaveSettings();
         };
         musicSlider.DragEnded += (a) =>
         {
             SettingsManager.Settings["musicvolume"] = (float)musicSlider.Value;
-            SettingsManager.SaveSettings();
         };
         masterSlider.ValueChanged += (a) =>
         {

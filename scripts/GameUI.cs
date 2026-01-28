@@ -1,3 +1,4 @@
+using game;
 using Godot;
 using System;
 
@@ -5,16 +6,29 @@ public partial class GameUI : Control
 {
     private Label Label;
     private Sprite2D samoystaBoss;
-    public override void _Ready()
+    private int maxHealth;
+    private bool hadRun = false;
+    private string UIText;
+    public override async void _Ready()
     {
+        await ToSignal(GetTree(),SceneTree.SignalName.ProcessFrame);
         Label = GetNode<Label>("Label2");
         samoystaBoss = GetNode<Sprite2D>("Samoysta");
     }
     public override void _Process(double delta)
     {
-        game.Settings.BossFightTime += delta;
-        TimeSpan timeSpan = TimeSpan.FromSeconds(game.Settings.BossFightTime);
-        Label.Text = string.Format("ZINA  {0:D2}:{1:D2}  HP         {2}/{3}", timeSpan.Minutes, timeSpan.Seconds, game.Nodes.PlayerNode.health, game.Nodes.PlayerNode.maxHealth);
+        if(!hadRun)
+        {
+            hadRun = true;
+            maxHealth = Nodes.PlayerNode.health;
+            if(Settings.GameDifficulty == Settings.Difficulty.Extreme)
+                UIText = "      ZINA   {0:D2}:{1:D2}   HP {2}/{3}";
+            else
+                UIText = "ZINA  {0:D2}:{1:D2}  HP         {2}/{3}";
+        }
+        Settings.BossFightTime += delta;
+        TimeSpan timeSpan = TimeSpan.FromSeconds(Settings.BossFightTime);
+        Label.Text = string.Format(UIText, timeSpan.Minutes, timeSpan.Seconds, Nodes.PlayerNode.health, maxHealth);
     }
     private void SamoystaChangeTexture(bool texture) // 1 = normal, 0 = dehşet
     {

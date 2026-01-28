@@ -10,12 +10,47 @@ public partial class Buttons : Node2D
 	public int currentIndex = 0;
 	[Export] AudioStreamPlayer switchsound;
 	[Export] AudioStreamPlayer selectsound;
-	public override void _Ready()
+	public override async void _Ready()
 	{
+		await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+		if (Name == "MainMenuButtons")
+		{
+			if (SettingsManager.AutoStartFight)
+			{
+				SettingsManager.AutoStartFight = false;
+				switch (SettingsManager.RestartingDifficulty)
+				{
+					case Difficulty.Casual:
+						PlayerNode.damage = 15;
+						PlayerNode.health = 150;
+						gameUI.GetNode<ProgressBar>("ProgressBar").MaxValue = 150;
+						break;
+					case Difficulty.Normal:
+						PlayerNode.damage = 20;
+						PlayerNode.health = 100;
+						gameUI.GetNode<ProgressBar>("ProgressBar").MaxValue = 100;
+						break;
+					case Difficulty.Extreme:
+						PlayerNode.damage = 31;
+						PlayerNode.health = 1;
+						gameUI.GetNode<ProgressBar>("ProgressBar").Hide();
+						break;
+				}
+				DisableNode(MenuButtons);
+				EnableNode(PlayerNode);
+				EnableNode(gameUI);
+				EnableNode(map1);
+				GetNode<AudioStreamPlayer>("../Menu Music Player").QueueFree();
+				FadeRect.Color = new Color(0, 0, 0);
+				await FadeRect.FadeOut(1f);
+				MenuButtons.QueueFree();
+				return;
+			}
+		}
 		buttons = [.. GetChildren().OfType<Node2D>()];
 		for (int i = 0; i < buttons.Length; i++)
 		{
-			if (Name == "MainMenuButtons")
+			if (Name == "MainMenuButtons" || Name == "deathscreen")
 			{
 
 				if (i == currentIndex)
@@ -30,6 +65,25 @@ public partial class Buttons : Node2D
 			}
 			buttons[i].SetProcess(false);
 		}
+		if (Name == "deathscreen")
+		{
+			GetNode<Label>("Control/ScoreLabel").Text = string.Format("Score: {0:D2}:{1:D2}", TimeSpan.FromSeconds(BossFightTime).Minutes, TimeSpan.FromSeconds(BossFightTime).Seconds);
+			switch (GameDifficulty)
+			{
+				case Difficulty.Casual:
+					TimeSpan ctime = TimeSpan.FromSeconds(SaveSystem.SaveFile["highscore1"].AsDouble());
+					GetNode<Label>("Control/HighScoreLabel").Text = string.Format("Highscore: {0:D2}:{1:D2}", ctime.Minutes, ctime.Seconds);
+					break;
+				case Difficulty.Normal:
+					TimeSpan ntime = TimeSpan.FromSeconds(SaveSystem.SaveFile["highscore2"].AsDouble());
+					GetNode<Label>("Control/HighScoreLabel").Text = string.Format("Highscore: {0:D2}:{1:D2}", ntime.Minutes, ntime.Seconds);
+					break;
+				case Difficulty.Extreme:
+					TimeSpan etime = TimeSpan.FromSeconds(SaveSystem.SaveFile["highscore3"].AsDouble());
+					GetNode<Label>("Control/HighScoreLabel").Text = string.Format("Highscore: {0:D2}:{1:D2}", etime.Minutes, etime.Seconds);
+					break;
+			}
+		}
 	}
 
 	private async void OnButtonPressed()
@@ -37,28 +91,24 @@ public partial class Buttons : Node2D
 		selectsound.Play();
 		switch (buttons[currentIndex].Name)
 		{
-			case "QuitYes":
+			case "BackToMenu":
+				BossFightTime = 0.0;
+				GetTree().ReloadCurrentScene();
+				break;
+			case "QuitGameButton":
+				SettingsManager.SaveSettings();
 				GetTree().Quit();
 				break;
-			case "QuitNo":
-				var parentButtons = GetParent<Buttons>();
-				foreach (var node in buttons)
-				{
-					node.Hide();
-				}
-				GetNode<Control>("Control").Show();
-				foreach (Node node in parentButtons.GetChildren())
-				{
-					(node as Node2D).Show();
-				}
-				parentButtons.SetProcess(true);
-				SetProcess(false);
-				SetHighlighted(this, true);
+			case "Retry":
+				SettingsManager.AutoStartFight = true;
+				SettingsManager.RestartingDifficulty = GameDifficulty;
+				BossFightTime = 0.0;
+				GetTree().ReloadCurrentScene();
 				break;
 			case "Casual":
 				GameDifficulty = Difficulty.Casual;
-				PlayerNode.maxHealth = PlayerNode.health = 150;
 				PlayerNode.damage = 15;
+				PlayerNode.health = 150;
 				gameUI.GetNode<ProgressBar>("ProgressBar").MaxValue = 150;
 				await FadeRect.FadeIn(1f);
 				await ToSignal(GetTree().CreateTimer(0.5f), SceneTreeTimer.SignalName.Timeout);
@@ -68,13 +118,13 @@ public partial class Buttons : Node2D
 				EnableNode(map1);
 				DisableNode(this);
 				GetParent().GetNode<AudioStreamPlayer>("../Menu Music Player").QueueFree();
-				await FadeRect.FadeOut(1f);
+				await FadeRect.FadeOut();
 				MenuButtons.QueueFree();
 				break;
 			case "Normal":
 				GameDifficulty = Difficulty.Normal;
-				PlayerNode.health= PlayerNode.maxHealth = 100;
 				PlayerNode.damage = 20;
+				PlayerNode.health = 100;
 				gameUI.GetNode<ProgressBar>("ProgressBar").MaxValue = 100;
 				await FadeRect.FadeIn(1f);
 				await ToSignal(GetTree().CreateTimer(0.5f), SceneTreeTimer.SignalName.Timeout);
@@ -84,12 +134,13 @@ public partial class Buttons : Node2D
 				EnableNode(map1);
 				GetParent().GetNode<AudioStreamPlayer>("../Menu Music Player").QueueFree();
 				DisableNode(this);
-				await FadeRect.FadeOut(1f);
+				await FadeRect.FadeOut();
 				MenuButtons.QueueFree();
 				break;
 			case "Extreme":
-				PlayerNode.health= PlayerNode.maxHealth = 1;
+				GameDifficulty = Difficulty.Extreme;
 				PlayerNode.damage = 31;
+				PlayerNode.health = 1;
 				gameUI.GetNode<ProgressBar>("ProgressBar").Hide();
 				await FadeRect.FadeIn(1f);
 				await ToSignal(GetTree().CreateTimer(0.5f), SceneTreeTimer.SignalName.Timeout);
@@ -99,14 +150,15 @@ public partial class Buttons : Node2D
 				DisableNode(this);
 				EnableNode(map1);
 				GetParent().GetNode<AudioStreamPlayer>("../Menu Music Player").QueueFree();
-				await FadeRect.FadeOut(1f);
+				await FadeRect.FadeOut();
 				MenuButtons.QueueFree();
-				GameDifficulty = Difficulty.Extreme;
 				break;
 			default:
+				SetProcess(false);
 				if (menuAnimationEnabled) await FadeRect.FadeIn();
 				buttons[currentIndex].SetProcess(true);
-				SetProcess(false);
+				buttons[currentIndex].Modulate = new Color(1f, 1f, 1f);
+				buttons[currentIndex].Scale = new Vector2(1f, 1f);
 				foreach (Node2D node in buttons[currentIndex].GetChildren().OfType<Node2D>())
 				{
 					node.Show();
@@ -125,15 +177,19 @@ public partial class Buttons : Node2D
 						node.Hide();
 					}
 				}
-				buttons[currentIndex].Modulate = new Color(1f, 1f, 1f);
-				buttons[currentIndex].Scale = new Vector2(1f, 1f);
 				if (buttons[currentIndex].HasMethod("SetHighlighted"))
 					(buttons[currentIndex] as Buttons).SetHighlighted((buttons[currentIndex] as Buttons).buttons[(buttons[currentIndex] as Buttons).currentIndex], true);
+				if (buttons[currentIndex].GetNodeOrNull<Control>("Control2") != null)
+				{
+					buttons[currentIndex].GetNode<Control>("Control2").Show();
+				}
 				if (menuAnimationEnabled)
 				{
 					await ToSignal(GetTree().CreateTimer(0.2f), SceneTreeTimer.SignalName.Timeout);
 					await FadeRect.FadeOut();
 				}
+				buttons[currentIndex].Modulate = new Color(1f, 1f, 1f);
+				buttons[currentIndex].Scale = new Vector2(1f, 1f);
 				break;
 		}
 	}
@@ -156,6 +212,26 @@ public partial class Buttons : Node2D
 	}
 	public override void _Process(double delta)
 	{
+		Modulate = new Color(1f, 1f, 1f);
+		if (GetNodeOrNull<Control>("Control2") != null && GetNodeOrNull<Control>("Control2").Visible)
+		{
+			Label label = GetNode<Label>("Control2/Label");
+			switch (buttons[currentIndex].Name)
+			{
+				case "Casual":
+					label.Text = "Highscore: " + string.Format("{0:D2}:{1:D2}", TimeSpan.FromSeconds(SaveSystem.SaveFile["highscore1"].AsDouble()).Minutes, TimeSpan.FromSeconds(SaveSystem.SaveFile["highscore1"].AsDouble()).Seconds);
+					break;
+				case "Normal":
+					label.Text = "Highscore: " + string.Format("{0:D2}:{1:D2}", TimeSpan.FromSeconds(SaveSystem.SaveFile["highscore2"].AsDouble()).Minutes, TimeSpan.FromSeconds(SaveSystem.SaveFile["highscore2"].AsDouble()).Seconds);
+					break;
+				case "Extreme":
+					label.Text = "Highscore: " + string.Format("{0:D2}:{1:D2}", TimeSpan.FromSeconds(SaveSystem.SaveFile["highscore3"].AsDouble()).Minutes, TimeSpan.FromSeconds(SaveSystem.SaveFile["highscore3"].AsDouble()).Seconds);
+					break;
+				default:
+					label.Text = "";
+					break;
+			}
+		}
 		if (Input.IsActionJustPressed("move_down"))
 		{
 			currentIndex = (currentIndex + 1) % buttons.Length;
@@ -202,6 +278,8 @@ public partial class Buttons : Node2D
 				node.Hide();
 			}
 			GetNode<Control>("Control").Show();
+			if (GetNodeOrNull<Control>("Control2") != null)
+				GetNode<Control>("Control2").Hide();
 			foreach (Node node in parentButtons.GetChildren())
 			{
 				(node as Node2D).Show();

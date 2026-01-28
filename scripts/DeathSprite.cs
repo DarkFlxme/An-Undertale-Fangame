@@ -35,5 +35,10 @@ public partial class DeathSprite : Node2D
         await ToSignal(GetTree().CreateTimer(1.5f), "timeout");
         deathParticles.Emitting = true;
         deathSprite.Hide();
+        deathParticles.Finished += () =>
+        {
+            var youredeadbuttons = GD.Load<PackedScene>("res://scenes/deathscreen.tscn").Instantiate<Buttons>();
+            GetParent().AddChild(youredeadbuttons);
+        };
     }
 }
