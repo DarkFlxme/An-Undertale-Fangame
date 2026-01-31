@@ -6,7 +6,7 @@ namespace game
     public partial class Nodes : Node2D
     {
         public static Player PlayerNode;
-        public static StaticBody2D map1;
+        public static Node2D map1;
         public static StaticBody2D map2;
         public static Label fpslabel;
         public static Timer BulletTimer;
@@ -21,7 +21,7 @@ namespace game
         {
             gameUI = GetNode<GameUI>("GameUI");
             PlayerNode = GetNode<Player>("Player");
-            map1 = GetNode<StaticBody2D>("map1");
+            map1 = GetNode<Node2D>("map1");
             map2 = GetNode<StaticBody2D>("map2");
             shield_green = GetNode<Node2D>("Shield");
             fpslabel = GetNode<Label>("Label");
