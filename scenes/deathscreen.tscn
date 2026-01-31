@@ -1,0 +1,108 @@
+[gd_scene load_steps=0 format=3 uid="uid://cg0trw0quv7fb"]
+
+[ext_resource type="Script" uid="uid://bflc0cclsnhyd" path="res://scripts/Buttons.cs" id="1_ylnw1"]
+[ext_resource type="AudioStream" uid="uid://cuuc61uoxm8l6" path="res://assets/selectsfx.wav" id="2_eye5d"]
+[ext_resource type="FontFile" uid="uid://cmt2mq1j731rh" path="res://assets/serif_pixel-7.ttf" id="2_hgqth"]
+[ext_resource type="AudioStream" uid="uid://ooij0pimdlbv" path="res://assets/swapsfx.wav" id="3_hgqth"]
+
+[node name="deathscreen" type="Node2D" unique_id=1354480281 node_paths=PackedStringArray("switchsound", "selectsound")]
+z_index = 3
+script = ExtResource("1_ylnw1")
+switchsound = NodePath("SwapSFXPlayer")
+selectsound = NodePath("SelectSFXPlayer")
+
+[node name="Retry" type="Node2D" parent="." unique_id=290596074]
+position = Vector2(575, 319)
+
+[node name="Control" type="Control" parent="Retry" unique_id=1007730450]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -5.0
+offset_top = 1.0
+offset_right = 40.0
+offset_bottom = 40.0
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="Retry/Control" unique_id=378674386]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -1.2444445
+anchor_top = -0.5897436
+anchor_right = 0.9777778
+anchor_bottom = -0.15384616
+offset_right = 40.0
+offset_bottom = 23.0
+theme_override_fonts/font = ExtResource("2_hgqth")
+theme_override_font_sizes/font_size = 40
+text = "Retry"
+metadata/_edit_use_anchors_ = true
+
+[node name="BackToMenu" type="Node2D" parent="." unique_id=1662552806]
+position = Vector2(575, 396)
+
+[node name="Control" type="Control" parent="BackToMenu" unique_id=1159834892]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -5.0
+offset_top = 1.0
+offset_right = 40.0
+offset_bottom = 40.0
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="BackToMenu/Control" unique_id=1156052507]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -3.3333333
+anchor_top = -0.5897436
+anchor_right = 3.1555555
+anchor_bottom = -0.15384616
+offset_right = 40.0
+offset_bottom = 23.0
+theme_override_fonts/font = ExtResource("2_hgqth")
+theme_override_font_sizes/font_size = 40
+text = "Back To Menu"
+metadata/_edit_use_anchors_ = true
+
+[node name="SelectSFXPlayer" type="AudioStreamPlayer" parent="." unique_id=843810483]
+stream = ExtResource("2_eye5d")
+bus = &"SFX"
+
+[node name="SwapSFXPlayer" type="AudioStreamPlayer" parent="." unique_id=191316056]
+stream = ExtResource("3_hgqth")
+bus = &"SFX"
+
+[node name="Control" type="Control" parent="." unique_id=822247510]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Label" type="Label" parent="Control" unique_id=2004919311]
+layout_mode = 0
+offset_left = 426.0
+offset_top = 69.0
+offset_right = 750.0
+offset_bottom = 129.0
+theme_override_fonts/font = ExtResource("2_hgqth")
+theme_override_font_sizes/font_size = 60
+text = "You Died!"
+
+[node name="ScoreLabel" type="Label" parent="Control" unique_id=585429161]
+layout_mode = 0
+offset_left = 458.0
+offset_top = 133.0
+offset_right = 718.0
+offset_bottom = 183.0
+theme_override_fonts/font = ExtResource("2_hgqth")
+theme_override_font_sizes/font_size = 40
+text = "Score: 31:69"
+
+[node name="HighScoreLabel" type="Label" parent="Control" unique_id=19649297]
+layout_mode = 0
+offset_left = 407.0
+offset_top = 174.0
+offset_right = 771.0
+offset_bottom = 224.0
+theme_override_fonts/font = ExtResource("2_hgqth")
+theme_override_font_sizes/font_size = 40
+text = "Highscore: 69:31"

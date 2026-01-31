@@ -15,7 +15,6 @@ public partial class Player : CharacterBody2D
 	float horizontalDirection = 0;
 	float verticalDirection = 0;
 	public int health;
-	public int maxHealth;
 	public int damage;
 	[Export] public ProgressBar healthBar;
 	[Export] public Node2D[] lines;
@@ -38,6 +37,10 @@ public partial class Player : CharacterBody2D
 	}
 	public override void _PhysicsProcess(double delta)
 	{
+		if (health < 0)
+		{
+			return;
+		}
 		healthBar.Value = health;
 		float deltaF = (float)delta;
 
@@ -59,11 +62,11 @@ public partial class Player : CharacterBody2D
 				verticalDirection = Input.GetAxis("move_up", "move_down");
 				Velocity = new Vector2(horizontalDirection, verticalDirection).Normalized() * Speed;
 				Nodes.purplelines.Hide();
-				Modulate= new Color(254f/255f,0,0);
+				Modulate = new Color(254f / 255f, 0, 0);
 				break;
 			case HeartColorEnum.Blue:
 				GlobalRotationDegrees = 90 * z;
-				Modulate= new Color(0,60f/255f,254f/255f);
+				Modulate = new Color(0, 60f / 255f, 254f / 255f);
 				if (GlobalRotationDegrees == 0)
 				{
 					horizontalDirection = Input.GetAxis("move_left", "move_right");
@@ -163,7 +166,7 @@ public partial class Player : CharacterBody2D
 				break;
 
 			case HeartColorEnum.Green:
-				Modulate= new Color(1f/255f,192f/255f,0);
+				Modulate = new Color(1f / 255f, 192f / 255f, 0);
 				Nodes.DisableNode(Nodes.map1);
 				Nodes.EnableNode(Nodes.map2);
 				Nodes.EnableNode(Nodes.shield_green);
@@ -172,7 +175,7 @@ public partial class Player : CharacterBody2D
 				Nodes.purplelines.Hide();
 				break;
 			case HeartColorEnum.Purple:
-				Modulate= new Color(229f/255f,110f/255f,167f/255f);
+				Modulate = new Color(229f / 255f, 110f / 255f, 167f / 255f);
 				Nodes.purplelines.Show();
 				GlobalPosition = new Vector2(GlobalPosition.X, Mathf.MoveToward(GlobalPosition.Y, lines[i].GlobalPosition.Y, speedPurple * deltaF));
 				horizontalDirection = Input.GetAxis("move_left", "move_right");
@@ -194,7 +197,7 @@ public partial class Player : CharacterBody2D
 				break;
 
 			case HeartColorEnum.Yellow:
-				Modulate= new Color(1,1,0);
+				Modulate = new Color(1, 1, 0);
 				GlobalRotationDegrees = 180;
 				horizontalDirection = Input.GetAxis("move_left", "move_right");
 				verticalDirection = Input.GetAxis("move_up", "move_down");
@@ -214,7 +217,7 @@ public partial class Player : CharacterBody2D
 				break;
 
 			case HeartColorEnum.Orange:
-				Modulate= new Color(1,127f/255f,39f/255f);
+				Modulate = new Color(1, 127f / 255f, 39f / 255f);
 				horizontalDirection = Input.GetAxis("move_left", "move_right");
 				verticalDirection = Input.GetAxis("move_up", "move_down");
 				if (horizontalDirection != 0 || verticalDirection != 0)
@@ -293,6 +296,28 @@ public partial class Player : CharacterBody2D
 				Nodes.FadeRect.Color = new Color(0, 0, 0, 1);
 				var deathSprite = GD.Load<PackedScene>("res://scenes/deathsprite.tscn").Instantiate<DeathSprite>();
 				GetNode<CanvasLayer>("../CanvasLayer").AddChild(deathSprite);
+				Nodes.DisableNode(Nodes.gameUI);
+				switch (Settings.GameDifficulty)
+				{
+					case Settings.Difficulty.Casual:
+						if(SaveSystem.SaveFile["highscore1"].AsDouble() < Settings.BossFightTime){
+							SaveSystem.SaveFile["highscore1"] = Settings.BossFightTime;
+							SaveSystem.SaveGame();
+						}
+						break;
+					case Settings.Difficulty.Normal:
+						if(SaveSystem.SaveFile["highscore2"].AsDouble() < Settings.BossFightTime){
+							SaveSystem.SaveFile["highscore2"] = Settings.BossFightTime;
+							SaveSystem.SaveGame();
+						}
+						break;
+					case Settings.Difficulty.Extreme:
+						if(SaveSystem.SaveFile["highscore3"].AsDouble() < Settings.BossFightTime){
+							SaveSystem.SaveFile["highscore3"] = Settings.BossFightTime;
+							SaveSystem.SaveGame();
+						}
+						break;
+				}
 			}
 		}
 	}

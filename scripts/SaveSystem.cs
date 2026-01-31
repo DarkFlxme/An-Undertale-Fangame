@@ -17,8 +17,10 @@ public partial class SaveSystem : Node
     }
     public static void LoadSaveFile()
     {
+        GD.Print("Loading save file...");
         if (FileAccess.FileExists(SavePath))
         {
+            GD.Print("Save file found. Attempting to load...");
             using var file = FileAccess.Open(SavePath,FileAccess.ModeFlags.Read);
             Variant v=file.GetVar();
             if (v.VariantType == Variant.Type.Dictionary)
@@ -30,9 +32,11 @@ public partial class SaveSystem : Node
                     SaveFile[key.AsStringName()] = data[key];
                 }
             }
+            GD.Print("Save file loaded successfully.");
         }
         else
         {
+            GD.Print("Unable to find save file. Creating new save file...");
             SaveGame();
         }
     }
@@ -45,6 +49,7 @@ public partial class SaveSystem : Node
             godotDict[kvp.Key] = kvp.Value;
         }
         file.StoreVar(godotDict);
+        GD.Print("Game saved successfully.");
     }
 }
 
