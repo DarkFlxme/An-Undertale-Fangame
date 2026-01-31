@@ -86,9 +86,9 @@ show_percentage = false
 script = ExtResource("6_ssvqc")
 bullet1 = ExtResource("17_rysoc")
 player = NodePath("../../Player")
-bullet1CD = 0.3
+bullet1CD = 0.5
 
-[node name="Player" parent="." node_paths=PackedStringArray("healthBar", "lines") instance=ExtResource("2_3ejts")]
+[node name="Player" parent="." node_paths=PackedStringArray("healthBar", "lines") groups=["Player"] instance=ExtResource("2_3ejts")]
 visible = false
 position = Vector2(583, 426)
 slide_on_ceiling = false

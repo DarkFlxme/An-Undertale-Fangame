@@ -37,6 +37,7 @@ Buttons=""
 Attacks="Enemy Attacks"
 Walls=""
 DikeyWalls=""
+Player=""
 
 [input]
 

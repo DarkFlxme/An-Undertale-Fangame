@@ -38,7 +38,7 @@ public partial class AttackManager : Node2D
 	{
 		Vector2 pos;
 		Bullet bullet = (Bullet)bullet1.Instantiate();
-		if (rnd.RandiRange(0,2) == 1)
+		if (rnd.RandiRange(0,1) == 1)
 		{
 			pos.X = rnd.RandfRange(-100,0);
 		}
@@ -47,7 +47,7 @@ public partial class AttackManager : Node2D
 			pos.X = rnd.RandiRange(1200,1300);
 		}
 
-		if (rnd.RandiRange(0,2) == 1)
+		if (rnd.RandiRange(0,1) == 1)
 		{
 			pos.Y = rnd.RandfRange(-100,0);
 		}
