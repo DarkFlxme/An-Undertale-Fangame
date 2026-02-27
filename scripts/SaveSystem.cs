@@ -21,13 +21,13 @@ public partial class SaveSystem : Node
         if (FileAccess.FileExists(SavePath))
         {
             GD.Print("Save file found. Attempting to load...");
-            using var file = FileAccess.Open(SavePath,FileAccess.ModeFlags.Read);
-            Variant v=file.GetVar();
+            using var file = FileAccess.Open(SavePath, FileAccess.ModeFlags.Read);
+            Variant v = file.GetVar();
             if (v.VariantType == Variant.Type.Dictionary)
             {
                 var data = v.AsGodotDictionary();
                 SaveFile.Clear();
-                foreach(var key in data.Keys)
+                foreach (var key in data.Keys)
                 {
                     SaveFile[key.AsStringName()] = data[key];
                 }
@@ -42,9 +42,9 @@ public partial class SaveSystem : Node
     }
     public static void SaveGame()
     {
-        using var file = FileAccess.Open(SavePath,FileAccess.ModeFlags.Write);
+        using var file = FileAccess.Open(SavePath, FileAccess.ModeFlags.Write);
         var godotDict = new Godot.Collections.Dictionary();
-        foreach(var kvp in SaveFile)    
+        foreach (var kvp in SaveFile)
         {
             godotDict[kvp.Key] = kvp.Value;
         }

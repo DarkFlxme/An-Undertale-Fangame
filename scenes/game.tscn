@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://dh2qf03bl37mj"]
+[gd_scene format=3 uid="uid://dh2qf03bl37mj"]
 
 [ext_resource type="Script" uid="uid://vkxnay6upq3q" path="res://scripts/Nodes.cs" id="1_yqjtg"]
 [ext_resource type="PackedScene" uid="uid://cwwuu6eax0c8e" path="res://scenes/player.tscn" id="2_3ejts"]
@@ -8,7 +8,6 @@
 [ext_resource type="FontFile" uid="uid://cmt2mq1j731rh" path="res://assets/serif_pixel-7.ttf" id="4_kvuet"]
 [ext_resource type="Script" uid="uid://dqme04an5ffpb" path="res://scripts/SettingsNode.cs" id="4_lbhrr"]
 [ext_resource type="Script" uid="uid://bflc0cclsnhyd" path="res://scripts/Buttons.cs" id="5_dinhu"]
-[ext_resource type="Script" uid="uid://ccyko8wgoy083" path="res://scripts/AttackManager.cs" id="6_ssvqc"]
 [ext_resource type="Texture2D" uid="uid://be0ngbfdtrev2" path="res://assets/shield.png" id="9_0tnpc"]
 [ext_resource type="Script" uid="uid://um818e82y6hn" path="res://scripts/Shield.cs" id="9_vtaks"]
 [ext_resource type="AudioStream" uid="uid://427yp6t6c5tu" path="res://assets/menuost.ogg" id="10_ca42v"]
@@ -17,7 +16,7 @@
 [ext_resource type="AudioStream" uid="uid://ooij0pimdlbv" path="res://assets/swapsfx.wav" id="11_ca42v"]
 [ext_resource type="Texture2D" uid="uid://cxvdef1twarhs" path="res://assets/purple_heart_line.png" id="11_kvpfn"]
 [ext_resource type="Texture2D" uid="uid://qe03d3g1l7k7" path="res://assets/actions_bar.png" id="12_dinhu"]
-[ext_resource type="PackedScene" uid="uid://bl2vaxehtjncp" path="res://scenes/bullet.tscn" id="17_rysoc"]
+[ext_resource type="Script" uid="uid://c5pjpiogcuk5b" path="res://scripts/Attacks.cs" id="17_rysoc"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kvuet"]
 bg_color = Color(0.74509805, 0, 0, 1)
@@ -37,10 +36,10 @@ size = Vector2(618, 0.125)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vtaks"]
 size = Vector2(115, 11)
 
-[node name="Nodes" type="Node2D"]
+[node name="Nodes" type="Node2D" unique_id=1508719910]
 script = ExtResource("1_yqjtg")
 
-[node name="GameUI" type="Control" parent="."]
+[node name="GameUI" type="Control" parent="." unique_id=1176200007]
 process_mode = 4
 visible = false
 layout_mode = 3
@@ -49,17 +48,17 @@ offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("2_trtic")
 
-[node name="Samoysta" type="Sprite2D" parent="GameUI"]
+[node name="Samoysta" type="Sprite2D" parent="GameUI" unique_id=747742438]
 position = Vector2(573, 135)
 scale = Vector2(0.4, 0.4)
 texture = ExtResource("2_dinhu")
 
-[node name="ActionsBar" type="Sprite2D" parent="GameUI"]
+[node name="ActionsBar" type="Sprite2D" parent="GameUI" unique_id=430615546]
 position = Vector2(584, 594)
 scale = Vector2(0.56086993, 0.56086993)
 texture = ExtResource("12_dinhu")
 
-[node name="Label2" type="Label" parent="GameUI"]
+[node name="Label2" type="Label" parent="GameUI" unique_id=548668129]
 layout_mode = 0
 offset_left = 274.0
 offset_top = 523.0
@@ -68,10 +67,10 @@ offset_bottom = 557.0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("4_kvuet")
 theme_override_font_sizes/font_size = 25
-text = "Ahme  00:00  HP         100/100 "
+text = "ZINA  00:00  HP         100/100 "
 vertical_alignment = 2
 
-[node name="ProgressBar" type="ProgressBar" parent="GameUI"]
+[node name="ProgressBar" type="ProgressBar" parent="GameUI" unique_id=1508661627]
 layout_mode = 0
 offset_left = 521.0
 offset_top = 528.0
@@ -82,104 +81,95 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_trtic")
 value = 20.0
 show_percentage = false
 
-[node name="AttackManager" type="Node2D" parent="GameUI" node_paths=PackedStringArray("player")]
-script = ExtResource("6_ssvqc")
-bullet1 = ExtResource("17_rysoc")
-player = NodePath("../../Player")
-bullet1CD = 0.5
-
-[node name="Player" parent="." node_paths=PackedStringArray("healthBar", "lines") groups=["Player"] instance=ExtResource("2_3ejts")]
+[node name="Player" parent="." unique_id=1925960046 node_paths=PackedStringArray("healthBar", "lines") instance=ExtResource("2_3ejts")]
 visible = false
 position = Vector2(583, 426)
+collision_layer = 15
+collision_mask = 15
 slide_on_ceiling = false
 Speed = 250
 healthBar = NodePath("../GameUI/ProgressBar")
 lines = [NodePath("../purpleHeart/Up"), NodePath("../purpleHeart/Mid"), NodePath("../purpleHeart/Down")]
 speedPurple = 600.0
 
-[node name="map1" type="Node2D" parent="." groups=["Walls"]]
-visible = false
+[node name="map1" type="StaticBody2D" parent="." unique_id=1824787538 groups=["Walls"]]
 
-[node name="DikeyWalls" type="StaticBody2D" parent="map1" groups=["DikeyWalls", "Walls"]]
-
-[node name="left hitbox" type="CollisionShape2D" parent="map1/DikeyWalls" groups=["DikeyWalls", "Walls"]]
+[node name="left hitbox" type="CollisionShape2D" parent="map1" unique_id=1507694867]
 position = Vector2(283.5, 378.25)
 shape = SubResource("RectangleShape2D_kx6qh")
 
-[node name="left line" type="MeshInstance2D" parent="map1/DikeyWalls"]
+[node name="left line" type="MeshInstance2D" parent="map1" unique_id=1190332187]
 position = Vector2(282.75, 386)
 scale = Vector2(0.0449999, 1.24)
 mesh = SubResource("QuadMesh_5e18l")
 
-[node name="right hitbox" type="CollisionShape2D" parent="map1/DikeyWalls" groups=["DikeyWalls", "Walls"]]
+[node name="right hitbox" type="CollisionShape2D" parent="map1" unique_id=1153242540]
 position = Vector2(894, 381.5)
 shape = SubResource("RectangleShape2D_kx6qh")
 
-[node name="right line" type="MeshInstance2D" parent="map1/DikeyWalls"]
+[node name="right line" type="MeshInstance2D" parent="map1" unique_id=1135490674]
 position = Vector2(894.5, 383)
 scale = Vector2(0.0500001, 1.25)
 mesh = SubResource("QuadMesh_5e18l")
 
-[node name="YatayWalls" type="StaticBody2D" parent="map1" groups=["Walls"]]
-
-[node name="bottom hitbox" type="CollisionShape2D" parent="map1/YatayWalls"]
+[node name="bottom hitbox" type="CollisionShape2D" parent="map1" unique_id=1658777586]
 position = Vector2(588, 503.938)
 shape = SubResource("RectangleShape2D_e7hfj")
 
-[node name="bottom line" type="MeshInstance2D" parent="map1/YatayWalls"]
+[node name="bottom line" type="MeshInstance2D" parent="map1" unique_id=520238199]
 position = Vector2(589, 506.87503)
 scale = Vector2(6.16, 0.0287501)
 mesh = SubResource("QuadMesh_5e18l")
 
-[node name="top line" type="MeshInstance2D" parent="map1/YatayWalls"]
+[node name="top line" type="MeshInstance2D" parent="map1" unique_id=945751378]
 position = Vector2(588, 262)
 scale = Vector2(6.15, 0.0275)
 mesh = SubResource("QuadMesh_5e18l")
 
-[node name="top hitbox" type="CollisionShape2D" parent="map1/YatayWalls"]
+[node name="top hitbox" type="CollisionShape2D" parent="map1" unique_id=1736379001]
 position = Vector2(587.5, 262)
 shape = SubResource("RectangleShape2D_e7hfj")
 
-[node name="map2" type="StaticBody2D" parent="."]
+[node name="map2" type="StaticBody2D" parent="." unique_id=600669159]
 visible = false
 
-[node name="left hitbox" type="CollisionShape2D" parent="map2"]
+[node name="left hitbox" type="CollisionShape2D" parent="map2" unique_id=1593010466]
 position = Vector2(519.875, 423.375)
 shape = SubResource("RectangleShape2D_kx6qh")
 
-[node name="left line" type="MeshInstance2D" parent="map2"]
+[node name="left line" type="MeshInstance2D" parent="map2" unique_id=996412969]
 position = Vector2(520, 423.375)
 scale = Vector2(0.0400009, 0.59)
 mesh = SubResource("QuadMesh_5e18l")
 
-[node name="right hitbox" type="CollisionShape2D" parent="map2"]
+[node name="right hitbox" type="CollisionShape2D" parent="map2" unique_id=2107662213]
 position = Vector2(645, 421.375)
 shape = SubResource("RectangleShape2D_kx6qh")
 
-[node name="right line" type="MeshInstance2D" parent="map2"]
+[node name="right line" type="MeshInstance2D" parent="map2" unique_id=736396308]
 position = Vector2(645, 425.875)
 scale = Vector2(0.0500001, 0.565)
 mesh = SubResource("QuadMesh_5e18l")
 
-[node name="bottom hitbox" type="CollisionShape2D" parent="map2"]
+[node name="bottom hitbox" type="CollisionShape2D" parent="map2" unique_id=139941178]
 position = Vector2(585, 479.375)
 shape = SubResource("RectangleShape2D_e7hfj")
 
-[node name="bottom line" type="MeshInstance2D" parent="map2"]
+[node name="bottom line" type="MeshInstance2D" parent="map2" unique_id=131141020]
 position = Vector2(584, 479.375)
 scale = Vector2(1.2925, 0.0287501)
 mesh = SubResource("QuadMesh_5e18l")
 
-[node name="top line" type="MeshInstance2D" parent="map2"]
+[node name="top line" type="MeshInstance2D" parent="map2" unique_id=49449561]
 position = Vector2(582.5, 367)
 scale = Vector2(1.29, 0.0299999)
 mesh = SubResource("QuadMesh_5e18l")
 
-[node name="top hitbox" type="CollisionShape2D" parent="map2"]
+[node name="top hitbox" type="CollisionShape2D" parent="map2" unique_id=1449571310]
 position = Vector2(581, 367)
 shape = SubResource("RectangleShape2D_e7hfj")
 
-[node name="Label" type="Label" parent="."]
+[node name="Label" type="Label" parent="." unique_id=1181393424]
 offset_left = 5.0
 offset_top = 3.0
 offset_right = 125.0
@@ -187,29 +177,29 @@ offset_bottom = 26.0
 scale = Vector2(1.26572, 1.43256)
 metadata/_edit_use_anchors_ = true
 
-[node name="BulletTimer" type="Timer" parent="."]
+[node name="BulletTimer" type="Timer" parent="." unique_id=34681128]
 one_shot = true
 ignore_time_scale = true
 
-[node name="MainMenuButtons" type="Node2D" parent="." node_paths=PackedStringArray("switchsound", "selectsound") groups=["Buttons"]]
+[node name="MainMenuButtons" type="Node2D" parent="." unique_id=1008240051 node_paths=PackedStringArray("switchsound", "selectsound") groups=["Buttons"]]
 position = Vector2(568, 300)
 script = ExtResource("5_dinhu")
 switchsound = NodePath("../SwapSFXPlayer")
 selectsound = NodePath("../SelectSFXPlayer")
 
-[node name="PlayButton" type="Node2D" parent="MainMenuButtons" node_paths=PackedStringArray("switchsound", "selectsound") groups=["Buttons"]]
+[node name="PlayButton" type="Node2D" parent="MainMenuButtons" unique_id=1246149447 node_paths=PackedStringArray("switchsound", "selectsound") groups=["Buttons"]]
 process_mode = 3
 script = ExtResource("5_dinhu")
 switchsound = NodePath("../../SwapSFXPlayer")
 selectsound = NodePath("../../SelectSFXPlayer")
 
-[node name="Control" type="Control" parent="MainMenuButtons/PlayButton"]
+[node name="Control" type="Control" parent="MainMenuButtons/PlayButton" unique_id=1371574428]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="Label" type="Label" parent="MainMenuButtons/PlayButton/Control"]
+[node name="Label" type="Label" parent="MainMenuButtons/PlayButton/Control" unique_id=1667863091]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = -0.4625
@@ -226,18 +216,43 @@ theme_override_font_sizes/font_size = 45
 text = "PLAY"
 metadata/_edit_use_anchors_ = true
 
-[node name="Casual" type="Node2D" parent="MainMenuButtons/PlayButton" groups=["Buttons"]]
+[node name="Control2" type="Control" parent="MainMenuButtons/PlayButton" unique_id=1040297138]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_top = -94.0
+offset_right = 40.0
+offset_bottom = -54.0
+
+[node name="Label" type="Label" parent="MainMenuButtons/PlayButton/Control2" unique_id=1988060584]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -3.9
+anchor_top = -0.8875
+anchor_right = 5.35
+anchor_bottom = -0.3125
+offset_left = -40.0
+offset_top = -31.5
+offset_bottom = -8.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("4_kvuet")
+theme_override_font_sizes/font_size = 45
+text = "Highscore: 67:67"
+metadata/_edit_use_anchors_ = true
+
+[node name="Casual" type="Node2D" parent="MainMenuButtons/PlayButton" unique_id=2050729455 groups=["Buttons"]]
 process_mode = 3
 visible = false
 
-[node name="Control" type="Control" parent="MainMenuButtons/PlayButton/Casual"]
+[node name="Control" type="Control" parent="MainMenuButtons/PlayButton/Casual" unique_id=1921577274]
 layout_mode = 3
 anchors_preset = 0
 offset_top = -25.0
 offset_right = 40.0
 offset_bottom = 15.0
 
-[node name="Label" type="Label" parent="MainMenuButtons/PlayButton/Casual/Control"]
+[node name="Label" type="Label" parent="MainMenuButtons/PlayButton/Casual/Control" unique_id=1889367896]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = -0.4625
@@ -255,18 +270,18 @@ theme_override_font_sizes/font_size = 45
 text = "Casual"
 metadata/_edit_use_anchors_ = true
 
-[node name="Normal" type="Node2D" parent="MainMenuButtons/PlayButton" groups=["Buttons"]]
+[node name="Normal" type="Node2D" parent="MainMenuButtons/PlayButton" unique_id=46808558 groups=["Buttons"]]
 process_mode = 3
 visible = false
 position = Vector2(0, 90)
 
-[node name="Control" type="Control" parent="MainMenuButtons/PlayButton/Normal"]
+[node name="Control" type="Control" parent="MainMenuButtons/PlayButton/Normal" unique_id=1364480145]
 layout_mode = 3
 anchors_preset = 0
 offset_top = -40.0
 offset_right = 40.0
 
-[node name="Label" type="Label" parent="MainMenuButtons/PlayButton/Normal/Control"]
+[node name="Label" type="Label" parent="MainMenuButtons/PlayButton/Normal/Control" unique_id=64325244]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = -0.4625
@@ -284,19 +299,19 @@ theme_override_font_sizes/font_size = 45
 text = "Normal"
 metadata/_edit_use_anchors_ = true
 
-[node name="Extreme" type="Node2D" parent="MainMenuButtons/PlayButton" groups=["Buttons"]]
+[node name="Extreme" type="Node2D" parent="MainMenuButtons/PlayButton" unique_id=1357162132 groups=["Buttons"]]
 process_mode = 3
 visible = false
 position = Vector2(0, 165)
 
-[node name="Control" type="Control" parent="MainMenuButtons/PlayButton/Extreme"]
+[node name="Control" type="Control" parent="MainMenuButtons/PlayButton/Extreme" unique_id=1421798316]
 layout_mode = 3
 anchors_preset = 0
 offset_top = 15.0
 offset_right = 40.0
 offset_bottom = 55.0
 
-[node name="Label" type="Label" parent="MainMenuButtons/PlayButton/Extreme/Control"]
+[node name="Label" type="Label" parent="MainMenuButtons/PlayButton/Extreme/Control" unique_id=1692624660]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = -0.4625
@@ -313,17 +328,17 @@ theme_override_font_sizes/font_size = 45
 text = "Extreme"
 metadata/_edit_use_anchors_ = true
 
-[node name="SettingsButton" type="Node2D" parent="MainMenuButtons" groups=["Buttons"]]
+[node name="SettingsButton" type="Node2D" parent="MainMenuButtons" unique_id=1982308984 groups=["Buttons"]]
 process_mode = 3
 position = Vector2(0, 87)
 
-[node name="Control" type="Control" parent="MainMenuButtons/SettingsButton"]
+[node name="Control" type="Control" parent="MainMenuButtons/SettingsButton" unique_id=1108470557]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="Label" type="Label" parent="MainMenuButtons/SettingsButton/Control"]
+[node name="Label" type="Label" parent="MainMenuButtons/SettingsButton/Control" unique_id=1535761249]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = -0.85
@@ -341,26 +356,23 @@ theme_override_font_sizes/font_size = 45
 text = "SETTINGS"
 metadata/_edit_use_anchors_ = true
 
-[node name="Settings" parent="MainMenuButtons/SettingsButton" instance=ExtResource("3_lnu2h")]
+[node name="Settings" parent="MainMenuButtons/SettingsButton" unique_id=1719586440 instance=ExtResource("3_lnu2h")]
 visible = false
 position = Vector2(12, -61)
 scale = Vector2(1.5, 1.5)
 script = ExtResource("4_lbhrr")
 
-[node name="QuitGameButton" type="Node2D" parent="MainMenuButtons" node_paths=PackedStringArray("switchsound", "selectsound") groups=["Buttons"]]
+[node name="QuitGameButton" type="Node2D" parent="MainMenuButtons" unique_id=1677913751 groups=["Buttons"]]
 process_mode = 3
 position = Vector2(0, 176)
-script = ExtResource("5_dinhu")
-switchsound = NodePath("../../SwapSFXPlayer")
-selectsound = NodePath("../../SelectSFXPlayer")
 
-[node name="Control" type="Control" parent="MainMenuButtons/QuitGameButton"]
+[node name="Control" type="Control" parent="MainMenuButtons/QuitGameButton" unique_id=282617351]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="Label" type="Label" parent="MainMenuButtons/QuitGameButton/Control"]
+[node name="Label" type="Label" parent="MainMenuButtons/QuitGameButton/Control" unique_id=78774563]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = -1.6125
@@ -378,73 +390,9 @@ theme_override_font_sizes/font_size = 45
 text = "QUIT GAME"
 metadata/_edit_use_anchors_ = true
 
-[node name="QuitYes" type="Node2D" parent="MainMenuButtons/QuitGameButton" node_paths=PackedStringArray("switchsound", "selectsound") groups=["Buttons"]]
-process_mode = 3
-visible = false
-position = Vector2(0, -145)
-script = ExtResource("5_dinhu")
-switchsound = NodePath("../../../SwapSFXPlayer")
-selectsound = NodePath("../../../SelectSFXPlayer")
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1073230969]
 
-[node name="Control" type="Control" parent="MainMenuButtons/QuitGameButton/QuitYes"]
-layout_mode = 3
-anchors_preset = 0
-offset_top = -22.0
-offset_right = 40.0
-offset_bottom = 18.0
-
-[node name="Label" type="Label" parent="MainMenuButtons/QuitGameButton/QuitYes/Control"]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = -4.4500003
-anchor_top = 0.075
-anchor_right = 4.9000006
-anchor_bottom = 1.225
-offset_left = 1.5258789e-05
-offset_right = -3.0517578e-05
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_fonts/font = ExtResource("4_kvuet")
-theme_override_font_sizes/font_size = 45
-text = "CONFIRM QUIT"
-metadata/_edit_use_anchors_ = true
-
-[node name="QuitNo" type="Node2D" parent="MainMenuButtons/QuitGameButton" node_paths=PackedStringArray("switchsound", "selectsound") groups=["Buttons"]]
-process_mode = 3
-visible = false
-position = Vector2(0, -50)
-script = ExtResource("5_dinhu")
-switchsound = NodePath("../../../SwapSFXPlayer")
-selectsound = NodePath("../../../SelectSFXPlayer")
-
-[node name="Control" type="Control" parent="MainMenuButtons/QuitGameButton/QuitNo"]
-layout_mode = 3
-anchors_preset = 0
-offset_top = -20.0
-offset_right = 40.0
-offset_bottom = 20.0
-
-[node name="Label" type="Label" parent="MainMenuButtons/QuitGameButton/QuitNo/Control"]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = -3.0625
-anchor_top = -0.5625
-anchor_right = -0.4625
-anchor_bottom = 0.0125
-offset_left = -64.5
-offset_top = 25.5
-offset_right = 219.5
-offset_bottom = 71.5
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_fonts/font = ExtResource("4_kvuet")
-theme_override_font_sizes/font_size = 45
-text = "BACK TO MENU"
-metadata/_edit_use_anchors_ = true
-
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer" unique_id=2130235066]
 z_index = 2
 anchors_preset = 15
 anchor_right = 1.0
@@ -456,61 +404,72 @@ color = Color(0, 0, 0, 0)
 script = ExtResource("10_vtaks")
 metadata/_edit_use_anchors_ = true
 
-[node name="Menu Music Player" type="AudioStreamPlayer" parent="."]
+[node name="Menu Music Player" type="AudioStreamPlayer" parent="." unique_id=1420691512]
 stream = ExtResource("10_ca42v")
 autoplay = true
 bus = &"Music"
 
-[node name="SelectSFXPlayer" type="AudioStreamPlayer" parent="."]
+[node name="SelectSFXPlayer" type="AudioStreamPlayer" parent="." unique_id=1773080365]
 stream = ExtResource("10_ir15t")
 bus = &"SFX"
 
-[node name="SwapSFXPlayer" type="AudioStreamPlayer" parent="."]
+[node name="SwapSFXPlayer" type="AudioStreamPlayer" parent="." unique_id=1411774369]
 stream = ExtResource("11_ca42v")
 bus = &"SFX"
 
-[node name="Shield" type="Node2D" parent="."]
+[node name="Shield" type="Node2D" parent="." unique_id=1709573409]
 visible = false
 position = Vector2(583, 426)
 script = ExtResource("9_vtaks")
 speed = 45.0
 
-[node name="Area2D" type="Area2D" parent="Shield"]
+[node name="Area2D" type="Area2D" parent="Shield" unique_id=1208383727]
 position = Vector2(22, 21)
 scale = Vector2(0.755, 0.755)
 
-[node name="Sprite2D" type="Sprite2D" parent="Shield/Area2D"]
+[node name="Sprite2D" type="Sprite2D" parent="Shield/Area2D" unique_id=18140140]
 scale = Vector2(3.69, 3.69)
 texture = ExtResource("9_0tnpc")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Shield/Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Shield/Area2D" unique_id=855983067]
 position = Vector2(-31.5, 27.5)
 shape = SubResource("RectangleShape2D_vtaks")
 
-[node name="purpleHeart" type="Node2D" parent="."]
+[node name="purpleHeart" type="Node2D" parent="." unique_id=1194881490]
 visible = false
 z_index = -1
+position = Vector2(0, -43)
 
-[node name="Up" type="Node2D" parent="purpleHeart"]
+[node name="Up" type="Node2D" parent="purpleHeart" unique_id=125575942]
 position = Vector2(581, 357)
 
-[node name="Sprite2D" type="Sprite2D" parent="purpleHeart/Up"]
+[node name="Sprite2D" type="Sprite2D" parent="purpleHeart/Up" unique_id=1136847357]
 position = Vector2(7.00002, 0)
 scale = Vector2(1.32151, 1)
 texture = ExtResource("11_kvpfn")
 
-[node name="Mid" type="Node2D" parent="purpleHeart"]
+[node name="Mid" type="Node2D" parent="purpleHeart" unique_id=512462383]
 position = Vector2(583, 426)
 
-[node name="Sprite2D" type="Sprite2D" parent="purpleHeart/Mid"]
+[node name="Sprite2D" type="Sprite2D" parent="purpleHeart/Mid" unique_id=2103273982]
 position = Vector2(7.00002, 0)
 scale = Vector2(1.32151, 1)
 texture = ExtResource("11_kvpfn")
 
-[node name="Down" type="Node2D" parent="purpleHeart"]
+[node name="Down" type="Node2D" parent="purpleHeart" unique_id=585028421]
 position = Vector2(585, 493)
 
-[node name="Sprite2D" type="Sprite2D" parent="purpleHeart/Down"]
+[node name="Sprite2D" type="Sprite2D" parent="purpleHeart/Down" unique_id=1979419635]
 position = Vector2(7.00002, 0)
 scale = Vector2(1.32151, 1)
 texture = ExtResource("11_kvpfn")
+
+[node name="TargetTitle" type="Node2D" parent="." unique_id=2130430731]
+position = Vector2(571, 69)
+
+[node name="Attacks" type="Node2D" parent="." unique_id=1468815204]
+process_mode = 4
+visible = false
+
+[node name="Attack1" type="Node2D" parent="Attacks" unique_id=945886634]
+script = ExtResource("17_rysoc")

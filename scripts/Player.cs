@@ -273,6 +273,10 @@ public partial class Player : CharacterBody2D
 			canJump = false;
 		}
 	}
+	void Disable()
+	{
+		Nodes.DisableNode(this);
+	}
 	void DamageHitboxEntered(Node2D body)
 	{
 		if (body.IsInGroup("Attacks"))
@@ -300,24 +304,31 @@ public partial class Player : CharacterBody2D
 				switch (Settings.GameDifficulty)
 				{
 					case Settings.Difficulty.Casual:
-						if(SaveSystem.SaveFile["highscore1"].AsDouble() < Settings.BossFightTime){
+						if (SaveSystem.SaveFile["highscore1"].AsDouble() < Settings.BossFightTime)
+						{
 							SaveSystem.SaveFile["highscore1"] = Settings.BossFightTime;
 							SaveSystem.SaveGame();
+							Settings.isHighscore = true;
 						}
 						break;
 					case Settings.Difficulty.Normal:
-						if(SaveSystem.SaveFile["highscore2"].AsDouble() < Settings.BossFightTime){
+						if (SaveSystem.SaveFile["highscore2"].AsDouble() < Settings.BossFightTime)
+						{
 							SaveSystem.SaveFile["highscore2"] = Settings.BossFightTime;
 							SaveSystem.SaveGame();
+							Settings.isHighscore = true;
 						}
 						break;
 					case Settings.Difficulty.Extreme:
-						if(SaveSystem.SaveFile["highscore3"].AsDouble() < Settings.BossFightTime){
+						if (SaveSystem.SaveFile["highscore3"].AsDouble() < Settings.BossFightTime)
+						{
 							SaveSystem.SaveFile["highscore3"] = Settings.BossFightTime;
 							SaveSystem.SaveGame();
+							Settings.isHighscore = true;
 						}
 						break;
 				}
+				CallDeferred(nameof(Disable));
 			}
 		}
 	}

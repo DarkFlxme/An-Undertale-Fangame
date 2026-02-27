@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://c8n2n7nf074a"]
+
+[ext_resource type="Script" uid="uid://clyydn275d34e" path="res://scripts/MiniSami.cs" id="1_5ksa5"]
+[ext_resource type="Texture2D" uid="uid://mekdq5qvoqr2" path="res://assets/sami2.jpeg" id="2_5ksa5"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5ksa5"]
+size = Vector2(95.5, 79)
+
+[node name="Node2D" type="Node2D" unique_id=830799508]
+script = ExtResource("1_5ksa5")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=23403443]
+position = Vector2(0, 3.8146973e-06)
+rotation = 1.5707964
+scale = Vector2(0.0663735, 0.05983658)
+texture = ExtResource("2_5ksa5")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=318339136 groups=["Attacks"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1846697716]
+shape = SubResource("RectangleShape2D_5ksa5")

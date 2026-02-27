@@ -68,20 +68,27 @@ public partial class Buttons : Node2D
 		if (Name == "deathscreen")
 		{
 			GetNode<Label>("Control/ScoreLabel").Text = string.Format("Score: {0:D2}:{1:D2}", TimeSpan.FromSeconds(BossFightTime).Minutes, TimeSpan.FromSeconds(BossFightTime).Seconds);
-			switch (GameDifficulty)
+			if (Settings.isHighscore)
 			{
-				case Difficulty.Casual:
-					TimeSpan ctime = TimeSpan.FromSeconds(SaveSystem.SaveFile["highscore1"].AsDouble());
-					GetNode<Label>("Control/HighScoreLabel").Text = string.Format("Highscore: {0:D2}:{1:D2}", ctime.Minutes, ctime.Seconds);
-					break;
-				case Difficulty.Normal:
-					TimeSpan ntime = TimeSpan.FromSeconds(SaveSystem.SaveFile["highscore2"].AsDouble());
-					GetNode<Label>("Control/HighScoreLabel").Text = string.Format("Highscore: {0:D2}:{1:D2}", ntime.Minutes, ntime.Seconds);
-					break;
-				case Difficulty.Extreme:
-					TimeSpan etime = TimeSpan.FromSeconds(SaveSystem.SaveFile["highscore3"].AsDouble());
-					GetNode<Label>("Control/HighScoreLabel").Text = string.Format("Highscore: {0:D2}:{1:D2}", etime.Minutes, etime.Seconds);
-					break;
+				GetNode<Label>("Control/HighScoreLabel").Text = "New Highscore!";
+			}
+			else
+			{
+				switch (GameDifficulty)
+				{
+					case Difficulty.Casual:
+						TimeSpan ctime = TimeSpan.FromSeconds(SaveSystem.SaveFile["highscore1"].AsDouble());
+						GetNode<Label>("Control/HighScoreLabel").Text = string.Format("Highscore: {0:D2}:{1:D2}", ctime.Minutes, ctime.Seconds);
+						break;
+					case Difficulty.Normal:
+						TimeSpan ntime = TimeSpan.FromSeconds(SaveSystem.SaveFile["highscore2"].AsDouble());
+						GetNode<Label>("Control/HighScoreLabel").Text = string.Format("Highscore: {0:D2}:{1:D2}", ntime.Minutes, ntime.Seconds);
+						break;
+					case Difficulty.Extreme:
+						TimeSpan etime = TimeSpan.FromSeconds(SaveSystem.SaveFile["highscore3"].AsDouble());
+						GetNode<Label>("Control/HighScoreLabel").Text = string.Format("Highscore: {0:D2}:{1:D2}", etime.Minutes, etime.Seconds);
+						break;
+				}
 			}
 		}
 	}
@@ -116,6 +123,7 @@ public partial class Buttons : Node2D
 				EnableNode(PlayerNode);
 				EnableNode(gameUI);
 				EnableNode(map1);
+				attacks.ProcessMode = ProcessModeEnum.Inherit;
 				DisableNode(this);
 				GetParent().GetNode<AudioStreamPlayer>("../Menu Music Player").QueueFree();
 				await FadeRect.FadeOut();
@@ -192,6 +200,7 @@ public partial class Buttons : Node2D
 				buttons[currentIndex].Scale = new Vector2(1f, 1f);
 				break;
 		}
+		processing = false;
 	}
 	public void SetHighlighted(Node2D node, bool highlighted)
 	{
@@ -210,6 +219,7 @@ public partial class Buttons : Node2D
 			_tween.TweenProperty(node, "modulate", new Color(1f, 1f, 1f), 0.2f);
 		}
 	}
+	bool processing = false;
 	public override void _Process(double delta)
 	{
 		Modulate = new Color(1f, 1f, 1f);
@@ -268,7 +278,11 @@ public partial class Buttons : Node2D
 		}
 		if (Input.IsActionJustPressed("yellow_heart_shot"))
 		{
-			OnButtonPressed();
+			if (!processing)
+			{
+				OnButtonPressed();
+				processing = true;
+			}
 		}
 		if (Input.IsActionJustPressed("X") && Name != "MainMenuButtons")
 		{

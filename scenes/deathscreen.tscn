@@ -1,4 +1,4 @@
-[gd_scene load_steps=0 format=3 uid="uid://cg0trw0quv7fb"]
+[gd_scene format=3 uid="uid://cg0trw0quv7fb"]
 
 [ext_resource type="Script" uid="uid://bflc0cclsnhyd" path="res://scripts/Buttons.cs" id="1_ylnw1"]
 [ext_resource type="AudioStream" uid="uid://cuuc61uoxm8l6" path="res://assets/selectsfx.wav" id="2_eye5d"]
@@ -12,7 +12,7 @@ switchsound = NodePath("SwapSFXPlayer")
 selectsound = NodePath("SelectSFXPlayer")
 
 [node name="Retry" type="Node2D" parent="." unique_id=290596074]
-position = Vector2(575, 319)
+position = Vector2(575, 367)
 
 [node name="Control" type="Control" parent="Retry" unique_id=1007730450]
 layout_mode = 3
@@ -38,7 +38,7 @@ text = "Retry"
 metadata/_edit_use_anchors_ = true
 
 [node name="BackToMenu" type="Node2D" parent="." unique_id=1662552806]
-position = Vector2(575, 396)
+position = Vector2(575, 444)
 
 [node name="Control" type="Control" parent="BackToMenu" unique_id=1159834892]
 layout_mode = 3
@@ -90,9 +90,9 @@ text = "You Died!"
 [node name="ScoreLabel" type="Label" parent="Control" unique_id=585429161]
 layout_mode = 0
 offset_left = 458.0
-offset_top = 133.0
+offset_top = 165.0
 offset_right = 718.0
-offset_bottom = 183.0
+offset_bottom = 215.0
 theme_override_fonts/font = ExtResource("2_hgqth")
 theme_override_font_sizes/font_size = 40
 text = "Score: 31:69"
@@ -100,9 +100,9 @@ text = "Score: 31:69"
 [node name="HighScoreLabel" type="Label" parent="Control" unique_id=19649297]
 layout_mode = 0
 offset_left = 407.0
-offset_top = 174.0
+offset_top = 206.0
 offset_right = 771.0
-offset_bottom = 224.0
+offset_bottom = 256.0
 theme_override_fonts/font = ExtResource("2_hgqth")
 theme_override_font_sizes/font_size = 40
 text = "Highscore: 69:31"

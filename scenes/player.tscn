@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://cwwuu6eax0c8e"]
+[gd_scene format=3 uid="uid://cwwuu6eax0c8e"]
 
 [ext_resource type="Texture2D" uid="uid://bhsg6v540lljd" path="res://assets/heart.png" id="1_b2csg"]
 [ext_resource type="Script" uid="uid://m5w64ho4mghb" path="res://scripts/Player.cs" id="1_qhqgy"]
@@ -31,41 +31,39 @@ _data = {
 &"i frame blink": SubResource("Animation_smehm")
 }
 
-[node name="player" type="CharacterBody2D" node_paths=PackedStringArray("_heartSprite", "damageHitbox", "damageBlink", "lines")]
+[node name="player" type="CharacterBody2D" unique_id=968003431 node_paths=PackedStringArray("heartSprite", "damageHitbox", "damageBlink", "lines")]
 script = ExtResource("1_qhqgy")
-_heartSprite = NodePath("")
+heartSprite = NodePath("Sprite2D")
 damageHitbox = NodePath("Hitbox")
 damageBlink = NodePath("AnimationPlayer")
 lines = []
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=668470087]
 position = Vector2(2.3841858e-07, 0)
 scale = Vector2(0.015, 0.015)
 texture = ExtResource("1_b2csg")
 
-[node name="Hitbox" type="Area2D" parent="."]
+[node name="Hitbox" type="Area2D" parent="." unique_id=1466433925]
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hitbox"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hitbox" unique_id=1303911356]
 polygon = PackedVector2Array(-8, -11, -10, -8, -10, 1, 0, 10, 10, 1, 10, -8, 8, -11, 0, -4)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=723344552]
 shape = SubResource("RectangleShape2D_p68ef")
 
-[node name="Area2D" type="Area2D" parent="CollisionShape2D"]
+[node name="Area2D" type="Area2D" parent="CollisionShape2D" unique_id=134229105]
 position = Vector2(0, 12)
 collision_layer = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionShape2D/Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionShape2D/Area2D" unique_id=1336180623]
 position = Vector2(0, -0.49999)
 scale = Vector2(1, -0.199998)
 shape = SubResource("RectangleShape2D_fjrip")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-&"": SubResource("AnimationLibrary_ur7pv")
-}
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1875925978]
+libraries/ = SubResource("AnimationLibrary_ur7pv")
 
-[node name="DamageTakenAudioPlayer" type="AudioStreamPlayer" parent="."]
+[node name="DamageTakenAudioPlayer" type="AudioStreamPlayer" parent="." unique_id=465929709]
 stream = ExtResource("8_smehm")
 bus = &"SFX"
 
