@@ -17,6 +17,7 @@
 [ext_resource type="Texture2D" uid="uid://cxvdef1twarhs" path="res://assets/purple_heart_line.png" id="11_kvpfn"]
 [ext_resource type="Texture2D" uid="uid://qe03d3g1l7k7" path="res://assets/actions_bar.png" id="12_dinhu"]
 [ext_resource type="Script" uid="uid://c5pjpiogcuk5b" path="res://scripts/Attacks.cs" id="17_rysoc"]
+[ext_resource type="PackedScene" uid="uid://c1hshctosv8cw" path="res://scenes/attack2.tscn" id="18_ssvqc"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kvuet"]
 bg_color = Color(0.74509805, 0, 0, 1)
@@ -31,7 +32,7 @@ size = Vector2(3, 255.5)
 size = Vector2(100, 200)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_e7hfj"]
-size = Vector2(618, 0.125)
+size = Vector2(618.5, 3.0625)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vtaks"]
 size = Vector2(115, 11)
@@ -127,7 +128,7 @@ scale = Vector2(6.15, 0.0275)
 mesh = SubResource("QuadMesh_5e18l")
 
 [node name="top hitbox" type="CollisionShape2D" parent="map1" unique_id=1736379001]
-position = Vector2(587.5, 262)
+position = Vector2(587.25, 263.46875)
 shape = SubResource("RectangleShape2D_e7hfj")
 
 [node name="map2" type="StaticBody2D" parent="." unique_id=600669159]
@@ -468,8 +469,10 @@ texture = ExtResource("11_kvpfn")
 position = Vector2(571, 69)
 
 [node name="Attacks" type="Node2D" parent="." unique_id=1468815204]
-process_mode = 4
-visible = false
 
 [node name="Attack1" type="Node2D" parent="Attacks" unique_id=945886634]
+process_mode = 4
+visible = false
 script = ExtResource("17_rysoc")
+
+[node name="Attack2" parent="Attacks" unique_id=903374109 instance=ExtResource("18_ssvqc")]

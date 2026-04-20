@@ -36,7 +36,7 @@ public partial class MiniSami : Node2D
 	public override void _Process(double delta)
 	{
 		if (!initialized) return;
-		if (game.Settings.BossFightTime < 5.0) QueueFree();
+		if (game.Settings.BossFightTime < 5.1) QueueFree();
 		Position += Transform.X * 500f * (float)delta;
 		time += (float)delta;
 		if (time >= 3f) QueueFree();

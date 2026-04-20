@@ -301,6 +301,7 @@ public partial class Player : CharacterBody2D
 				var deathSprite = GD.Load<PackedScene>("res://scenes/deathsprite.tscn").Instantiate<DeathSprite>();
 				GetNode<CanvasLayer>("../CanvasLayer").AddChild(deathSprite);
 				Nodes.DisableNode(Nodes.gameUI);
+				Nodes.attacks.QueueFree();
 				switch (Settings.GameDifficulty)
 				{
 					case Settings.Difficulty.Casual:

@@ -37,6 +37,7 @@ namespace game
 			settingsnode.Connect(SettingsNode.SignalName.FPSDisplayChanged, Callable.From<bool>(Settings.SetFPSDisplay));
 			Settings.SetVsync(SettingsManager.Settings["vsync"].AsBool());
 			Settings.SetFPSDisplay(SettingsManager.Settings["fpsdisplay"].AsBool());
+			Settings.isHighscore = false;
 			DisableNode(PlayerNode);
 			DisableNode(map1);
 			DisableNode(map2);

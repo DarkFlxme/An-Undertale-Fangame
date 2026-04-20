@@ -6,6 +6,14 @@ public partial class Attacks : Node2D
 	RandomNumberGenerator rng = new RandomNumberGenerator();
 	bool attack = false;
 	int x, y;
+	Node2D samoystas;
+	public override void _Ready()
+	{
+		if(Name == "Attack2")
+		{
+			samoystas = GetNode<Node2D>("samoystas");
+		}
+	}
 	private void SpawnMiniSami()
 	{
 
@@ -45,12 +53,19 @@ public partial class Attacks : Node2D
 			attack = false;
 		}
 	}
+	private void Attack2(float delta)
+	{
+		samoystas.Position += new Vector2(-150 * delta, 0);
+	}
 	public override void _Process(double delta)
 	{
 		switch (Name)
 		{
 			case "Attack1":
 				Attack1();
+				break;
+			case "Attack2":
+				Attack2((float)delta);
 				break;
 		}
 	}

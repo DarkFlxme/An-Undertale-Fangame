@@ -9,6 +9,7 @@ public partial class GameUI : Control
     private int maxHealth;
     private bool hadRun = false;
     private string UIText;
+    private bool attack1finished = false;
     public override async void _Ready()
     {
         await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
@@ -29,10 +30,25 @@ public partial class GameUI : Control
         Settings.BossFightTime += delta;
         TimeSpan timeSpan = TimeSpan.FromSeconds(Settings.BossFightTime);
         Label.Text = string.Format(UIText, timeSpan.Minutes, timeSpan.Seconds, Nodes.PlayerNode.health, maxHealth);
-        if (Settings.BossFightTime >= 5.0)
+        if (Settings.BossFightTime >= 15.0)
         {
-            Nodes.attacks.ProcessMode = ProcessModeEnum.Inherit;
-            Nodes.EnableNode(Nodes.attacks);
+            if (!attack1finished)
+            {
+                attack1finished = true;
+                Nodes.PlayerNode.HeartColor = Player.HeartColorEnum.Blue;
+                Nodes.attacks.GetNode<Attacks>("Attack1").QueueFree();
+                Nodes.attacks.GetNode<Attacks>("Attack2").ProcessMode = ProcessModeEnum.Inherit;
+                Nodes.EnableNode(Nodes.attacks.GetNode<Attacks>("Attack2"));
+                SamoystaChangeTexture(true);
+                Nodes.attacks.GetNode<CanvasLayer>("Attack2/CanvasLayer").Show();
+            }
+
+        }
+        else if (Settings.BossFightTime >= 5.0)
+        {
+            Nodes.PlayerNode.HeartColor = Player.HeartColorEnum.Red;
+            Nodes.attacks.GetNode<Attacks>("Attack1").ProcessMode = ProcessModeEnum.Inherit;
+            Nodes.EnableNode(Nodes.attacks.GetNode<Attacks>("Attack1"));
             SamoystaChangeTexture(false);
         }
     }

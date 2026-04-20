@@ -1,0 +1,138 @@
+[gd_scene format=3 uid="uid://c1hshctosv8cw"]
+
+[ext_resource type="Script" uid="uid://c5pjpiogcuk5b" path="res://scripts/Attacks.cs" id="1_kguww"]
+[ext_resource type="Texture2D" uid="uid://mekdq5qvoqr2" path="res://assets/sami2.jpeg" id="2_u6yrm"]
+[ext_resource type="Script" uid="uid://pe0wnx481rkb" path="res://scripts/Platform.cs" id="3_56cyh"]
+[ext_resource type="Texture2D" uid="uid://btpkx74geeoaf" path="res://assets/platform.jpg" id="3_dtsff"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fiajv"]
+size = Vector2(79, 111)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dtsff"]
+size = Vector2(1271, 61.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3tdis"]
+size = Vector2(108.57141, 20.800058)
+
+[node name="Attack2" type="Node2D" unique_id=903374109]
+process_mode = 4
+script = ExtResource("1_kguww")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=121863653]
+layer = 3
+visible = false
+
+[node name="ColorRect2" type="ColorRect" parent="CanvasLayer" unique_id=951852029]
+z_index = 2
+anchors_preset = -1
+anchor_left = -0.016493056
+anchor_top = 0.39660493
+anchor_right = 0.234375
+anchor_bottom = 0.78858024
+offset_left = 1.0
+offset_right = 11.0
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer" unique_id=500335655]
+z_index = 2
+anchors_preset = -1
+anchor_top = 0.22839506
+anchor_right = 0.125
+anchor_bottom = 0.6265432
+offset_left = 897.0
+offset_top = 118.0
+offset_right = 1020.0
+offset_bottom = 118.0
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="samoystas" type="Area2D" parent="." unique_id=1968464601 groups=["Attacks"]]
+z_index = -2
+position = Vector2(764, 0)
+
+[node name="TextureRect" type="TextureRect" parent="samoystas" unique_id=1801640308]
+anchors_preset = -1
+anchor_top = -3.9473634
+anchor_bottom = -3.9473634
+offset_left = 283.0
+offset_top = 441.0
+offset_right = 51003.0
+offset_bottom = 3641.0
+scale = Vector2(0.025, 0.019)
+texture = ExtResource("2_u6yrm")
+stretch_mode = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="TextureRect2" type="TextureRect" parent="samoystas" unique_id=762529135]
+anchors_preset = -1
+anchor_left = -1164.75
+anchor_top = -1.85
+anchor_right = -1164.75
+anchor_bottom = 91.57109
+offset_left = 796.0
+offset_top = 340.0
+offset_right = 3996.0
+offset_bottom = 6340.0
+scale = Vector2(0.025, 0.019)
+texture = ExtResource("2_u6yrm")
+stretch_mode = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="samoystas" unique_id=793711001]
+position = Vector2(835.5, 395.5)
+shape = SubResource("RectangleShape2D_fiajv")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="samoystas" unique_id=295241049]
+position = Vector2(915.5, 471.25)
+shape = SubResource("RectangleShape2D_dtsff")
+
+[node name="AnimatableBody2D" type="AnimatableBody2D" parent="." unique_id=588849745 groups=["Walls"]]
+position = Vector2(1220, 430.99997)
+scale = Vector2(0.7, 0.6249997)
+script = ExtResource("3_56cyh")
+
+[node name="Platform" type="Sprite2D" parent="AnimatableBody2D" unique_id=340240963]
+position = Vector2(0.7144041, 0)
+scale = Vector2(0.75862074, 1)
+texture = ExtResource("3_dtsff")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatableBody2D" unique_id=1184186771]
+position = Vector2(1.4285889, 5.6000366)
+shape = SubResource("RectangleShape2D_3tdis")
+one_way_collision = true
+one_way_collision_margin = 3.0
+
+[node name="AnimatableBody2D2" type="AnimatableBody2D" parent="." unique_id=354642935 groups=["Walls"]]
+position = Vector2(1916, 427.99997)
+scale = Vector2(0.7, 0.6249997)
+script = ExtResource("3_56cyh")
+
+[node name="Platform" type="Sprite2D" parent="AnimatableBody2D2" unique_id=1979988910]
+position = Vector2(-0.00015735626, 0)
+scale = Vector2(0.7684727, 1)
+texture = ExtResource("3_dtsff")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatableBody2D2" unique_id=215862898]
+position = Vector2(1.4285889, 5.6000366)
+shape = SubResource("RectangleShape2D_3tdis")
+one_way_collision = true
+one_way_collision_margin = 3.0
+
+[node name="AnimatableBody2D3" type="AnimatableBody2D" parent="." unique_id=1937258532 groups=["Walls"]]
+position = Vector2(1597, 329)
+scale = Vector2(0.7, 0.6249997)
+script = ExtResource("3_56cyh")
+
+[node name="Platform" type="Sprite2D" parent="AnimatableBody2D3" unique_id=1657129435]
+position = Vector2(1.4284029, 0)
+scale = Vector2(0.76847357, 1)
+texture = ExtResource("3_dtsff")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatableBody2D3" unique_id=248097443]
+position = Vector2(1.4285889, 5.6000366)
+shape = SubResource("RectangleShape2D_3tdis")
+one_way_collision = true
+one_way_collision_margin = 3.0

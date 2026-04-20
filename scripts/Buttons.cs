@@ -68,7 +68,7 @@ public partial class Buttons : Node2D
 		if (Name == "deathscreen")
 		{
 			GetNode<Label>("Control/ScoreLabel").Text = string.Format("Score: {0:D2}:{1:D2}", TimeSpan.FromSeconds(BossFightTime).Minutes, TimeSpan.FromSeconds(BossFightTime).Seconds);
-			if (Settings.isHighscore)
+			if (isHighscore)
 			{
 				GetNode<Label>("Control/HighScoreLabel").Text = "New Highscore!";
 			}
@@ -286,6 +286,7 @@ public partial class Buttons : Node2D
 		}
 		if (Input.IsActionJustPressed("X") && Name != "MainMenuButtons")
 		{
+			processing = false;
 			var parentButtons = GetParent<Buttons>();
 			foreach (var node in buttons)
 			{
